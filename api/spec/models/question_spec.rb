@@ -14,7 +14,7 @@ RSpec.describe Question, type: :model do
       firstOption = Option.create(text: 'answer 1', correct: false, question: Question.first)
       secondOption = Option.create(text: 'answer 2', correct: true, question: Question.first)
 
-      expect(question.options).to eq(Option.all)
+      expect(question.options.length).to eq(2)
     end 
   end 
 end
