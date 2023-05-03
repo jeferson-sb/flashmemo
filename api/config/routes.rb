@@ -5,8 +5,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   scope '/api' do
-    get "answers/:id", to: "answers#show"
-    get "questions/:id", to: "questions#show"
-    get "questions", to: "questions#index"
+    resources :answers, only: [:show]
+    resources :questions, only: [:show, :index]
   end
 end
