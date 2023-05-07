@@ -10,30 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_19_010128) do
-  create_table "answers", force: :cascade do |t|
-    t.string "text"
-    t.integer "question_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_answers_on_question_id"
+ActiveRecord::Schema[7.0].define(version: 20_230_419_010_128) do
+  create_table 'answers', force: :cascade do |t|
+    t.string 'text'
+    t.integer 'question_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['question_id'], name: 'index_answers_on_question_id'
   end
 
-  create_table "options", force: :cascade do |t|
-    t.string "text"
-    t.integer "question_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "correct", default: false
-    t.index ["question_id"], name: "index_options_on_question_id"
+  create_table 'options', force: :cascade do |t|
+    t.string 'text'
+    t.integer 'question_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.boolean 'correct', default: false
+    t.index ['question_id'], name: 'index_options_on_question_id'
   end
 
-  create_table "questions", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'questions', force: :cascade do |t|
+    t.string 'title'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  add_foreign_key "answers", "questions"
-  add_foreign_key "options", "questions"
+  add_foreign_key 'answers', 'questions'
+  add_foreign_key 'options', 'questions'
 end
