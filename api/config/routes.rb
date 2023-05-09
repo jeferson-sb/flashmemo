@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   scope '/api' do
     resources :answers, only: [:show]
     resources :questions, only: %i[show index]
+    resources :exams, only: [:show]
   end
 end
