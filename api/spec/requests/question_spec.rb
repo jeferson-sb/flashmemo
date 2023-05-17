@@ -5,18 +5,18 @@ RSpec.describe 'Questions', type: :request do
     JSON.parse(response.body)
   end
 
+  before { create(:question, :with_options) }
+  
   describe 'GET /index' do
     it 'returns all questions' do
       get '/api/questions.json'
 
       expect(response).to be_successful
-      expect(json_body).to eq([])
+      expect(json_body.length).not_to eq(0)
     end
   end
 
   describe 'GET /:id' do
-    before { create(:question, :with_options) }
-
     it 'returns a question' do
       question = create(:question)
       get '/api/questions/1.json'
@@ -31,4 +31,15 @@ RSpec.describe 'Questions', type: :request do
       expect(json_body['options'].length).to eq(3)
     end
   end
+
+  describe 'GET /random' do
+    it 'returns a random question' do
+      get '/api/questions/random.json'
+
+      expect(response).to be_successful
+      expect(json_body).to include('id')
+      expect(json_body).to include('title')
+      expect(json_body).to include('options')
+    end 
+  end 
 end
