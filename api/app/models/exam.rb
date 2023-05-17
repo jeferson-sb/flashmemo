@@ -4,4 +4,5 @@ class Exam < ApplicationRecord
   validates :version, presence: true
 
   has_many :questions
+  enum :difficulty, [:beginner, :intermediate, :advanced]
 end
