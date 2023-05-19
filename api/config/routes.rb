@@ -9,5 +9,6 @@ Rails.application.routes.draw do
     resources :questions, only: %i[index show] do
       get 'random', on: :collection
     end
+    resources :exams, only: [:show]
   end
 end
