@@ -37,9 +37,7 @@ RSpec.describe 'Questions', type: :request do
       get '/api/questions/random.json'
 
       expect(response).to be_successful
-      expect(json_body).to include('id')
-      expect(json_body).to include('title')
-      expect(json_body).to include('options')
+      expect(response.parsed_body.keys).to contain_exactly 'id', 'title', 'options'
     end 
   end 
 end
