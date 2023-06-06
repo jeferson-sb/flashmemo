@@ -7,17 +7,12 @@ class ExamsController < ApplicationController
     @exam = Exam.find(params[:exam_id])
     questions = params[:questions]
 
-    pts = 0.0
-    total = @exam.questions.length
-    
-    questions.each do |question|
-      option = Option.where(question_id: question[:id], correct: true).first
+    score, error = Exams::Evaluate.new.perform(questions, @exam.questions.length)
 
-      if option.id == question[:option_id]
-        pts += 1.0
-      end
+    if error
+      render json: { error: { message: error } }, status: :unprocessable_entity
+    else
+      render json: { score: }, status: :created
     end
-    
-    render json: { score: (pts / total) * 100 }, status: :created
   end
 end
