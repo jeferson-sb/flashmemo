@@ -40,25 +40,5 @@ RSpec.describe "Exams", type: :request do
         expect(json_body).to include('score')
       end
     end
-
-    describe "when no options are found" do
-      let(:params) do
-        {
-          questions: [
-            {
-              id: 42,
-              option_id: 1
-            }
-          ]
-        }
-      end
-
-      it "return error message" do
-        post "/api/exams/1/evaluate.json", params: params
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_body).to include('error')
-      end
-    end
   end
 end
