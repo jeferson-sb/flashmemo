@@ -15,4 +15,30 @@ RSpec.describe "Exams", type: :request do
       expect(json_body).to include('title')
     end
   end
+
+  describe "POST /:id/evaluate" do
+    let!(:exam) { create(:exam, :with_questions_and_options) }
+    let(:question) { exam.questions.first }
+    let(:option) { question.options.first }
+
+    describe "when question exists" do
+      let(:params) do
+        {
+          questions: [
+            {
+              id: question.id,
+              option_id: option.id
+            }
+          ]
+        }
+      end
+
+      it "return score for an exam" do
+        post "/api/exams/1/evaluate.json", params: params
+
+        expect(response).to have_http_status(:success)
+        expect(json_body).to include('score')
+      end
+    end
+  end
 end

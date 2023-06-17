@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     resources :questions, only: %i[index show] do
       get 'random', on: :collection
     end
-    resources :exams, only: [:show]
+    resources :exams, only: %i[show] do
+      post '/evaluate', to: 'exams#evaluate'
+    end
   end
 end
