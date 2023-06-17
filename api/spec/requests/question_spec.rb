@@ -6,7 +6,7 @@ RSpec.describe 'Questions', type: :request do
   end
 
   before { create(:question, :with_options) }
-  
+
   describe 'GET /index' do
     it 'returns all questions' do
       get '/api/questions.json'
@@ -38,6 +38,6 @@ RSpec.describe 'Questions', type: :request do
 
       expect(response).to be_successful
       expect(response.parsed_body.keys).to contain_exactly 'id', 'title', 'options'
-    end 
-  end 
+    end
+  end
 end

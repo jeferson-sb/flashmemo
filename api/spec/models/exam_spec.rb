@@ -12,5 +12,5 @@ RSpec.describe Exam, type: :model do
 
   describe 'relations' do
     it { is_expected.to have_and_belong_to_many(:questions) }
-  end 
+  end
 end
