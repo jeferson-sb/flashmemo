@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 class Question < ApplicationRecord
-  before_create :has_options
+  validate :validate_options
 
   validates :title, presence: true
 
@@ -9,26 +10,13 @@ class Question < ApplicationRecord
 
   private
 
-    def has_options
-      unless options.any?(&:correct?)
-        errors.add(:options, 'must have one correct option')
-        throw(:abort)
-      end
-
-      correct_options = options.select(&:correct)
-      if correct_options.size > 1
-        errors.add(:options, 'can only have one option with the attribute \'correct:true\'')
-        throw(:abort)
-      end
-
-      if options.size < 2
-        errors.add(:options, 'must be at least 2')
-        throw(:abort)
-      end
-
-      if options.size > 5
-        errors.add(:options, 'must be at most 5')
-        throw(:abort)
-      end
+  def validate_options
+    errors.add(:options, 'At least one option should be present') if options.empty?
+    unless options.any?(&:correct?)
+      errors.add(:options,
+                 'can only have one option with the attribute \'correct:true\'')
     end
+    errors.add(:options, 'must be at least 2') if options.size < 2
+    errors.add(:options, 'must be at most 5') if options.size > 5
+  end
 end
