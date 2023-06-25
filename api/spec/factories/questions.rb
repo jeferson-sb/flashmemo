@@ -2,10 +2,14 @@ FactoryBot.define do
   factory :question do
     title { Faker::Lorem.question }
 
+    transient do
+      options_count { 2 }
+    end
+
     trait :with_options do
-      after(:create) do |question| 
-        create(:option, :correct_option, question:)
-        create_list(:option, 3, question:)
+      after(:build) do |question, evaluator|
+        question.options = build_list(:option, evaluator.options_count, question:)
+        question.options.first.update(correct: true)
       end
     end
   end

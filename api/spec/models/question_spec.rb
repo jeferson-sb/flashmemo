@@ -4,7 +4,6 @@ RSpec.describe Question, type: :model do
   let(:question_no_options) { create(:question, :with_options) }
 
   describe 'validations' do
-    # TODO: Add before_create validations
     it { is_expected.to validate_presence_of(:title) }
   end
 

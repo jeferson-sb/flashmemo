@@ -7,7 +7,8 @@ RSpec.describe 'Answers', type: :request do
 
   describe 'GET /:id' do
     it 'returns an answer to a question' do
-      answer = create(:answer)
+      question = create(:question, :with_options)
+      answer = create(:answer, question:)
       get '/api/answers/1.json'
 
       expect(response).to be_successful
