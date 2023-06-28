@@ -17,7 +17,7 @@ RSpec.describe 'Exams', type: :request do
   end
 
   describe 'POST /:id/evaluate' do
-    let!(:exam) { create(:exam, :with_questions_and_options) }
+    let!(:exam) { create(:exam, :with_questions) }
     let(:question) { exam.questions.first }
     let(:option) { question.options.first }
 
