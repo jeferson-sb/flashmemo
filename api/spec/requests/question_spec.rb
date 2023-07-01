@@ -40,4 +40,51 @@ RSpec.describe 'Questions', type: :request do
       expect(response.parsed_body.keys).to contain_exactly 'id', 'title', 'options'
     end
   end
+
+  describe 'POST /questions' do
+    describe 'when options are not valid' do
+      let(:params) do
+        { 
+          title: Faker::Lorem.question,
+          options: [
+            {
+              text: Faker::Lorem.sentence,
+              correct: true
+            },
+          ]
+        }
+      end
+
+      it 'returns an error message' do
+        post('/api/questions.json', params:)
+        
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_body).to include("error")
+      end
+    end
+
+    describe 'when options are valid' do
+      let(:params) do
+        { 
+          title: Faker::Lorem.question,
+          options: [
+            {
+              text: Faker::Lorem.sentence,
+              correct: true
+            },
+            {
+              text: Faker::Lorem.sentence,
+              correct: false
+            }
+          ]
+        }
+      end
+
+      it 'create new question' do
+        post('/api/questions.json', params:)
+
+        expect(response).to be_successful
+      end
+    end
+  end
 end
