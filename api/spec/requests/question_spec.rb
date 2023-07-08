@@ -40,4 +40,20 @@ RSpec.describe 'Questions', type: :request do
       expect(response.parsed_body.keys).to contain_exactly 'id', 'title', 'options'
     end
   end
+
+  describe 'UPDATE /question' do
+    let(:params) do
+      { 
+        title: Faker::Lorem.question,
+      }
+    end
+
+    it 'updates title of the question' do
+      put('/api/questions/1.json', params:)
+
+      expect(response).to be_successful
+      expect(json_body).to include("title")
+      expect(json_body['title']).to eq(params[:title])
+    end
+  end
 end
