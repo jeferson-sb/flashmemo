@@ -11,4 +11,11 @@ class QuestionsController < ApplicationController
   def random
     @question = Question.all.sample
   end
+
+  def destroy
+    @question = Question.find(params[:id])
+    @question.destroy
+
+    render json: { message: "Question successfully deleted." }, status: :no_content
+  end
 end
