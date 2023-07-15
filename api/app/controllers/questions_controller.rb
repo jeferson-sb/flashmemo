@@ -14,11 +14,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(title: create_params[:title], exam_id: create_params[:exam_id])
-    options = params[:options]
-
-    options.each do |option|
-      @question.options.new(text: option[:text], correct: option[:correct])
-    end
+    @question.options.build(create_params[:options])
 
     if @question.save
       render json: { message: "Question successfully created" }, status: :created
@@ -31,6 +27,6 @@ class QuestionsController < ApplicationController
   private
 
   def create_params
-    params.permit(:title, :options, :exam_id)
+    params.permit(:title, :exam_id, options: [:text, :correct])
   end
 end
