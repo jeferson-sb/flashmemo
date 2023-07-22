@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Exam < ApplicationRecord
   validates :title, presence: true, uniqueness: true
   validates :difficulty, presence: true

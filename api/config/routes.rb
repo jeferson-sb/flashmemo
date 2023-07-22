@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -6,7 +8,7 @@ Rails.application.routes.draw do
 
   scope '/api' do
     resources :answers, only: [:show]
-    resources :questions, only: %i[index show create] do
+    resources :questions do
       get 'random', on: :collection
     end
     resources :exams, only: %i[show] do

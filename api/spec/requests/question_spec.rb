@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Questions', type: :request do
@@ -41,31 +43,47 @@ RSpec.describe 'Questions', type: :request do
     end
   end
 
+  describe 'UPDATE /question' do
+    let(:params) do
+      {
+        title: Faker::Lorem.question
+      }
+    end
+
+    it 'updates title of the question' do
+      put('/api/questions/1.json', params:)
+
+      expect(response).to be_successful
+      expect(json_body).to include('title')
+      expect(json_body['title']).to eq(params[:title])
+    end
+  end
+
   describe 'POST /questions' do
     describe 'when options are not valid' do
       let(:params) do
-        { 
+        {
           title: Faker::Lorem.question,
           options: [
             {
               text: Faker::Lorem.sentence,
               correct: true
-            },
+            }
           ]
         }
       end
 
       it 'returns an error message' do
         post('/api/questions.json', params:)
-        
+
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_body).to include("error")
+        expect(json_body).to include('error')
       end
     end
 
     describe 'when options are valid' do
       let(:params) do
-        { 
+        {
           title: Faker::Lorem.question,
           options: [
             {
