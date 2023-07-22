@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class QuestionsController < ApplicationController
   def index
     @questions = Question.all
@@ -19,14 +21,15 @@ class QuestionsController < ApplicationController
       render json: @question, status: :ok
     else
       render json: { error: @question.errors.message }, status: :unprocessable_entity
+    end
   end
-  
+
   def create
     @question = Question.new(title: create_params[:title], exam_id: create_params[:exam_id])
     @question.options.build(create_params[:options])
 
     if @question.save
-      render json: { message: "Question successfully created" }, status: :created
+      render json: { message: 'Question successfully created' }, status: :created
     else
       message = @question.errors.full_messages_for(:options)
       render json: { error: message }, status: :unprocessable_entity
@@ -34,11 +37,12 @@ class QuestionsController < ApplicationController
   end
 
   private
-    def question_update_params
-      params.permit(:title)
-    end
 
-    def create_params
-      params.permit(:title, :exam_id, options: [:text, :correct])
-    end
+  def question_update_params
+    params.permit(:title)
+  end
+
+  def create_params
+    params.permit(:title, :exam_id, options: %i[text correct])
+  end
 end

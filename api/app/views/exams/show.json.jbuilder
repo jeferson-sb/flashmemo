@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id @exam.id
 json.title @exam.title
 json.level @exam.difficulty
