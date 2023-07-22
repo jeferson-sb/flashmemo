@@ -19,11 +19,26 @@ class QuestionsController < ApplicationController
       render json: @question, status: :ok
     else
       render json: { error: @question.errors.message }, status: :unprocessable_entity
+  end
+  
+  def create
+    @question = Question.new(title: create_params[:title], exam_id: create_params[:exam_id])
+    @question.options.build(create_params[:options])
+
+    if @question.save
+      render json: { message: "Question successfully created" }, status: :created
+    else
+      message = @question.errors.full_messages_for(:options)
+      render json: { error: message }, status: :unprocessable_entity
     end
   end
 
   private
     def question_update_params
       params.permit(:title)
+    end
+
+    def create_params
+      params.permit(:title, :exam_id, options: [:text, :correct])
     end
 end
