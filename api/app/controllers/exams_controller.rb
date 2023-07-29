@@ -13,4 +13,27 @@ class ExamsController < ApplicationController
 
     render json: { score: }, status: :created
   end
+
+  def create
+    @exam = Exam.new(title: create_params[:title], difficulty: create_params[:difficulty], version: create_params[:version])
+
+    if @exam.save
+      questions = params[:question_ids]
+      questions.each do |question_id|
+        @question = Question.update(question_id, exam_id: @exam.id)
+        @exam.questions << @question
+      end
+
+      render json: { message: 'Exam successfully created.' }, status: :created
+    else
+      message = @exam.errors
+      render json: { error: message }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def create_params
+    params.permit(:title, :difficulty, :version, :question_ids)
+  end
 end

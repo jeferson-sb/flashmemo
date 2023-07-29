@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :questions do
       get 'random', on: :collection
     end
-    resources :exams, only: %i[show] do
+    resources :exams, only: %i[show create] do
       post '/evaluate', to: 'exams#evaluate'
     end
   end
