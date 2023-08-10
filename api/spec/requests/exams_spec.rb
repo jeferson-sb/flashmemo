@@ -43,4 +43,26 @@ RSpec.describe 'Exams', type: :request do
       end
     end
   end
+
+  describe 'POST /exams' do
+    let(:questions) { create_list(:question, 3, :with_options) }
+
+    describe 'when title is unique' do
+      let(:params) do
+        {
+          title: Faker::Lorem.word,
+          difficulty: %i[beginner intermediate advanced].sample,
+          version: 1,
+          question_ids: questions.map { |q| q.id }
+        }
+      end
+
+      it 'creates a new exam' do
+        post('/api/exams', params:)
+
+        expect(response).to have_http_status(:success)
+        expect(json_body).to include('message')
+      end
+    end
+  end
 end
