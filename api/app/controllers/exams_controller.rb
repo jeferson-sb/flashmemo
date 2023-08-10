@@ -15,7 +15,7 @@ class ExamsController < ApplicationController
   end
 
   def create
-    @exam = Exam.new(title: create_params[:title], difficulty: create_params[:difficulty], version: create_params[:version])
+    @exam = Exam.new(create_params.slice(:title, :difficulty, :version))
 
     if @exam.save
       questions = params[:question_ids]
