@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def create
-    @user = User.new(create_params.slice(:username, :email, :password))
+    @user = User.new(create_params.slice(:username, :email))
 
     if @user.save
       render json: { message: 'User successfully created.' }, status: :created
@@ -13,6 +13,6 @@ class UsersController < ApplicationController
   private
 
   def create_params
-    params.permit(:username, :email, :password)
+    params.permit(:username, :email)
   end
 end

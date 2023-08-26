@@ -5,8 +5,7 @@ RSpec.describe "Users", type: :request do
     let(:params) do
       {
         username: Faker::Name.name,
-        email: Faker::Lorem.word,
-        password: Faker::Lorem.word
+        email: Faker::Lorem.word      
       }
     end
 
