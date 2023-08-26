@@ -8,9 +8,9 @@ RSpec.describe 'Answers', type: :request do
   end
 
   describe 'GET /:id' do
-    before { create(:answer, :with_exams) }
+    before { create(:answer) }
 
-    skip 'returns a user-exam answer' do
+    it 'returns a user-exam answer' do
       get '/api/answers/1.json'
 
       expect(response).to be_successful
