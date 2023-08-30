@@ -14,5 +14,6 @@ Rails.application.routes.draw do
     resources :exams, only: %i[show create] do
       post '/evaluate', to: 'exams#evaluate'
     end
+    resources :users, only: %i[create]
   end
 end

@@ -8,13 +8,13 @@ RSpec.describe 'Answers', type: :request do
   end
 
   describe 'GET /:id' do
-    it 'returns an answer to a question' do
-      question = create(:question, :with_options)
-      answer = create(:answer, question:)
+    before { create(:answer) }
+
+    it 'returns a user-exam answer' do
       get '/api/answers/1.json'
 
       expect(response).to be_successful
-      expect(json_body).to include('question_id')
+      expect(json_body).to include('score')
     end
   end
 end

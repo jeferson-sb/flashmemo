@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class Answer < ApplicationRecord
-  validates :text, presence: true
+  belongs_to :user
+  belongs_to :exam
 
-  belongs_to :question
+  validates :user, presence: true
+  validates :exam, presence: true
+  validates :score, presence: true
 end
