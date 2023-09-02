@@ -42,7 +42,7 @@ RSpec.describe 'Questions', type: :request do
       expect(response.parsed_body.keys).to contain_exactly 'id', 'title', 'options'
     end
   end
- 
+
   describe 'DELETE /:id' do
     it 'delete specified question' do
       delete '/api/questions/1.json'
@@ -50,7 +50,7 @@ RSpec.describe 'Questions', type: :request do
       expect(response).to have_http_status(:no_content)
     end
   end
- 
+
   describe 'UPDATE /question' do
     let(:params) do
       {

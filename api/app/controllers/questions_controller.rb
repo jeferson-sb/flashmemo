@@ -18,7 +18,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @question.destroy
 
-    render json: { message: "Question successfully deleted." }, status: :no_content
+    render json: { message: 'Question successfully deleted.' }, status: :no_content
   end
 
   def update

@@ -53,7 +53,7 @@ RSpec.describe 'Exams', type: :request do
           title: Faker::Lorem.word,
           difficulty: %i[beginner intermediate advanced].sample,
           version: 1,
-          question_ids: questions.map { |q| q.id }
+          question_ids: questions.map(&:id)
         }
       end
 
