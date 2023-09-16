@@ -4,17 +4,11 @@ module Users
   class Progress
     class << self
       def perform(answers)
-        exams = []
-        total = 0
+        total_score = answers.sum(&:score)
+        average_score = answers.empty? ? 0 : total_score.to_f / answers.length
+        exam_ids = answers.map(&:exam_id)
 
-        answers.each do |answer|
-          total += answer.score
-          exams << answer.exam_id
-        end
-
-        average = (total / answers.length)
-
-        [average, exams]
+        [average_score, exam_ids]
       end
     end
   end
