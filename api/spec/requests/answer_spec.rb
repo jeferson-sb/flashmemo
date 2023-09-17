@@ -17,4 +17,23 @@ RSpec.describe 'Answers', type: :request do
       expect(json_body).to include('score')
     end
   end
+
+  describe 'POST /answers' do
+    let!(:exam) { create(:exam, :with_questions) }
+    let!(:user) { create(:user) }
+
+    let(:params) do
+      {
+        score: 50, 
+        user_id: user.id,
+        exam_id: exam.id
+      }
+    end
+
+    it 'creates a new answers' do
+      post('/api/answers.json', params:)
+
+      expect(response).to be_successful
+    end
+  end
 end
