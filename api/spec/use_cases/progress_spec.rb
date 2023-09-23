@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 RSpec.describe Users::Progress do
   describe '#perform' do
-    let(:answers) { 
-      [double('Answer', score: 30, exam_id: 1), double('Answer', score: 60, exam_id: 2)] 
-    }
-    
+    let(:answers) do
+      [double('Answer', score: 30, exam_id: 1), double('Answer', score: 60, exam_id: 2)]
+    end
+
     it 'return average for answers' do
       average, exams = Users::Progress.perform(answers)
 
