@@ -35,5 +35,20 @@ RSpec.describe 'Answers', type: :request do
 
       expect(response).to be_successful
     end
+
+    describe 'when no user and exam given' do
+      let(:params) do
+        {
+          score: 50
+        }
+      end
+
+      it 'return error message' do
+        post('/api/answers.json', params:)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_body).to include('error')
+      end
+    end
   end
 end
