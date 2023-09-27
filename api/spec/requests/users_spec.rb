@@ -38,10 +38,8 @@ RSpec.describe 'Users', type: :request do
     end
 
     describe 'when time=monthly' do
-      before do
-        create_list(:answer, 2, user: user, created_at: Time.now)
-        create(:answer, user: user, created_at: 1.month.ago)
-      end
+      let!(:answers) { create_list(:answer, 2, user:, created_at: Time.now) }
+      let!(:answer) { create(:answer, user:, created_at: 1.month.ago) }
 
       it 'return average for the month' do
         get('/api/users/1/progress', params: { user_id: user.id, time: 'monthly' })
@@ -52,10 +50,8 @@ RSpec.describe 'Users', type: :request do
     end
 
     describe 'when time=yearly' do
-      before do
-        create_list(:answer, 3, user: user, created_at: Time.now)
-        create(:answer, user: user, created_at: 1.year.ago)
-      end
+      let!(:answers) { create_list(:answer, 3, user:, created_at: Time.now) }
+      let!(:answer) { create(:answer, user:, created_at: 1.year.ago) }
 
       it 'return average for the year' do
         get('/api/users/1/progress', params: { user_id: user.id, time: 'yearly' })
@@ -66,10 +62,8 @@ RSpec.describe 'Users', type: :request do
     end
 
     describe 'when time=semester' do
-      before do
-        create_list(:answer, 5, user: user, created_at: Time.now)
-        create(:answer, user: user, created_at: 6.months.ago)
-      end
+      let!(:answers) { create_list(:answer, 5, user:, created_at: Time.now) }
+      let!(:answer) { create(:answer, user:, created_at: 6.months.ago) }
 
       it 'return average for the last semester' do
         get('/api/users/1/progress', params: { user_id: user.id, time: 'semester' })
@@ -80,9 +74,7 @@ RSpec.describe 'Users', type: :request do
     end
 
     describe 'when no answers are found for the user' do
-      before do
-        create_list(:answer, 2, user: user, created_at: Time.now)
-      end
+      let!(:answers) { create_list(:answer, 2, user:, created_at: Time.now) }
 
       it 'return error' do
         get('/api/users/1/progress', params: { user_id: user.id, time: 'semester' })
