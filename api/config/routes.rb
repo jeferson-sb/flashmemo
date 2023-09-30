@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   scope '/api' do
-    resources :answers, only: [:show]
+    resources :answers, only: %i[show create]
     resources :questions do
       get 'random', on: :collection
     end

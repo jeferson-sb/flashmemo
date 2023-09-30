@@ -6,4 +6,21 @@ class AnswersController < ApplicationController
 
     render json: @answer
   end
+
+  def create
+    @answer = Answer.new(create_params)
+
+    if @answer.save
+      render json: { message: 'Answer successfully created.' }, status: :created
+    else
+      message = @answer.errors
+      render json: { error: message }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def create_params
+    params.permit(:exam_id, :user_id, :score)
+  end
 end
