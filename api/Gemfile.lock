@@ -67,6 +67,7 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
     ast (2.4.2)
+    bcrypt (3.1.19)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -96,6 +97,7 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.6.3)
+    jwt (2.7.1)
     loofah (2.20.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -221,11 +223,13 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  bcrypt (~> 3.1)
   bootsnap
   debug
   factory_bot_rails (~> 6.2)
   faker (~> 3.2)
   jbuilder (~> 2.11)
+  jwt (~> 2.7)
   puma (~> 5.0)
   rails (~> 7.0.4)
   rspec-rails (~> 6.0)
