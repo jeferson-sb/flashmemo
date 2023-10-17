@@ -17,5 +17,6 @@ Rails.application.routes.draw do
     resources :users, only: %i[create] do
       get '/progress', to: 'users#progress'
     end
+    post '/auth/login', to: 'authentication#login'
   end
 end
