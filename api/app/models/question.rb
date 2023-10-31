@@ -7,6 +7,7 @@ class Question < ApplicationRecord
 
   has_many :options, dependent: :destroy
   has_and_belongs_to_many :exams
+  has_one_attached :image
 
   private
 

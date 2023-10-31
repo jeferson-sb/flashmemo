@@ -24,6 +24,10 @@ class QuestionsController < ApplicationController
   def update
     @question = Question.find(params[:id])
 
+    if question_update_params[:image].present?
+      @question.image.attach(params[:image])
+    end
+
     if @question.update(question_update_params)
       render json: @question, status: :ok
     else
@@ -32,9 +36,9 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(title: create_params[:title], exam_id: create_params[:exam_id])
+    @question = Question.new(create_params.slice(:title, :exam_id))
     @question.options.build(create_params[:options])
-
+    
     if @question.save
       render json: { message: 'Question successfully created' }, status: :created
     else
@@ -46,7 +50,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_update_params
-    params.permit(:title)
+    params.permit(:title, :image)
   end
 
   def create_params
