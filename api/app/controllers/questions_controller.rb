@@ -24,6 +24,7 @@ class QuestionsController < ApplicationController
   def update
     @question = Question.find(params[:id])
 
+    # TODO: image validations and limiting.
     if question_update_params[:image].present?
       @question.image.attach(params[:image])
     end

@@ -57,6 +57,9 @@ RSpec.describe 'Questions', type: :request do
         title: Faker::Lorem.question
       }
     end
+    let(:file) {
+      fixture_file_upload(Rails.root.join('spec', 'fixtures', 'rails.jpg'), 'image/jpeg')
+    }
 
     it 'updates title of the question' do
       put('/api/questions/1.json', params:)
@@ -64,6 +67,12 @@ RSpec.describe 'Questions', type: :request do
       expect(response).to be_successful
       expect(json_body).to include('title')
       expect(json_body['title']).to eq(params[:title])
+    end
+
+    it 'adds image to the question' do
+      put('/api/questions/1.json', params: { image: file })
+
+      expect(response).to have_http_status(:ok)
     end
   end
 
