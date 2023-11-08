@@ -24,7 +24,6 @@ class QuestionsController < ApplicationController
   def update
     @question = Question.find(params[:id])
 
-    # TODO: image validations and limiting.
     if question_update_params[:image].present?
       @question.image.attach(params[:image])
     end
@@ -32,7 +31,8 @@ class QuestionsController < ApplicationController
     if @question.update(question_update_params)
       render json: @question, status: :ok
     else
-      render json: { error: @question.errors.message }, status: :unprocessable_entity
+      message = @question.errors.full_messages_for(:questions)
+      render json: { error: message }, status: :unprocessable_entity
     end
   end
 
