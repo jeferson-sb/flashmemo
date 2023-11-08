@@ -24,14 +24,14 @@ class Question < ApplicationRecord
   end
 
   def validate_image
-    if image.attached?
-      if image.blob.byte_size > 1000000
-        errors.add(:questions, "Image size should be less than 1mb")
-        image.purge
-      elsif !image.blob.content_type.starts_with?('image/')
-        image.purge
-        errors.add(:questions, "Invalid format. File extensions available: png, jpg, jpeg")
-      end
+    return unless image.attached?
+
+    if image.blob.byte_size > 1.megabyte
+      image.purge
+      errors.add(:questions, "Image size should be less than 1mb")
+    elsif !image.blob.content_type.starts_with?('image/')
+      image.purge
+      errors.add(:questions, "Invalid format. File extensions available: png, jpg, jpeg")
     end
   end
 end
