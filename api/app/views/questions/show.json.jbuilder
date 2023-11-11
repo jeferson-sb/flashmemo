@@ -7,3 +7,4 @@ json.options @question.options do |option|
   json.text option.text
   json.correct option.correct
 end
+json.image @question.image.filename
