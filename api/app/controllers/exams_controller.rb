@@ -15,7 +15,7 @@ class ExamsController < ApplicationController
   end
 
   def create
-    @exam = Exam.new(create_params.slice(:title, :difficulty, :version))
+    @exam = Exam.new(create_params.slice(:title, :difficulty, :version, :category_id))
 
     if @exam.save
       questions = params[:question_ids]
@@ -34,6 +34,6 @@ class ExamsController < ApplicationController
   private
 
   def create_params
-    params.permit(:title, :difficulty, :version, :question_ids)
+    params.permit(:title, :difficulty, :version, :category_id, :question_ids)
   end
 end
