@@ -18,6 +18,17 @@ RSpec.describe 'Exams', type: :request do
     end
   end
 
+  describe 'GET /' do
+    before { create(:exam) }
+
+    it 'returns all exams' do
+      get '/api/exams.json'
+
+      expect(response).to be_successful
+      expect(json_body.length).not_to eq(0)
+    end
+  end
+
   describe 'POST /:id/evaluate' do
     let!(:exam) { create(:exam, :with_questions) }
     let(:question) { exam.questions.first }

@@ -6,9 +6,7 @@ json.level @exam.difficulty
 
 json.total @exam.questions.length
 
-if @exam.category_id.present?
-  json.category Category.find(@exam.category_id).title
-end
+json.category Category.find(@exam.category_id).title if @exam.category_id.present?
 
 json.questions @exam.questions do |question|
   json.id question.id

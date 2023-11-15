@@ -5,6 +5,18 @@ class ExamsController < ApplicationController
     @exam = Exam.find(params[:id])
   end
 
+  def index
+    category_name = index_params[:category]
+    if category_name.present?
+      category = Category.find_by(title: category_name.strip.downcase)
+      @exams = category ? Exam.where(category_id: category.id) : []
+    else
+      @exams = Exam.all
+    end
+
+    render json: @exams
+  end
+
   def evaluate
     @exam = Exam.find(params[:exam_id])
     questions = params[:questions]
@@ -35,5 +47,9 @@ class ExamsController < ApplicationController
 
   def create_params
     params.permit(:title, :difficulty, :version, :category_id, :question_ids)
+  end
+
+  def index_params
+    params.permit(:category)
   end
 end
