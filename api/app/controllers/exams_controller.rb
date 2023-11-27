@@ -6,14 +6,7 @@ class ExamsController < ApplicationController
   end
 
   def index
-    category_name = index_params[:category]
-    if category_name.present?
-      category = Category.find_by(title: category_name.strip.downcase)
-      @exams = category ? Exam.where(category_id: category.id) : []
-    else
-      @exams = Exam.all
-    end
-
+    @exams = Exam.by_category(index_params[:category])
     render json: @exams
   end
 
