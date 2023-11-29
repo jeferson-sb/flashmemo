@@ -24,7 +24,7 @@ RSpec.describe 'Answers', type: :request do
 
     let(:params) do
       {
-        score: 50, 
+        score: 50,
         user_id: user.id,
         exam_id: exam.id
       }

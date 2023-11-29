@@ -28,10 +28,10 @@ class Question < ApplicationRecord
 
     if image.blob.byte_size > 1.megabyte
       image.purge
-      errors.add(:questions, "Image size should be less than 1mb")
+      errors.add(:questions, 'Image size should be less than 1mb')
     elsif !image.blob.content_type.starts_with?('image/')
       image.purge
-      errors.add(:questions, "Invalid format. File extensions available: png, jpg, jpeg")
+      errors.add(:questions, 'Invalid format. File extensions available: png, jpg, jpeg')
     end
   end
 end

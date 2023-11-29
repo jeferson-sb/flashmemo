@@ -57,12 +57,12 @@ RSpec.describe 'Questions', type: :request do
         title: Faker::Lorem.question
       }
     end
-    let(:file) {
+    let(:file) do
       fixture_file_upload(Rails.root.join('spec', 'fixtures', 'rails.jpg'), 'image/jpeg')
-    }
-    let(:wrongfile) {
+    end
+    let(:wrongfile) do
       fixture_file_upload(Rails.root.join('spec', 'fixtures', 'file.pdf'), 'application/pdf')
-    }
+    end
 
     it 'updates title of the question' do
       put('/api/questions/1.json', params:)

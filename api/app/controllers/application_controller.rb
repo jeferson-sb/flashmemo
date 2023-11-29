@@ -15,9 +15,7 @@ class ApplicationController < ActionController::API
       render json: { errors: e.message }, status: :unauthorized
     end
   end
-  
-  private
-  
+
   def extract_token_from_header
     header = request.headers['Authorization']
     header&.split(' ')&.last
