@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgresql:
+    container_name: flashmemo_postgresql
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=sekret
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./tmp/database/postgresql:/var/lib/postgresql/data
