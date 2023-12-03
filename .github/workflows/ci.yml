@@ -23,6 +23,9 @@ jobs:
           working-directory: ./api
           bundler-cache: true
 
+      - name: Run docker
+        run: docker-compose up -d
+
       - name: Set up database schema
         run: bin/rails db:migrate RAILS_ENV=test && bin/rails db:schema:load
 
