@@ -9,4 +9,10 @@ class Exam < ApplicationRecord
   has_many :answer
   has_many :users, through: :answer
   enum :difficulty, %i[beginner intermediate advanced]
+
+  scope :by_category, ->(category_name) {
+    return all unless category_name.present?
+    category = Category.find_by!(title: category_name.strip.downcase)
+    where(category_id: category.id)
+  }
 end
