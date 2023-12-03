@@ -55,12 +55,20 @@ ActiveRecord::Schema[7.0].define(version: 20_231_129_033_234) do
     t.index ['user_id'], name: 'index_answers_on_user_id'
   end
 
+  create_table 'categories', force: :cascade do |t|
+    t.string 'title'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
   create_table 'exams', force: :cascade do |t|
     t.string 'title'
     t.integer 'difficulty', default: 0
     t.integer 'version'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.bigint 'category_id'
+    t.index ['category_id'], name: 'index_exams_on_category_id'
   end
 
   create_table 'exams_questions', id: false, force: :cascade do |t|
@@ -85,7 +93,18 @@ ActiveRecord::Schema[7.0].define(version: 20_231_129_033_234) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.bigint 'exam_id'
+    t.bigint 'revision_id'
     t.index ['exam_id'], name: 'index_questions_on_exam_id'
+    t.index ['revision_id'], name: 'index_questions_on_revision_id'
+  end
+
+  create_table 'revisions', force: :cascade do |t|
+    t.bigint 'exam_id', null: false
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['exam_id'], name: 'index_revisions_on_exam_id'
+    t.index ['user_id'], name: 'index_revisions_on_user_id'
   end
 
   create_table 'users', force: :cascade do |t|
@@ -100,8 +119,12 @@ ActiveRecord::Schema[7.0].define(version: 20_231_129_033_234) do
   add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
   add_foreign_key 'answers', 'exams'
   add_foreign_key 'answers', 'users'
+  add_foreign_key 'exams', 'categories'
   add_foreign_key 'exams_questions', 'exams'
   add_foreign_key 'exams_questions', 'questions'
   add_foreign_key 'options', 'questions'
   add_foreign_key 'questions', 'exams'
+  add_foreign_key 'questions', 'revisions'
+  add_foreign_key 'revisions', 'exams'
+  add_foreign_key 'revisions', 'users'
 end

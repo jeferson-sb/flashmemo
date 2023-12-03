@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :revision do
-    exam { nil }
-    user { nil }
+    association :user
+    association :exam
   end
 end

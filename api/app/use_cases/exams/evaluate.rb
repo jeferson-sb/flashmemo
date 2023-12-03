@@ -5,13 +5,19 @@ module Exams
     class << self
       def perform(questions, total)
         points = 0.0
+        question_ids = []
 
         questions.each do |question|
           option = Option.where(question_id: question[:id], correct: true).first
-          points += 1.0 if option.id == question[:option_id]
+
+          if option.id == question[:option_id]
+            points += 1.0
+          else
+            question_ids << question[:id]
+          end
         end
 
-        ((points / total) * 100).round(2)
+        return ((points / total) * 100).round(2), question_ids
       end
     end
   end

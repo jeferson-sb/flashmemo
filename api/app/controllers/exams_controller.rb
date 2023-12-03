@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ExamsController < ApplicationController
+  before_action :authenticate_request, only: :evaluate
+
   def show
     @exam = Exam.find(params[:id])
   end
@@ -14,7 +16,12 @@ class ExamsController < ApplicationController
     @exam = Exam.find(params[:exam_id])
     questions = params[:questions]
 
-    score = Exams::Evaluate.perform(questions, @exam.questions.length)
+    score, question_ids = Exams::Evaluate.perform(questions, @exam.questions.length)
+
+    if question_ids
+      revision = Revision.create(exam_id: params[:exam_id], user_id: @user.id)
+      revision.question_ids = question_ids
+    end
 
     render json: { score: }, status: :created
   end
