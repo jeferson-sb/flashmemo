@@ -8,7 +8,7 @@ RSpec.describe 'Exams', type: :request do
   end
 
   describe 'GET /:id' do
-    before { create(:exam) }
+    before { create(:exam, id: 1) }
 
     it 'returns an exam successfully' do
       get '/api/exams/1.json'
@@ -19,7 +19,7 @@ RSpec.describe 'Exams', type: :request do
   end
 
   describe 'POST /:id/evaluate' do
-    let!(:exam) { create(:exam, :with_questions) }
+    let!(:exam) { create(:exam, :with_questions, id: 1) }
     let(:question) { exam.questions.first }
     let(:option) { question.options.first }
 

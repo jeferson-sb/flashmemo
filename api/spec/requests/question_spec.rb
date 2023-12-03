@@ -7,7 +7,7 @@ RSpec.describe 'Questions', type: :request do
     JSON.parse(response.body)
   end
 
-  before { create(:question, :with_options, options_count: 3) }
+  before { create(:question, :with_options, options_count: 3, id: 1) }
 
   describe 'GET /index' do
     it 'returns all questions' do
@@ -20,7 +20,7 @@ RSpec.describe 'Questions', type: :request do
 
   describe 'GET /:id' do
     it 'returns a question' do
-      question = create(:question, :with_options)
+      question = create(:question, :with_options, id: 2)
       get '/api/questions/1.json'
 
       expect(response).to be_successful
