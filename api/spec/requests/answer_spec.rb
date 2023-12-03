@@ -8,10 +8,10 @@ RSpec.describe 'Answers', type: :request do
   end
 
   describe 'GET /:id' do
-    before { create(:answer) }
+    let(:answer) { create(:answer) }
 
     it 'returns a user-exam answer' do
-      get '/api/answers/1.json'
+      get answer_path(id: answer.id)
 
       expect(response).to be_successful
       expect(json_body).to include('score')
@@ -24,7 +24,7 @@ RSpec.describe 'Answers', type: :request do
 
     let(:params) do
       {
-        score: 50, 
+        score: 50,
         user_id: user.id,
         exam_id: exam.id
       }
