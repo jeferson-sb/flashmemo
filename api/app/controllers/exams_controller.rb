@@ -19,7 +19,7 @@ class ExamsController < ApplicationController
     score, question_ids = Exams::Evaluate.perform(questions, @exam.questions.length)
 
     if question_ids
-      revision = Revision.create(exam_id: params[:exam_id], user_id: @user.id)
+      revision = Revision.find_or_create_by(exam_id: params[:exam_id], user_id: @user.id)
       revision.question_ids = question_ids
     end
 

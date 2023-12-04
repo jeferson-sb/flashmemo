@@ -6,4 +6,13 @@ class RevisionsController < ApplicationController
   def show
     @revision = Revision.find(params[:id])
   end
+
+  def evaluate
+    questions = params[:questions]
+    @revision = Revision.find(params[:revision_id])
+
+    score, _ = Exams::Evaluate.perform(questions, @revision.questions.length)
+
+    render json: { score: }, status: :created
+  end
 end
