@@ -9,12 +9,16 @@ RSpec.describe 'Revisions', type: :request do
 
   describe 'GET /:id' do
     let!(:user) { create(:user) }
-    let!(:revision) { create(:revision, id: 1) }
+    let!(:revision) { create(:revision, :with_questions, id: 1) }
     let!(:token) { JsonWebToken.encode(user_id: user.id) }
 
     it 'returns an revision successfully' do
       get '/api/revisions/1.json', headers: { 'Authorization' => "Bearer #{token}" }
   
+      expect(json_body).to include('exam_id')
+      expect(json_body).to include('user_id')
+      expect(json_body).to include('questions')
+      expect(json_body['questions'].length).to eq(3)
       expect(response).to have_http_status(:success)
     end
   end

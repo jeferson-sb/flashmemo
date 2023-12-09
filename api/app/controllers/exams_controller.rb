@@ -16,11 +16,12 @@ class ExamsController < ApplicationController
     @exam = Exam.find(params[:exam_id])
     questions = params[:questions]
 
-    score, question_ids = Exams::Evaluate.perform(questions, @exam.questions.length)
+    score, questions_answered_incorrectly = Exams::Evaluate.perform(questions, @exam.questions.length)
 
-    if question_ids
+    if questions_answered_incorrectly
       revision = Revision.find_or_create_by(exam_id: params[:exam_id], user_id: @user.id)
-      revision.question_ids = question_ids
+      revision.question_ids = questions_answered_incorrectly
+      revision.save!
     end
 
     render json: { score: }, status: :created
