@@ -17,7 +17,7 @@ module Exams
           end
         end
 
-        return ((points / total) * 100).round(2), questions_answered_incorrectly
+        [((points / total) * 100).round(2), questions_answered_incorrectly]
       end
     end
   end

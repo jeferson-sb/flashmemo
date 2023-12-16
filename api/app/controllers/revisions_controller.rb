@@ -11,7 +11,7 @@ class RevisionsController < ApplicationController
     questions = params[:questions]
     @revision = Revision.find(params[:revision_id])
 
-    score, _ = Exams::Evaluate.perform(questions, @revision.questions.length)
+    score, = Exams::Evaluate.perform(questions, @revision.questions.length)
 
     render json: { score: }, status: :created
   end
