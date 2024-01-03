@@ -30,7 +30,10 @@ RSpec.describe 'Exams', type: :request do
   end
 
   describe 'POST /:id/evaluate' do
+    let!(:user) { create(:user) }
     let!(:exam) { create(:exam, :with_questions, id: 1) }
+    let!(:token) { JsonWebToken.encode(user_id: user.id) }
+
     let(:question) { exam.questions.first }
     let(:option) { question.options.first }
 
@@ -47,7 +50,7 @@ RSpec.describe 'Exams', type: :request do
       end
 
       it 'return score for an exam' do
-        post('/api/exams/1/evaluate.json', params:)
+        post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('score')
