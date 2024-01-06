@@ -1,19 +1,6 @@
-# README
-
-Test your knowledge and memorize by using flash cards! 🟦🟩🟨
-
-Features
-
-- Exams (collection of questions)
-- Questions and multiple options
-- User account creation and signin in via JWT
-- Categories
-- Exams evaluation
-- Revisions to practice wrong answered questions
-- User Progress by period (monthly, yearly, semester)
-
+# Rails API
 ```
-cd api && bin/bundle install
+bin/bundle install
 ```
 
 ## Database setup
@@ -25,7 +12,7 @@ bin/rails db:migrate
 bin/rails db:seed
 ```
 
-## API
+## Server
 
 ```
 bin/rails s
