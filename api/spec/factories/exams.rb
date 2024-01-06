@@ -16,5 +16,11 @@ FactoryBot.define do
         exam.questions = create_list(:question, evaluator.question_count, :with_options)
       end
     end
+
+    trait :with_duos do
+      after(:create) do |exam, evaluator|
+        exam.questions = create_list(:question, evaluator.question_count, :duos)
+      end
+    end
   end
 end
