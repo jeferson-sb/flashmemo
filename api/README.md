@@ -1,24 +1,44 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Test your knowledge and memorize by using flash cards! 🟦🟩🟨
 
-Things you may want to cover:
+Features
 
-* Ruby version
+- Exams (collection of questions)
+- Questions and multiple options
+- User account creation and signin in via JWT
+- Categories
+- Exams evaluation
+- Revisions to practice wrong answered questions
+- User Progress by period (monthly, yearly, semester)
 
-* System dependencies
+```
+cd api && bin/bundle install
+```
 
-* Configuration
+## Database setup
 
-* Database creation
+```
+docker-compose up -d
+bin/rails db:create
+bin/rails db:migrate
+bin/rails db:seed
+```
 
-* Database initialization
+## API
 
-* How to run the test suite
+```
+bin/rails s
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Tests
 
-* Deployment instructions
+```
+rspec .
+```
 
-* ...
+## Linting
+
+```
+rubocop -a
+```
