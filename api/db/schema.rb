@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_231_129_033_234) do
+ActiveRecord::Schema[7.0].define(version: 20_240_106_180_026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -94,6 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 20_231_129_033_234) do
     t.datetime 'updated_at', null: false
     t.bigint 'exam_id'
     t.bigint 'revision_id'
+    t.boolean 'has_duo', default: false
     t.index ['exam_id'], name: 'index_questions_on_exam_id'
     t.index ['revision_id'], name: 'index_questions_on_revision_id'
   end

@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     end
     resources :exams, only: %i[index show create] do
       post '/evaluate', to: 'exams#evaluate'
+      get 'duos', to: 'exams#duos'
+      post 'duos/evaluate', to: 'exams#evaluate_duos'
     end
     resources :users, only: %i[create] do
       get '/progress', to: 'users#progress'

@@ -11,6 +11,7 @@ json.category Category.find(@exam.category_id).title if @exam.category_id.presen
 json.questions @exam.questions do |question|
   json.id question.id
   json.title question.title
+  json.is_duo question.has_duo
   json.options question.options do |option|
     json.id option.id
     json.text option.text
