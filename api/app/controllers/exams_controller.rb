@@ -39,8 +39,24 @@ class ExamsController < ApplicationController
     end
   end
 
-  private
+  def duos
+    @exam = Exam.find(params[:exam_id])
+    duos = Questions::Duos.duos(@exam.questions)
 
+    render json: { title: 'Match the duos', duos: }
+  end
+
+  def evaluate_duos
+    ans = Questions::Duos.evaluate(params[:duos])
+    if ans
+      render json: { message: 'Well done!' }
+    else
+      render json: { message: 'Oops, try again!' }, status: :bad_request
+    end
+  end
+
+  private
+  
   def create_params
     params.permit(:title, :difficulty, :version, :category_id, :question_ids)
   end

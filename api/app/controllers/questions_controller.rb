@@ -35,7 +35,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(create_params.slice(:title, :exam_id))
+    @question = Question.new(create_params.slice(:title, :exam_id, :has_duo))
     @question.options.build(create_params[:options])
 
     if @question.save
@@ -53,6 +53,6 @@ class QuestionsController < ApplicationController
   end
 
   def create_params
-    params.permit(:title, :exam_id, options: %i[text correct])
+    params.permit(:title, :exam_id, :has_duo, options: %i[text correct])
   end
 end

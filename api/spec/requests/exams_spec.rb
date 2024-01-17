@@ -79,4 +79,54 @@ RSpec.describe 'Exams', type: :request do
       end
     end
   end
+
+  describe 'GET /exams/:id/duos' do
+    let!(:exam) { create(:exam, :with_duos, id: 1) }
+
+    describe 'when question.has_duo' do
+      it 'return duos list randomly' do
+        get '/api/exams/1/duos'
+
+        expect(response).to have_http_status(:success)
+
+        expect(json_body).to include('title')
+        expect(json_body['duos'][0].length).not_to eq(0)
+        expect(json_body['duos'][1].length).not_to eq(0)
+      end
+    end
+  end
+
+  describe 'POST /exams/:id/duos/evaluate' do
+    let!(:exam) { create(:exam, :with_duos, id: 1) }
+    
+    describe 'when does NOT match duos' do
+      let(:params) do
+        {
+          duos: exam.questions.map { |q| [q.id, q.options[1].id] }
+        }
+      end
+      
+      it 'return failure message' do
+        post '/api/exams/1/duos/evaluate', params:, as: :json
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json_body['message']).to eq('Oops, try again!')
+      end
+    end
+
+    describe 'when DOES match duos' do
+      let(:params) do
+        {
+          duos: exam.questions.map { |q| [q.id, q.options[0].id] }
+        }
+      end
+      
+      it 'return success message' do
+        post '/api/exams/1/duos/evaluate', params:, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_body['message']).to eq('Well done!')
+      end
+    end
+  end
 end

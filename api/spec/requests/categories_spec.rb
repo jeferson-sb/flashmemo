@@ -6,7 +6,7 @@ RSpec.describe 'Categories', type: :request do
   describe 'POST /categories' do
     let(:params) do
       {
-        title: Faker::Lorem.word,
+        title: Faker::Lorem.word
       }
     end
 
