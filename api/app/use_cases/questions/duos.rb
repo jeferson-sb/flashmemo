@@ -7,9 +7,7 @@ module Questions
         options = []
         questions = []
 
-        exam_questions.each do |question|
-          next unless question.has_duo
-
+        exam_questions.select(&:has_duo).each do |question|
           option = question.options.find(&:correct)
           questions << { title: question.title, id: question.id }
           options << { text: option.text, id: option.id }

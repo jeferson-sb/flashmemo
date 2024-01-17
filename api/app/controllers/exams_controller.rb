@@ -51,12 +51,12 @@ class ExamsController < ApplicationController
     if ans
       render json: { message: 'Well done!' }
     else
-      render json: { message: 'Oops, try again!' }
+      render json: { message: 'Oops, try again!' }, status: :bad_request
     end
   end
 
   private
-
+  
   def create_params
     params.permit(:title, :difficulty, :version, :category_id, :question_ids)
   end
