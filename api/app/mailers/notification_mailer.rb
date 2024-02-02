@@ -1,5 +1,5 @@
 class NotificationMailer < ApplicationMailer
-  default from: 'notifications@flashmemo.com'
+  default from: 'noreply@flashmemo.com'
 
   def review_email
     @user = params[:user]
