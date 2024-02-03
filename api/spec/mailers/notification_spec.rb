@@ -1,9 +1,11 @@
-require "rails_helper"
+# frozen_string_literal: true
+
+require 'rails_helper'
 
 RSpec.describe NotificationMailer, type: :mailer do
   describe 'review' do
     let(:user) { create(:user) }
-    let(:mail) { NotificationMailer.with(user: user, url: '/api/revisions/1').review_email }
+    let(:mail) { NotificationMailer.with(user:, url: '/api/revisions/1').review_email }
 
     it 'renders the subject' do
       expect(mail.subject).to eq('Hey, Review time!')

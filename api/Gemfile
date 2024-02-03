@@ -47,6 +47,7 @@ group :development, :test do
   gem 'rubocop-rails', '~> 2.19', require: false
   gem 'rubocop-rspec', '~> 2.22', require: false
   gem 'shoulda-matchers', '~> 5.1'
+  gem 'whenever', '~> 1.0', require: false
 end
 
 group :development do
@@ -61,5 +62,3 @@ gem 'jwt', '~> 2.7'
 gem 'rmagick', '~> 5.3'
 
 gem 'pg', '~> 1.1'
-
-gem "whenever", "~> 1.0"
