@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_06_180026) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_12_200940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_06_180026) do
     t.integer "score"
     t.bigint "user_id"
     t.bigint "exam_id"
+    t.datetime "last_attempted_at"
+    t.integer "interval_level", default: 0
     t.index ["exam_id"], name: "index_answers_on_exam_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
