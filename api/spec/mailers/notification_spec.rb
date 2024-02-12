@@ -12,7 +12,6 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'renders the receiver email' do
-      puts mail.body.encoded
       expect(mail.to).to eq([user.email])
     end
 

@@ -4,14 +4,6 @@ env :PATH, ENV['PATH']
 set :environment, :development
 set :output, "#{path}/log/cron.log"
 
-every 3.day do
-  rake 'send_review_email:all'
-end
-
-every 1.week do
-  rake 'send_review_email:all'
-end
-
-every :month do
+every :day do
   rake 'send_review_email:all'
 end
