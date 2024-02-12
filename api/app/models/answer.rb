@@ -5,9 +5,9 @@ class Answer < ApplicationRecord
   belongs_to :exam
 
   INTERVALS = {
-    1 => 3.minutes,
-    2 => 10.minutes,
-    3 => 20.minutes
+    1 => 3.days,
+    2 => 1.week,
+    4 => 1.month
   }.freeze
 
   validates :user, presence: true
