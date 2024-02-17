@@ -1,7 +1,7 @@
 namespace :send_review_email do
   desc 'Send review email to answer revision'
-  task :all => :environment do
-    Revision.find_each do |rev|
+  task all: :environment do
+    Revision.find_each(batch_size: 100) do |rev|
       answer = rev.exam.answer.last
       is_enough_questions = rev.questions.length > 1
       if is_enough_questions && answer.valid_interval?
