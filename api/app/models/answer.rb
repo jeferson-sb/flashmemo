@@ -7,7 +7,7 @@ class Answer < ApplicationRecord
   INTERVALS = {
     1 => 3.days,
     2 => 1.week,
-    4 => 1.month
+    3 => 1.month
   }.freeze
 
   validates :user, presence: true
