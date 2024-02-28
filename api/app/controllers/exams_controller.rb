@@ -12,12 +12,21 @@ class ExamsController < ApplicationController
     render json: @exams
   end
 
+  # Evaluates an exam
+  # FindOrCreate revision (if missed questions)
+  # Store the final answer for the user
   def evaluate
     @exam = Exam.find(params[:exam_id])
     questions = params[:questions]
 
     score, questions_answered_incorrectly = Exams::Evaluate.perform(questions, @exam.questions.length)
     Revisions::Create.perform(params[:exam_id], @user.id, questions_answered_incorrectly)
+    answer = Answer.find_or_create_by(
+      exam_id: params[:exam_id], 
+      user_id: @user.id, 
+      score:
+    )
+    answer.attempt
 
     render json: { score: }, status: :created
   end
@@ -56,7 +65,7 @@ class ExamsController < ApplicationController
   end
 
   private
-  
+
   def create_params
     params.permit(:title, :difficulty, :version, :category_id, :question_ids)
   end
