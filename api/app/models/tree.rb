@@ -7,7 +7,6 @@ class Tree < ApplicationRecord
   scope :alive?, -> { where("health > 0") }
 
   validates :name, presence: true, uniqueness: true
-  validates :health, presence: true
   validates :garden, presence: true
 
   has_many :branches

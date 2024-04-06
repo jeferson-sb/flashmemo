@@ -3,7 +3,7 @@ class CreateBranches < ActiveRecord::Migration[7.0]
     create_table :branches do |t|
       t.string :name, unique: true
       t.text :description
-      t.integer :health
+      t.integer :health, default: 100
       t.references :tree, null: false, index: true, foreign_key: true
 
       t.timestamps
