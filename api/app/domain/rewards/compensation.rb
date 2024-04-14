@@ -7,7 +7,7 @@ module Rewards
       @nutrients = 0
     end
 
-    def rules(data)
+    def rules(data, current_date = Time.now)
       return [@seeds, @nutrients] unless valid_score?(data[:score])
 
       if first_interaction?(data[:answers])
@@ -19,7 +19,7 @@ module Rewards
         @nutrients = 1
       end
 
-      case Dates::Season.from(Time.now, :south)
+      case Dates::Season.from(current_date, :south)
       when :summer
         summer(data[:is_new_topic])
       when :autumn
