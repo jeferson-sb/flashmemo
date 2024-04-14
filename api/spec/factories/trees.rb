@@ -7,5 +7,11 @@ FactoryBot.define do
     health { 100 }
 
     association :garden
+
+    trait :dry do
+      after(:build) do |tree|
+        tree.health = 5
+      end
+    end
   end
 end
