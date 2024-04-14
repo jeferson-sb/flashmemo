@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   private
 
   def create_params
-    params.permit(:username, :email, :password)
+    params.permit(:name, :username, :email, :password)
   end
 
   def get_semester_dates(date)

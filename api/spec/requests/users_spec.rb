@@ -10,6 +10,7 @@ RSpec.describe 'Users', type: :request do
   describe 'POST /users' do
     let(:params) do
       {
+        name: Faker::Name.name,
         username: Faker::Name.name,
         email: Faker::Lorem.word,
         password: Faker::Lorem.characters(number: 10)
