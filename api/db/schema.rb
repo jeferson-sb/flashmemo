@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_12_200940) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_30_215658) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_12_200940) do
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
+  create_table "branches", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "health", default: 100
+    t.bigint "tree_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tree_id"], name: "index_branches_on_tree_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -76,6 +86,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_12_200940) do
     t.index ["exam_id", "question_id"], name: "index_exams_questions_on_exam_id_and_question_id", unique: true
     t.index ["exam_id"], name: "index_exams_questions_on_exam_id"
     t.index ["question_id"], name: "index_exams_questions_on_question_id"
+  end
+
+  create_table "gardens", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id", null: false
+    t.integer "seeds", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_gardens_on_user_id"
   end
 
   create_table "options", force: :cascade do |t|
@@ -107,6 +126,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_12_200940) do
     t.index ["user_id"], name: "index_revisions_on_user_id"
   end
 
+  create_table "trees", force: :cascade do |t|
+    t.string "name"
+    t.integer "phase", default: 0
+    t.integer "health", default: 100
+    t.bigint "garden_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["garden_id"], name: "index_trees_on_garden_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "email"
@@ -119,12 +148,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_12_200940) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "exams"
   add_foreign_key "answers", "users"
+  add_foreign_key "branches", "trees"
   add_foreign_key "exams", "categories"
   add_foreign_key "exams_questions", "exams"
   add_foreign_key "exams_questions", "questions"
+  add_foreign_key "gardens", "users"
   add_foreign_key "options", "questions"
   add_foreign_key "questions", "exams"
   add_foreign_key "questions", "revisions"
   add_foreign_key "revisions", "exams"
   add_foreign_key "revisions", "users"
+  add_foreign_key "trees", "gardens"
 end
