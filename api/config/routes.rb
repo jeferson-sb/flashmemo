@@ -24,5 +24,10 @@ Rails.application.routes.draw do
     end
     resources :categories, only: %i[create]
     post '/auth/login', to: 'authentication#login'
+    resources :gardens, only: %i[index show create] do
+      post '/plant', to: 'gardens#plant'
+      post '/nurture', to: 'gardens#nurture'
+    end
+    resources :trees, only: %i[index show]
   end
 end
