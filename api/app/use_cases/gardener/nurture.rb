@@ -3,13 +3,11 @@
 module Gardener
   class Nurture
     class << self
-      def perform(tree_id, nutrients)
-        tree = Tree.find(tree_id)
-        
-        if tree.health + nutrients <= 100
-          tree.health += nutrients
-          tree.save!
-        end
+      def perform(tree, nutrients)
+        return unless tree.health + nutrients <= 100
+
+        tree.health += nutrients
+        tree.save!
       end
     end
   end
