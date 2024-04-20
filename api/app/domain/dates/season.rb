@@ -3,7 +3,7 @@
 module Dates
   class Season
     class << self
-      QUARTERS = { 1 => 0.25, 2 => 0.50, 3 => 0.75 }.freeze
+      QUARTERS = { 1 => 0.25, 2 => 0.50, 3 => 0.75, 4 => 1.0 }.freeze
       SEASONS = {
         winter: { north: 1, south: 3 },
         spring: { north: 2, south: 4 },

@@ -75,7 +75,7 @@ RSpec.describe Rewards::Compensation do
 
         context 'and season is spring' do
           it 'return with spring seasonal bonus' do
-            spring = Time.new(2024, 10, 25)
+            spring = Time.new(2024, 11, 30)
             seeds, nutrients = compensator.rules({
               score: 50,
               answers: 1,
