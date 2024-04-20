@@ -29,4 +29,16 @@ RSpec.describe 'Gardens', type: :request do
       expect(json_body).to include('trees')
     end
   end
+
+  describe 'POST /' do
+    let(:user) { create(:user) }
+    let(:token) { JsonWebToken.encode(user_id: user.id) }
+
+    it 'creates a new garden successfully' do
+      post '/api/gardens.json', headers: { 'Authorization' => "Bearer #{token}" }
+
+      expect(response).to have_http_status(:success)
+      expect(json_body).to include('message')
+    end
+  end
 end
