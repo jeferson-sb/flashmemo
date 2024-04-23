@@ -22,11 +22,26 @@ class GardensController < ApplicationController
   end
 
   def plant
-    # TODO
+    @garden = Garden.find(params[:garden_id])
+
+    begin
+      Gardener::Plant.perform(@garden, plant_params[:name])
+      render json: { message: "Tree '#{plant_params[:name]}' successfully planted." }, status: :ok
+    rescue Exception => e
+      render json: { error: "Failed to plant: " + e.message }, status: :bad_request
+    end
   end
 
   def nurture
-    # TODO
+    @garden = Garden.find(params[:garden_id])
+    @tree = Tree.find(nutrients_params[:tree_id])
+
+    begin
+      Gardener::Nurture.perform(@tree, @garden, nutrients_params[:nutrients].to_i)
+      render json: { message: "Tree '#{@tree.name}' successfully fed." }, status: :ok
+    rescue Exception => e
+      render json: { error: "Failed to feed tree: " + e.message }, status: :bad_request
+    end
   end
 
   private
@@ -36,6 +51,6 @@ class GardensController < ApplicationController
   end
 
   def nutrients_params
-    params.permit(:nutrients)
+    params.permit(:tree_id, :nutrients)
   end
 end
