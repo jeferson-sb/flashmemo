@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.name @tree.name
 json.owner_id @tree.garden.user_id
 json.phase @tree.phase

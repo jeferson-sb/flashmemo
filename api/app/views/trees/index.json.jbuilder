@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array! @trees do |tree|
   json.id tree.id
   json.name tree.name

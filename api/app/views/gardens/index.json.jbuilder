@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 json.array! @gardens do |garden|
   json.id garden.id

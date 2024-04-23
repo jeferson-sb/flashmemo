@@ -28,7 +28,7 @@ class GardensController < ApplicationController
       Gardener::Plant.perform(@garden, plant_params[:name])
       render json: { message: "Tree '#{plant_params[:name]}' successfully planted." }, status: :ok
     rescue Exception => e
-      render json: { error: "Failed to plant: " + e.message }, status: :bad_request
+      render json: { error: "Failed to plant: #{e.message}" }, status: :bad_request
     end
   end
 
@@ -40,7 +40,7 @@ class GardensController < ApplicationController
       Gardener::Nurture.perform(@tree, @garden, nutrients_params[:nutrients].to_i)
       render json: { message: "Tree '#{@tree.name}' successfully fed." }, status: :ok
     rescue Exception => e
-      render json: { error: "Failed to feed tree: " + e.message }, status: :bad_request
+      render json: { error: "Failed to feed tree: #{e.message}" }, status: :bad_request
     end
   end
 

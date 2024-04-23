@@ -64,7 +64,7 @@ RSpec.describe 'Gardens', type: :request do
 
       it 'creates a new tree successfully' do
         post '/api/gardens/1/plant.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
-  
+
         expect(response).to have_http_status(:success)
         expect(json_body).to include('message')
       end
@@ -72,12 +72,11 @@ RSpec.describe 'Gardens', type: :request do
   end
 
   describe 'POST /:id/nurture' do
-
     describe 'when nutrients <= 0' do
-      before { 
-        create(:garden, id: 1) 
+      before do
+        create(:garden, id: 1)
         create(:tree, id: 1)
-      }
+      end
 
       let(:params) do
         {
@@ -85,7 +84,7 @@ RSpec.describe 'Gardens', type: :request do
           nutrients: 0
         }
       end
-    
+
       it 'returns error message' do
         post '/api/gardens/1/nurture.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
 
@@ -96,7 +95,7 @@ RSpec.describe 'Gardens', type: :request do
 
     describe 'when nutrients is positive' do
       let!(:garden) { create(:garden, id: 1, nutrients: 10) }
-      
+
       describe 'when tree health is already 100' do
         let!(:tree) { create(:tree, health: 100) }
         let(:params) do
@@ -105,10 +104,10 @@ RSpec.describe 'Gardens', type: :request do
             nutrients: 5
           }
         end
-    
+
         it 'returns error message' do
           post '/api/gardens/1/nurture.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
-    
+
           expect(response).to have_http_status(:bad_request)
           expect(json_body).to include('error')
         end
@@ -122,10 +121,10 @@ RSpec.describe 'Gardens', type: :request do
             nutrients: 12
           }
         end
-    
+
         it 'returns error message' do
           post '/api/gardens/1/nurture.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
-    
+
           expect(response).to have_http_status(:bad_request)
           expect(json_body).to include('error')
         end
@@ -139,10 +138,10 @@ RSpec.describe 'Gardens', type: :request do
             nutrients: 5
           }
         end
-    
+
         it 'feeds a tree' do
           post '/api/gardens/1/nurture.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
-    
+
           expect(response).to have_http_status(:success)
           expect(json_body).to include('message')
         end
