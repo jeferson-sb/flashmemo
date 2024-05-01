@@ -10,6 +10,7 @@ module Answers
           score:
         )
         answer.attempt
+        answer
       end
     end
   end

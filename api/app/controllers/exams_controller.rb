@@ -17,10 +17,16 @@ class ExamsController < ApplicationController
     questions = params[:questions]
 
     score, questions_answered_incorrectly = get_results(@exam, questions)
-    create_revision_if_needed(@exam.id, @user.id, questions_answered_incorrectly)
-    create_answer(@exam.id, @user.id, score)
 
-    render json: { score: }, status: :created
+    begin
+      create_revision_if_needed(@exam.id, @user.id, questions_answered_incorrectly)
+      answer = create_answer(@exam.id, @user.id, score)
+      earn_rewards(answer, @user)
+
+      render json: { score: }, status: :created
+    rescue Exception => e
+      render json: { error: "Failed to evalute your test: #{e.message}" }, status: :bad_request
+    end
   end
 
   def create
@@ -76,5 +82,9 @@ class ExamsController < ApplicationController
 
   def create_answer(exam_id, user_id, score)
     Answers::Create.perform(exam_id, user_id, score)
+  end
+
+  def earn_rewards(last_answer, user)
+    Rewards::Earn.perform(last_answer, user)
   end
 end
