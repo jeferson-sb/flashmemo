@@ -6,8 +6,9 @@ module Rewards
       @garden_id = garden_id
     end
 
-    def earn(garden, seeds, _nutrients)
+    def earn(garden, seeds, nutrients)
       garden.seeds += seeds
+      garden.nutrients += nutrients
       garden.save!
     end
   end

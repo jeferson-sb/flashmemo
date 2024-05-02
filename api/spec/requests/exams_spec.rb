@@ -32,10 +32,11 @@ RSpec.describe 'Exams', type: :request do
   describe 'POST /:id/evaluate' do
     let!(:user) { create(:user) }
     let!(:exam) { create(:exam, :with_questions, id: 1) }
-    let!(:token) { JsonWebToken.encode(user_id: user.id) }
+    let(:token) { JsonWebToken.encode(user_id: user.id) }
 
     let(:question) { exam.questions.first }
     let(:option) { question.options.first }
+    let(:miss_option) { question.options.last }
 
     describe 'when question exists' do
       let(:params) do
@@ -54,6 +55,58 @@ RSpec.describe 'Exams', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('score')
+      end
+
+      it 'register a new answer' do
+        expect {
+          post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+        }.to change(Answer, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+      end
+
+    end
+    
+    describe 'when missed a question' do
+      let(:params) do
+        {
+          questions: [
+            {
+              id: question.id,
+              option_id: miss_option.id
+            }
+          ]
+        }
+      end
+  
+      it 'register a new revision' do
+        expect {
+          post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+        }.to change(Revision, :count).by(1)
+  
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    describe 'when garden exists' do
+      let!(:garden) { create(:garden, user_id: user.id) }
+      let(:params) do
+        {
+          questions: [
+            {
+              id: question.id,
+              option_id: option.id
+            }
+          ]
+        }
+      end
+
+      it 'save new seeds to garden' do
+        post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+        
+        expect(response).to have_http_status(:success)
+        expect(Garden.last.seeds).to eq(1)
+        expect(Garden.last.nutrients).to eq(0)
       end
     end
   end
@@ -98,14 +151,14 @@ RSpec.describe 'Exams', type: :request do
 
   describe 'POST /exams/:id/duos/evaluate' do
     let!(:exam) { create(:exam, :with_duos, id: 1) }
-    
+
     describe 'when does NOT match duos' do
       let(:params) do
         {
           duos: exam.questions.map { |q| [q.id, q.options[1].id] }
         }
       end
-      
+
       it 'return failure message' do
         post '/api/exams/1/duos/evaluate', params:, as: :json
 
@@ -120,7 +173,7 @@ RSpec.describe 'Exams', type: :request do
           duos: exam.questions.map { |q| [q.id, q.options[0].id] }
         }
       end
-      
+
       it 'return success message' do
         post '/api/exams/1/duos/evaluate', params:, as: :json
 

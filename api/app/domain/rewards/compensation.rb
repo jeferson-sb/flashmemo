@@ -40,7 +40,7 @@ module Rewards
     end
 
     def first_interaction?(answers)
-      answers <= 0
+      answers <= 1
     end
 
     def twenth_tree?(trees)
