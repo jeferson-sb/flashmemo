@@ -58,15 +58,14 @@ RSpec.describe 'Exams', type: :request do
       end
 
       it 'register a new answer' do
-        expect {
+        expect do
           post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
-        }.to change(Answer, :count).by(1)
+        end.to change(Answer, :count).by(1)
 
         expect(response).to have_http_status(:success)
       end
-
     end
-    
+
     describe 'when missed a question' do
       let(:params) do
         {
@@ -78,12 +77,12 @@ RSpec.describe 'Exams', type: :request do
           ]
         }
       end
-  
+
       it 'register a new revision' do
-        expect {
+        expect do
           post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
-        }.to change(Revision, :count).by(1)
-  
+        end.to change(Revision, :count).by(1)
+
         expect(response).to have_http_status(:success)
       end
     end
@@ -103,7 +102,7 @@ RSpec.describe 'Exams', type: :request do
 
       it 'save new seeds to garden' do
         post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
-        
+
         expect(response).to have_http_status(:success)
         expect(Garden.last.seeds).to eq(1)
         expect(Garden.last.nutrients).to eq(0)

@@ -23,7 +23,7 @@ RSpec.describe Rewards::Compensation do
         it 'return with first interaction bonus' do
           seeds, nutrients = compensator.rules({
                                                  score: 20,
-                                                 answers: 0,
+                                                 answers: 1,
                                                  trees: 0
                                                })
 
@@ -36,7 +36,6 @@ RSpec.describe Rewards::Compensation do
         it 'return with the 20th tree bonus' do
           seeds, nutrients = compensator.rules({
                                                  score: 50,
-                                                 answers: 1,
                                                  trees: 19
                                                })
 
@@ -48,7 +47,6 @@ RSpec.describe Rewards::Compensation do
         it 'return with the high score bonus' do
           seeds, nutrients = compensator.rules({
                                                  score: 95,
-                                                 answers: 1,
                                                  trees: 0
                                                })
 
@@ -63,7 +61,6 @@ RSpec.describe Rewards::Compensation do
             summer = Time.new(2024, 1, 5)
             seeds, nutrients = compensator.rules({
                                                    score: 50,
-                                                   answers: 1,
                                                    trees: 0,
                                                    is_new_topic: true
                                                  }, summer)
@@ -78,7 +75,6 @@ RSpec.describe Rewards::Compensation do
             spring = Time.new(2024, 11, 30)
             seeds, nutrients = compensator.rules({
                                                    score: 50,
-                                                   answers: 1,
                                                    trees: 0,
                                                    is_new_topic: true
                                                  }, spring)
@@ -95,7 +91,6 @@ RSpec.describe Rewards::Compensation do
             winter = Time.new(2024, 8, 25)
             seeds, nutrients = compensator.rules({
                                                    score: 50,
-                                                   answers: 1,
                                                    trees: 0,
                                                    is_review: true
                                                  }, winter)
@@ -110,7 +105,6 @@ RSpec.describe Rewards::Compensation do
             autumn = Time.new(2024, 4, 1)
             seeds, nutrients = compensator.rules({
                                                    score: 50,
-                                                   answers: 1,
                                                    trees: 0,
                                                    is_new_topic: true
                                                  }, autumn)
@@ -126,7 +120,7 @@ RSpec.describe Rewards::Compensation do
           summer = Time.new(2024, 1, 5)
           seeds, nutrients = compensator.rules({
                                                  score: 50,
-                                                 answers: 0,
+                                                 answers: 1,
                                                  trees: 0,
                                                  is_new_topic: true
                                                }, summer)
@@ -140,7 +134,7 @@ RSpec.describe Rewards::Compensation do
         it 'return only first bonus' do
           seeds, nutrients = compensator.rules({
                                                  score: 95,
-                                                 answers: 0,
+                                                 answers: 1,
                                                  trees: 0
                                                })
 
