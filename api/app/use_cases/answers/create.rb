@@ -7,8 +7,8 @@ module Answers
         answer = Answer.find_or_create_by(
           exam_id:,
           user_id:,
-          score:
         )
+        answer.score = score
         answer.attempt
         answer
       end
