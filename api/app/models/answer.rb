@@ -24,6 +24,11 @@ class Answer < ApplicationRecord
     last_attempted_at + INTERVALS[self.interval_level] < Time.now
   end
 
+  def new_answer?
+    # TODO: find a way to have this status correctly
+    true
+  end
+
   def last_attempted_over_a_day?
     Time.now - last_attempted_at > 1.day
   end
