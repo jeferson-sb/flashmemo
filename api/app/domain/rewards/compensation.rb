@@ -10,7 +10,7 @@ module Rewards
     def rules(data, current_date = Time.now)
       return [@seeds, @nutrients] unless valid_score?(data[:score])
 
-      if first_interaction?(data[:answers])
+      if first_interaction?(data[:answers] || 0)
         @seeds += 1
       elsif twenth_tree?(data[:trees])
         @seeds += 3
@@ -40,7 +40,7 @@ module Rewards
     end
 
     def first_interaction?(answers)
-      answers <= 0
+      answers == 1
     end
 
     def twenth_tree?(trees)

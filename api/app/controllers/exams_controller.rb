@@ -12,23 +12,21 @@ class ExamsController < ApplicationController
     render json: @exams
   end
 
-  # Evaluates an exam
-  # FindOrCreate revision (if missed questions)
-  # Store the final answer for the user
   def evaluate
     @exam = Exam.find(params[:exam_id])
     questions = params[:questions]
 
-    score, questions_answered_incorrectly = Exams::Evaluate.perform(questions, @exam.questions.length)
-    Revisions::Create.perform(params[:exam_id], @user.id, questions_answered_incorrectly)
-    answer = Answer.find_or_create_by(
-      exam_id: params[:exam_id], 
-      user_id: @user.id, 
-      score:
-    )
-    answer.attempt
+    score, questions_answered_incorrectly = get_results(@exam, questions)
 
-    render json: { score: }, status: :created
+    begin
+      create_revision_if_needed(@exam.id, @user.id, questions_answered_incorrectly)
+      answer = create_answer(@exam.id, @user.id, score)
+      earn_rewards(answer, @user)
+
+      render json: { score: }, status: :created
+    rescue Exception => e
+      render json: { error: "Failed to evalute your test: #{e.message}" }, status: :bad_request
+    end
   end
 
   def create
@@ -72,5 +70,21 @@ class ExamsController < ApplicationController
 
   def index_params
     params.permit(:category)
+  end
+
+  def get_results(exam, questions)
+    Exams::Evaluate.perform(questions, exam.questions.length)
+  end
+
+  def create_revision_if_needed(exam_id, user_id, questions_answered_incorrectly)
+    Revisions::Create.perform(exam_id, user_id, questions_answered_incorrectly)
+  end
+
+  def create_answer(exam_id, user_id, score)
+    Answers::Create.perform(exam_id, user_id, score)
+  end
+
+  def earn_rewards(last_answer, user)
+    Rewards::Earn.perform(last_answer, user)
   end
 end

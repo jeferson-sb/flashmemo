@@ -10,7 +10,7 @@ module Exams
         questions.each do |question|
           option = Option.where(question_id: question[:id], correct: true).first
 
-          if option.id == question[:option_id]
+          if option.id == question[:option_id].to_i
             points += 1.0
           else
             questions_answered_incorrectly << question[:id]
