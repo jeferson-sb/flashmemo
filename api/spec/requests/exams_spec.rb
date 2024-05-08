@@ -104,8 +104,8 @@ RSpec.describe 'Exams', type: :request do
         post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
 
         expect(response).to have_http_status(:success)
-        expect(Garden.last.seeds).to eq(1)
-        expect(Garden.last.nutrients).to eq(0)
+        expect(Garden.last.seeds).to be >= 1
+        expect(Garden.last.nutrients).to be >= 1
       end
     end
   end

@@ -14,7 +14,7 @@ RSpec.describe 'Revisions', type: :request do
 
     it 'returns an revision successfully' do
       get '/api/revisions/1.json', headers: { 'Authorization' => "Bearer #{token}" }
-  
+
       expect(json_body).to include('exam_id')
       expect(json_body).to include('user_id')
       expect(json_body).to include('questions')
@@ -48,6 +48,36 @@ RSpec.describe 'Revisions', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('score')
+      end
+
+      it 'register a new answer' do
+        expect do
+          post('/api/revisions/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+        end.to change(Answer, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    describe 'when garden exists' do
+      let!(:garden) { create(:garden, user_id: user.id) }
+      let(:params) do
+        {
+          questions: [
+            {
+              id: question.id,
+              option_id: option.id
+            }
+          ]
+        }
+      end
+
+      it 'save new seeds to garden' do
+        post('/api/revisions/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+
+        expect(response).to have_http_status(:success)
+        expect(Garden.last.seeds).to be >= 1
+        expect(Garden.last.nutrients).to be >= 1
       end
     end
   end
