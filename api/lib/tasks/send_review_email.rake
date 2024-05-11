@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
 =begin 
-Trigger a notification based on reinforce learning, 
-so weed to trigger once for the following intervals:
+Trigger a notification based on reinforcing learning, 
+so need to trigger once for the following intervals:
 
 1st time: 3 days
-2st time: 1 week
-3st time: 1 month
+2nd time: 1 week
+3rd time: 1 month
 
-The interval will then be incremented once the user accessed the link sent and 
-answer the revision
+The interval will then be incremented once the user accesses the link sent, and answer the revision
 =end
 
 namespace :send_review_email do
