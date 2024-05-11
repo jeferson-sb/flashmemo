@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :revision do
     association :user
     association :exam
+    interval_level { 1 }
 
     transient do
       questions_count { 3 }

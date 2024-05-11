@@ -6,12 +6,14 @@ RSpec.describe 'Answers', type: :request do
   let(:json_body) do
     JSON.parse(response.body)
   end
+  let!(:user) { create(:user) }
+  let!(:token) { JsonWebToken.encode(user_id: user.id) }
 
   describe 'GET /:id' do
     let(:answer) { create(:answer) }
 
     it 'returns a user-exam answer' do
-      get answer_path(id: answer.id)
+      get answer_path(id: answer.id), headers: { 'Authorization' => "Bearer #{token}" }
 
       expect(response).to be_successful
       expect(json_body).to include('score')
@@ -31,7 +33,7 @@ RSpec.describe 'Answers', type: :request do
     end
 
     it 'creates a new answers' do
-      post('/api/answers.json', params:)
+      post('/api/answers.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
 
       expect(response).to be_successful
     end
@@ -44,7 +46,7 @@ RSpec.describe 'Answers', type: :request do
       end
 
       it 'return error message' do
-        post('/api/answers.json', params:)
+        post('/api/answers.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_body).to include('error')

@@ -10,13 +10,14 @@ describe 'send_review_email:all' do
 
   describe 'when having enough questions and answer is in valid interval' do
     let!(:rev_with_questions) { create(:revision, :with_questions, id: 2) }
-    let!(:answer) {
+    let!(:answer) do
       create(:answer,
-        exam_id: rev_with_questions.exam.id,
-        interval_level: 1,
-        last_attempted_at: 3.days.ago
+             user_id: rev_with_questions.user.id,
+             exam_id: rev_with_questions.exam.id,
+             score: 50,
+             created_at: 3.days.ago
       )
-    }
+    end
 
     it 'sends review email for revision' do
       allow(NotificationMailer).to receive_message_chain(:with, :review_email, :deliver_now)
