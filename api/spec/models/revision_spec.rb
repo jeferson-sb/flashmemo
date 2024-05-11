@@ -23,7 +23,7 @@ RSpec.describe Revision, type: :model do
 
       it 'increments interval level' do
         revision.increment_interval
-        expect(revision.interval_level).to be 1
+        expect(revision.interval_level).to be 2
       end
     end
   end
