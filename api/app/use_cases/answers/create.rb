@@ -4,12 +4,11 @@ module Answers
   class Create
     class << self
       def perform(exam_id, user_id, score)
-        answer = Answer.find_or_create_by(
+        answer = Answer.create(
           exam_id:,
           user_id:,
+          score:,
         )
-        answer.score = score
-        answer.attempt
         answer
       end
     end

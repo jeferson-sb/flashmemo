@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
+  before_action :authenticate_request
+
   def show
     @answer = Answer.find(params[:id])
 
