@@ -8,6 +8,8 @@ class Answer < ApplicationRecord
   validates :exam, presence: true
   validates :score, presence: true
 
+  scope :per_user_exam, ->(user_id, exam_id) { where(user_id:, exam_id:) }
+
   def last_attempted_over_a_day?
     Time.now - created_at > 1.day
   end
