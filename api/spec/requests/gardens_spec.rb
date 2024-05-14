@@ -6,7 +6,7 @@ RSpec.describe 'Gardens', type: :request do
   let(:json_body) do
     JSON.parse(response.body)
   end
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
   let(:token) { JsonWebToken.encode(user_id: user.id) }
 
   describe 'GET /' do
