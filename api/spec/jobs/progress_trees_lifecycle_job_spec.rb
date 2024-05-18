@@ -3,5 +3,31 @@
 require 'rails_helper'
 
 RSpec.describe ProgressTreesLifecycleJob, type: :job do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#perform' do
+
+    describe 'when tree age < 30' do
+      let(:tree) { create(:tree, created_at: 5.days.ago) }
+  
+      it 'seed -> growing' do
+        expect { described_class.perform_now }.to change { tree.reload.phase }.to("growing")
+      end
+    end
+
+    describe 'when tree age < 90' do
+      let!(:tree) { create(:tree, created_at: 70.days.ago) }
+  
+      it 'growing -> mature' do
+        expect { described_class.perform_now }.to change { tree.reload.phase }.to("mature")
+      end
+    end
+
+    describe 'when tree age > 90' do
+      let!(:tree) { create(:tree, created_at: 100.days.ago) }
+  
+      it 'mature -> fall' do
+        expect { described_class.perform_now }.to change { tree.reload.phase }.to("fall")
+      end
+    end
+
+  end
 end
