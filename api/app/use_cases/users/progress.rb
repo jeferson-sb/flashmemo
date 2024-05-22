@@ -6,7 +6,7 @@ module Users
       def perform(answers)
         total_score = answers.sum(&:score)
         average_score = answers.empty? ? 0 : total_score.to_f / answers.length
-        exam_ids = answers.map(&:exam_id)
+        exam_ids = answers.map(&:exam_id).uniq
 
         [average_score, exam_ids]
       end

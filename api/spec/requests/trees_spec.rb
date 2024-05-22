@@ -8,7 +8,7 @@ RSpec.describe 'Trees', type: :request do
   end
 
   describe 'GET /' do
-    before { create_list(:tree, 5) }
+    let!(:trees) { create_list(:tree, 5) }
 
     it 'returns all trees' do
       get '/api/trees.json'
@@ -19,7 +19,7 @@ RSpec.describe 'Trees', type: :request do
   end
 
   describe 'GET /:id' do
-    before { create(:tree, id: 1) }
+    let!(:tree) { create(:tree, id: 1) }
 
     it 'returns a tree successfully' do
       get '/api/trees/1.json'

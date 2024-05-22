@@ -25,7 +25,7 @@ RSpec.describe 'Revisions', type: :request do
 
   describe 'POST /:id/evaluate' do
     let!(:user) { create(:user) }
-    let!(:revision) { create(:revision, :with_questions, id: 1) }
+    let!(:revision) { create(:revision, :with_questions, user: user, id: 1) }
     let!(:token) { JsonWebToken.encode(user_id: user.id) }
 
     let(:question) { revision.questions.first }
