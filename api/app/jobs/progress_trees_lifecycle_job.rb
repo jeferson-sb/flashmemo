@@ -14,9 +14,12 @@ class ProgressTreesLifecycleJob < ApplicationJob
     Tree.find_each do |tree|
       life_start = tree.created_at
       days_age = (Date.today - life_start.to_date).to_i
+      new_phase = grow_up(days_age)
 
-      tree.phase = grow_up(days_age)
-      tree.save!
+      if tree.phase != new_phase
+        tree.phase = new_phase
+        tree.save!
+      end
     end
   end
 
