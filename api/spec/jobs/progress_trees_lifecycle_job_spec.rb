@@ -29,5 +29,13 @@ RSpec.describe ProgressTreesLifecycleJob, type: :job do
       end
     end
 
+    describe 'when tree age < 3' do
+      let(:tree) { create(:tree, created_at: 2.days.ago) }
+  
+      it 'stay in seed phase' do
+        expect { described_class.perform_now }.not_to change { tree.reload.phase }.from("seed")
+      end
+    end
+
   end
 end
