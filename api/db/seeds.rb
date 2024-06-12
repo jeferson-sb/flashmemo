@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
-5.times do |_i|
-  Question.create(title: Faker::Lorem.question)
-end
+require_relative 'seeder'
 
-10.times do |_i|
-  Option.create(text: Faker::Lorem.sentence, correct: false, question_id: Question.pluck(:id).sample)
-end
+seeder = Seeder.new(
+  User,
+  Category,
+  Garden,
+  Tree,
+  Question,
+  Option,
+  Exam
+)
+
+seeder.seed!
+
+puts "\nDone! 🎉"

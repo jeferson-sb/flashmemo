@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :exam do
-    title { Faker::Lorem.word }
+    title { Faker::Book.title }
     difficulty { %i[beginner intermediate advanced].sample }
     version { 1 }
 
