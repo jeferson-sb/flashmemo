@@ -24,8 +24,8 @@ class ExamsController < ApplicationController
       earn_rewards(answer, @user)
 
       render json: { score: }, status: :created
-    rescue Exception => e
-      render json: { error: "Failed to evalute your test: #{e.message}" }, status: :bad_request
+    rescue StandardError => e
+      render json: { error: I18n.t('error.failed_evaluate', reason: e.message) }, status: :bad_request
     end
   end
 
@@ -39,7 +39,7 @@ class ExamsController < ApplicationController
         @exam.questions << @question
       end
 
-      render json: { message: 'Exam successfully created.' }, status: :created
+      render json: { message: I18n.t('success.created', entity: Exam.model_name.human) }, status: :created
     else
       message = @exam.errors
       render json: { error: message }, status: :unprocessable_entity
@@ -50,15 +50,15 @@ class ExamsController < ApplicationController
     @exam = Exam.find(params[:exam_id])
     duos = Questions::Duos.duos(@exam.questions)
 
-    render json: { title: 'Match the duos', duos: }
+    render json: { title: I18n.t('match_the_duos'), duos: }
   end
 
   def evaluate_duos
     ans = Questions::Duos.evaluate(params[:duos])
     if ans
-      render json: { message: 'Well done!' }
+      render json: { message: I18n.t('well_done') }
     else
-      render json: { message: 'Oops, try again!' }, status: :bad_request
+      render json: { message: I18n.t('try_again') }, status: :bad_request
     end
   end
 

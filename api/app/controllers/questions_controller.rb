@@ -18,7 +18,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @question.destroy
 
-    render json: { message: 'Question successfully deleted.' }, status: :no_content
+    render json: { message: I18n.t('success.deleted', entity: Question.model_name.human) }, status: :no_content
   end
 
   def update
@@ -39,7 +39,7 @@ class QuestionsController < ApplicationController
     @question.options.build(create_params[:options])
 
     if @question.save
-      render json: { message: 'Question successfully created' }, status: :created
+      render json: { message: I18n.t('success.created', entity: Question.model_name.human) }, status: :created
     else
       message = @question.errors.full_messages_for(:options)
       render json: { error: message }, status: :unprocessable_entity

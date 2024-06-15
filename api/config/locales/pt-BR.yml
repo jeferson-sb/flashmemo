@@ -1,0 +1,31 @@
+pt:
+  activerecord:
+    models:
+      question:
+        one: Questão
+        other: Questões
+      user: Usuário
+      garden: Jardim
+      exam: Exame
+      answer:
+        one: Resposta
+        other: Respostas
+      category: Categoria
+    errors:
+      models:
+        user:
+          attributes:
+            name: Nome
+            username: Nome de usuário
+            email: E-mail
+  error:
+    unauthorized: Não autorizado
+    not_found: Não encontrado
+    not_found_entities: "Sem %{entity} para esse usuário."
+    failed_evaluate: "Falha ao avaliar o seu teste: %{reason}"
+  success:
+    created: "%{entity} criado com sucesso."
+    deleted: "%{entity} deletado com sucesso."
+  match_the_duos: Combine os pares
+  well_done: Excelente!
+  try_again: Oops, tente novamente!

@@ -15,7 +15,7 @@ class GardensController < ApplicationController
     @garden = Garden.new(user_id: @user.id, name: "#{@user.name}'s garden")
 
     if @garden.save
-      render json: { message: 'Garden successfully created.' }, status: :created
+      render json: { message: I18n.t('success.created', entity: Garden.model_name.human) }, status: :created
     else
       render json: { error: @garden.errors }, status: :unprocessable_entity
     end
@@ -26,9 +26,9 @@ class GardensController < ApplicationController
 
     begin
       Gardener::Plant.perform(@garden, plant_params[:name])
-      render json: { message: "Tree '#{plant_params[:name]}' successfully planted." }, status: :ok
-    rescue Exception => e
-      render json: { error: "Failed to plant: #{e.message}" }, status: :bad_request
+      render json: { message: I18n.t('success.planted', entity: Tree.model_name.human, name: plant_params[:name]) }
+    rescue StandardError => e
+      render json: { error: I18n.t('error.failed_plant', reason: e.message) }, status: :bad_request
     end
   end
 
@@ -38,9 +38,9 @@ class GardensController < ApplicationController
 
     begin
       Gardener::Nurture.perform(@tree, @garden, nutrients_params[:nutrients].to_i)
-      render json: { message: "Tree '#{@tree.name}' successfully fed." }, status: :ok
-    rescue Exception => e
-      render json: { error: "Failed to feed tree: #{e.message}" }, status: :bad_request
+      render json: { message: I18n.t('success.fed', entity: Tree.model_name.human, name: @tree.name) }
+    rescue StandardError => e
+      render json: { error: I18n.t('error.failed_feed', reason: e.message) }, status: :bad_request
     end
   end
 

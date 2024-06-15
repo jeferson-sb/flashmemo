@@ -1,33 +1,31 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   "true": "foo"
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  activerecord:
+    models:
+      question:
+        one: Question
+        other: Questions
+      user: User
+      garden: Garden
+      exam: Exam
+      tree: Tree
+      answer:
+        one: Answer
+        other: Answers
+      category: Category
+    attributes:
+      name: Namex
+  error:
+    unauthorized: Unauthorized
+    not_found: Not found
+    not_found_entities: "No %{entity} found for this user."
+    failed_evaluate: "Failed to evalute your test: %{reason}"
+    failed_feed: "Failed to feed tree: %{reason}"
+    failed_plant: "Failed to plant: %{reason}"
+  success:
+    created: "%{entity} successfully created."
+    deleted: "%{entity} successfully deleted."
+    planted: "%{entity} %{name} successfully planted."
+    fed: "%{entity} %{name} successfully fed."
+  match_the_duos: Match the duos
+  well_done: Well done!
+  try_again: Oops, try again!

@@ -15,11 +15,11 @@ class RevisionsController < ApplicationController
       score, = get_results(@revision, questions)
       answer = create_answer(@revision.exam.id, @user.id, score)
       earn_rewards(answer, @user)
-      
+
       @revision.increment_interval
       render json: { score: }, status: :created
-    rescue Exception => e
-      render json: { error: "Failed to evalute your test: #{e.message}" }, status: :bad_request
+    rescue StandardError => e
+      render json: { error: I18n.t('error.failed_evaluate', reason: e.message) }, status: :bad_request
     end
   end
 
