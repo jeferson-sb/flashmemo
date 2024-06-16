@@ -12,10 +12,9 @@ en:
         one: Answer
         other: Answers
       category: Category
-    attributes:
-      name: Namex
   error:
     unauthorized: Unauthorized
+    authentication_required: You need to log in first.
     not_found: Not found
     not_found_entities: "No %{entity} found for this user."
     failed_evaluate: "Failed to evalute your test: %{reason}"

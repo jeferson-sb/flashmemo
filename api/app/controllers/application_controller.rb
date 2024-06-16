@@ -24,8 +24,8 @@ class ApplicationController < ActionController::API
       @user = User.find(@decoded[:user_id])
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
-    rescue JWT::DecodeError => e
-      render json: { errors: e.message }, status: :unauthorized
+    rescue JWT::DecodeError => _e
+      render json: { errors: I18n.t('error.authentication_required') }, status: :unauthorized
     end
   end
 
