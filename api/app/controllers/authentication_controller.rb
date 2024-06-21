@@ -9,7 +9,7 @@ class AuthenticationController < ApplicationController
       token = JsonWebToken.encode(user_id: @user.id)
       render json: { token: }, status: :ok
     else
-      render json: { error: 'unauthorized' }, status: :unauthorized
+      render json: { error: I18n.t('error.unauthorized') }, status: :unauthorized
     end
   end
 end

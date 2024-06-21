@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(create_params)
 
     if @user.save
-      render json: { message: 'User successfully created.' }, status: :created
+      render json: { message: I18n.t('success.failed_evaluate', entity: User.model_name.human) }, status: :created
     else
       message = @user.errors
       render json: { error: message }, status: :unprocessable_entity
@@ -24,7 +24,8 @@ class UsersController < ApplicationController
 
       render json: { average:, exams: }, status: :ok
     else
-      render json: { error: 'No answers found for this user.' }, status: :not_found
+      render json: { error: I18n.t('error.not_found_entities', entity: Answer.model_name.human(count: 2)) },
+             status: :not_found
     end
   end
 

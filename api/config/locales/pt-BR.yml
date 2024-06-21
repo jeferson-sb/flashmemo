@@ -1,0 +1,38 @@
+pt:
+  activerecord:
+    models:
+      question:
+        one: Questão
+        other: Questões
+      user: Usuário
+      garden: Jardim
+      exam: Exame
+      tree: Árvore
+      answer:
+        one: Resposta
+        other: Respostas
+      category: Categoria
+    errors:
+      messages:
+        blank: não pode estar vazio
+        taken: já tomado
+        too_short: muito pequeno
+        too_long: muito grande
+        invalid: inválido
+        required: obrigatório
+  error:
+    unauthorized: Não autorizado
+    authentication_required: Você precisa estar logado.
+    not_found: Não encontrado
+    not_found_entities: "Sem %{entity} para esse usuário."
+    failed_evaluate: "Falha ao avaliar o seu teste: %{reason}"
+    failed_feed: "Falha ao alimentar árvore: %{reason}"
+    failed_plant: "Falha para plantar: %{reason}"
+  success:
+    created: "%{entity} criado com sucesso."
+    deleted: "%{entity} deletado com sucesso."
+    planted: "%{entity} %{name} plantado com sucesso."
+    fed: "%{entity} %{name} nutrido com sucesso."
+  match_the_duos: Combine os pares
+  well_done: Excelente!
+  try_again: Oops, tente novamente!

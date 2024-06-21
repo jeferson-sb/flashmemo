@@ -13,7 +13,7 @@ class AnswersController < ApplicationController
     @answer = Answer.new(create_params)
 
     if @answer.save
-      render json: { message: 'Answer successfully created.' }, status: :created
+      render json: { message: I18n.t('success.created', entity: Answer.model_name.human) }, status: :created
     else
       message = @answer.errors
       render json: { error: message }, status: :unprocessable_entity

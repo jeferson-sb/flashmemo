@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(create_params)
 
     if @category.save
-      render json: { message: 'Category successfully created.' }, status: :created
+      render json: { message: I18n.t('success.created', entity: Category.model_name.human) }, status: :created
     else
       message = @category.errors
       render json: { error: message }, status: :unprocessable_entity
