@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
-=begin 
-Trigger a notification based on reinforcing learning, 
-so need to trigger once for the following intervals:
-
-1st time: 3 days
-2nd time: 1 week
-3rd time: 1 month
-
-The interval will then be incremented once the user accesses the link sent, and answer the revision
-=end
+#
+# Trigger a notification based on reinforcing learning,
+# so need to trigger once for the following intervals:
+#
+# 1st time: 3 days
+# 2nd time: 1 week
+# 3rd time: 1 month
+#
+# The interval will then be incremented once the user accesses the link sent, and answer the revision
 
 namespace :send_review_email do
   desc 'Send review email to answer revision'

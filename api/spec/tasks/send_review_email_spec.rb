@@ -15,8 +15,7 @@ describe 'send_review_email:all' do
              user_id: rev_with_questions.user.id,
              exam_id: rev_with_questions.exam.id,
              score: 50,
-             created_at: 3.days.ago
-      )
+             created_at: 3.days.ago)
     end
 
     it 'sends review email for revision' do

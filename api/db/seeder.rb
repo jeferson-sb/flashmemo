@@ -66,7 +66,7 @@ class Seeder
     return if skip?(Question)
 
     log 'Seeding Question'
-    count = exam_count * rand(2..4) 
+    count = exam_count * rand(2..4)
     attrs = FactoryBot.attributes_for_list(:question, count).map do |attributes|
       attributes.merge(exam_id: exam_ids.sample)
     end

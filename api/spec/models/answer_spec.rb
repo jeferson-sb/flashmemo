@@ -15,7 +15,7 @@ RSpec.describe Answer, type: :model do
   describe '.last_attempted_over_a_day' do
     context 'when newly created' do
       let(:answer) { create(:answer) }
-  
+
       it 'reject' do
         expect(answer.last_attempted_over_a_day?).to be false
       end
@@ -23,7 +23,7 @@ RSpec.describe Answer, type: :model do
 
     context 'when newly created' do
       let(:answer) { create(:answer, created_at: 2.days.ago) }
-  
+
       it 'accept' do
         expect(answer.last_attempted_over_a_day?).to be true
       end

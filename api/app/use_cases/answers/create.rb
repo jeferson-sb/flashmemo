@@ -4,12 +4,11 @@ module Answers
   class Create
     class << self
       def perform(exam_id, user_id, score)
-        answer = Answer.create(
+        Answer.create(
           exam_id:,
           user_id:,
-          score:,
+          score:
         )
-        answer
       end
     end
   end

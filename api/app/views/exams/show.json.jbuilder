@@ -15,6 +15,5 @@ json.questions @exam.questions do |question|
   json.options question.options do |option|
     json.id option.id
     json.text option.text
-    json.correct option.correct
   end
 end

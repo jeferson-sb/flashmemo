@@ -9,7 +9,7 @@ module Gardener
         create_tree(garden, name)
         consume_seed(garden)
       end
-      
+
       private
 
       def insufficient_seeds?(garden)
