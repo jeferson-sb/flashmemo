@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     end
     resources :questions do
       get 'random', on: :collection
+      post 'bulk', on: :collection
     end
     resources :exams, only: %i[index show create] do
       post '/evaluate', to: 'exams#evaluate'

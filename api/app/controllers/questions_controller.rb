@@ -46,6 +46,18 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def bulk
+    questions = bulk_params[:questions]
+
+    begin
+      bulk_create_questions(questions)
+      render json: { message: I18n.t('success.created', entity: Question.model_name.human(count: 2)) }, status: :created
+    rescue StandardError => e
+      render json: { error: I18n.t('failed.creation', entity: Question.model_name.human(count: 2)), reason: e.message },
+             status: :bad_request
+    end
+  end
+
   private
 
   def question_update_params
@@ -54,5 +66,13 @@ class QuestionsController < ApplicationController
 
   def create_params
     params.permit(:title, :exam_id, :has_duo, options: %i[text correct])
+  end
+
+  def bulk_params
+    params.permit(questions: [:title, { options: %i[text correct] }])
+  end
+
+  def bulk_create_questions(questions)
+    Questions::Bulk.create(questions)
   end
 end

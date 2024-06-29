@@ -132,4 +132,69 @@ RSpec.describe 'Questions', type: :request do
       end
     end
   end
+
+  describe 'POST /questions/bulk' do
+    let(:valid_options) do
+      [
+        {
+          text: Faker::Lorem.sentence,
+          correct: true
+        },
+        {
+          text: Faker::Lorem.sentence,
+          correct: false
+        }
+      ]
+    end
+    let(:invalid_options) do
+      [
+        {
+          text: Faker::Lorem.sentence,
+          correct: true
+        }
+      ]
+    end
+
+    describe 'when options are valid' do
+      let(:params) do
+        { questions: [
+          {
+            title: Faker::Lorem.question,
+            options: valid_options
+          },
+          {
+            title: Faker::Lorem.question,
+            options: valid_options
+          }
+        ] }
+      end
+
+      it 'creates all questions' do
+        post('/api/questions/bulk.json', params:)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'when invalid options' do
+      let(:params) do
+        { questions: [
+          {
+            title: 'What is DDD?',
+            options: valid_options
+          },
+          {
+            title: 'What defines a bounded context?',
+            options: invalid_options
+          }
+        ] }
+      end
+
+      it 'returns an error message' do
+        post('/api/questions/bulk.json', params:)
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json_body).to include('error')
+      end
+    end
+  end
 end
