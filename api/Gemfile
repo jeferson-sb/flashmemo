@@ -62,5 +62,3 @@ gem 'jwt', '~> 2.7'
 gem 'rmagick', '~> 5.3'
 
 gem 'pg', '~> 1.1'
-
-gem "timecop", "~> 0.9.10"

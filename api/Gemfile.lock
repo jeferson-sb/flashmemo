@@ -222,7 +222,6 @@ GEM
       activesupport (>= 5.2.0)
     sqlite3 (1.6.2-x86_64-linux)
     thor (1.2.1)
-    timecop (0.9.10)
     timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -255,7 +254,6 @@ DEPENDENCIES
   rubocop-rspec (~> 2.22)
   shoulda-matchers (~> 5.1)
   sqlite3 (~> 1.4)
-  timecop (~> 0.9.10)
   tzinfo-data
   whenever (~> 1.0)
 
