@@ -20,6 +20,8 @@ en:
     failed_evaluate: "Failed to evalute your test: %{reason}"
     failed_feed: "Failed to feed tree: %{reason}"
     failed_plant: "Failed to plant: %{reason}"
+  failed:
+    creation: "Failed to create %{entity}"
   success:
     created: "%{entity} successfully created."
     deleted: "%{entity} successfully deleted."

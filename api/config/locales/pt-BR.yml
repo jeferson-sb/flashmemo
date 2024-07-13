@@ -28,6 +28,8 @@ pt:
     failed_evaluate: "Falha ao avaliar o seu teste: %{reason}"
     failed_feed: "Falha ao alimentar árvore: %{reason}"
     failed_plant: "Falha para plantar: %{reason}"
+  failed:
+    creation: "Falha ao criar %{entity}"
   success:
     created: "%{entity} criado com sucesso."
     deleted: "%{entity} deletado com sucesso."

@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Exams', type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:json_body) do
     JSON.parse(response.body)
   end
@@ -101,6 +103,8 @@ RSpec.describe 'Exams', type: :request do
       end
 
       it 'save new seeds to garden' do
+        travel_to Time.zone.parse('2024-05-01 00:20:00')
+
         post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
 
         expect(response).to have_http_status(:success)
