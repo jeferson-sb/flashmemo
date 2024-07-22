@@ -24,12 +24,10 @@ jobs:
           bundler-cache: true
 
       - name: Run docker
-        run: docker compose up -d
+        run: cp .env.example .env && docker compose up -d
 
       - name: Set up database schema
-        run: docker compose run api rails db:create \
-          docker compose run api rails RAILS_ENV=test db:migrate \
-          docker compose run api rails db:schema:load
+        run: RAILS_ENV=test docker compose run api rails db:create db:migrate db:schema:load
 
       - name: Run tests
         run: bundle exec rspec
