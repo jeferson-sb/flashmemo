@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(create_params)
 
     if @user.save
-      render json: { message: I18n.t('success.failed_evaluate', entity: User.model_name.human) }, status: :created
+      render json: { message: I18n.t('success.created', entity: User.model_name.human) }, status: :created
     else
       message = @user.errors
       render json: { error: message }, status: :unprocessable_entity
