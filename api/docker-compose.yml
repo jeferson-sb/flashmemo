@@ -7,8 +7,11 @@ services:
       DB_USER: ${POSTGRES_USER}
       DB_PASS: ${POSTGRES_DB_PASS}
       DB_HOST: ${POSTGRES_DB_HOST}
+      PIDFILE: /tmp/pids/server.pid
     volumes:
       - .:/usr/app
+    tmpfs:
+      - /tmp/pids/
     ports:
       - 3000:3000
     depends_on:
