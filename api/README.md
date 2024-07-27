@@ -1,21 +1,38 @@
 # Rails API
+
+## Regular Setup
+
 ```
 bin/bundle install
 ```
 
-## Database setup
+### Database setup
 
 ```
-docker-compose up -d
-bin/rails db:create
-bin/rails db:migrate
-bin/rails db:seed
+rails db:create
+rails db:migrate
+rails db:seed
 ```
 
-## Server
+### Start server
 
 ```
 bin/rails s
+```
+
+## Docker setup
+
+```sh
+cp .env.example .env # Fill with your details
+docker compose up --build
+```
+
+### Database setup
+
+```sh
+docker compose run api rails db:create
+docker compose run api rails db:migrate
+docker compose run api rails db:seed
 ```
 
 ## Tests

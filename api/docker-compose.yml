@@ -1,12 +1,29 @@
-version: '3'
 services:
+  api:
+    container_name: flashmemo_api
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      DB_USER: ${POSTGRES_USER}
+      DB_PASS: ${POSTGRES_DB_PASS}
+      DB_HOST: ${POSTGRES_DB_HOST}
+      PIDFILE: /tmp/pids/server.pid
+    volumes:
+      - .:/usr/app
+    tmpfs:
+      - /tmp/pids/
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgresql
+
   postgresql:
     container_name: flashmemo_postgresql
     image: postgres:15
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=sekret
+      - POSTGRES_PASSWORD=${POSTGRES_DB_PASS}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - ./tmp/database/postgresql:/var/lib/postgresql/data
