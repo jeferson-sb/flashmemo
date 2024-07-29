@@ -30,3 +30,4 @@ en:
   match_the_duos: Match the duos
   well_done: Well done!
   try_again: Oops, try again!
+  not_avaliable: "No %{entity} avaliable yet."

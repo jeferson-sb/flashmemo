@@ -12,6 +12,10 @@ class QuestionsController < ApplicationController
 
   def random
     @question = Question.all.sample
+
+    return if @question
+
+    render json: { message: I18n.t('not_avaliable', entity: Question.model_name.human(count: 2)) }
   end
 
   def destroy

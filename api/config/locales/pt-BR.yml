@@ -38,3 +38,4 @@ pt:
   match_the_duos: Combine os pares
   well_done: Excelente!
   try_again: Oops, tente novamente!
+  not_avaliable: "%{entity} ainda não estão disponíveis"

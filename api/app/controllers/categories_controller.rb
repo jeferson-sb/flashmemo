@@ -2,7 +2,7 @@
 
 class CategoriesController < ApplicationController
   def create
-    @category = Category.new(create_params)
+    @category = Category.new(title: create_params[:title].strip.downcase)
 
     if @category.save
       render json: { message: I18n.t('success.created', entity: Category.model_name.human) }, status: :created
