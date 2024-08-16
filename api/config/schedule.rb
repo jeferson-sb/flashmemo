@@ -7,3 +7,11 @@ set :output, "#{path}/log/cron.log"
 every :day do
   rake 'send_review_email:all'
 end
+
+every :day do
+  runner 'ProgressTreesLifecycleJob.perform_later'
+end
+
+every :week do
+  runner 'DecayTreeHealthJob.perform_later'
+end
