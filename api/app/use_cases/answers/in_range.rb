@@ -3,6 +3,8 @@
 module Answers
   class InRange
     class << self
+      MONTH = { january: 1, june: 6, july: 7, december: 12 }.freeze
+
       def perform(user_id, period)
         start_date, end_date = get_dates(period)
 

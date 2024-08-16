@@ -3,8 +3,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_request, except: [:create]
 
-  MONTH = { january: 1, june: 6, july: 7, december: 12 }.freeze
-
   def create
     @user = User.new(create_params)
 
