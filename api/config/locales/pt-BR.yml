@@ -12,6 +12,7 @@ pt:
         one: Resposta
         other: Respostas
       category: Categoria
+      journal: Diário
     errors:
       messages:
         blank: não pode estar vazio
@@ -39,3 +40,4 @@ pt:
   well_done: Excelente!
   try_again: Oops, tente novamente!
   not_avaliable: "%{entity} ainda não estão disponíveis"
+  daily_journal: "Seu diário"

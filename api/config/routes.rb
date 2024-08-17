@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :gardens, only: %i[index show create] do
       post '/plant', to: 'gardens#plant'
       post '/nurture', to: 'gardens#nurture'
+      get '/journal', to: 'gardens#journal'
     end
     resources :trees, only: %i[index show]
   end

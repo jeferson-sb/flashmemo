@@ -44,6 +44,15 @@ class GardensController < ApplicationController
     end
   end
 
+  def journal
+    @garden = Garden.find(params[:garden_id])
+    answers = Answers::InRange.perform(@user.id, 'monthly')
+    @surprise_question = Question.surprise_question
+    return if answers.empty?
+
+    @score = Users::Progress.perform(answers)
+  end
+
   private
 
   def plant_params
