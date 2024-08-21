@@ -11,6 +11,7 @@ RSpec.describe Question, type: :model do
 
   describe 'relations' do
     it { is_expected.to have_many(:options) }
+    it { is_expected.to have_many(:surprise_question_answers) }
     it { is_expected.to have_and_belong_to_many(:exams) }
   end
 end

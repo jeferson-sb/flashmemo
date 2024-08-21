@@ -50,7 +50,7 @@ class GardensController < ApplicationController
     @surprise_question = Question.surprise_question
     return if answers.empty?
 
-    @score = Users::Progress.perform(answers)
+    @score, _ = Users::Progress.perform(answers)
   end
 
   private

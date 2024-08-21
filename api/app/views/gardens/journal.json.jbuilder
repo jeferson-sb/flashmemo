@@ -7,7 +7,7 @@ json.stock do
   json.seeds @garden.seeds
   json.nutrients @garden.nutrients
 end
-json.mothly_progress_score @score || 0
+json.monthly_progress_score @score || 0
 
 if @surprise_question
   json.surprise_question do

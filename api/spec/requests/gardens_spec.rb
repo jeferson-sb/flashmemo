@@ -148,4 +148,35 @@ RSpec.describe 'Gardens', type: :request do
       end
     end
   end
+
+  describe 'GET /:id/journal' do
+    describe 'when garden avaliable' do
+      let!(:garden) { create(:garden, :with_trees, seeds: 2) }
+      let(:tree) { create(:tree) }
+  
+      it 'returns default garden journal summary' do
+        get "/api/gardens/#{garden.id}/journal.json", headers: { 'Authorization' => "Bearer #{token}" }
+  
+        expect(response).to have_http_status(:success)
+        expect(json_body).to include('today')
+        expect(json_body['message']).to include('Your daily journal')
+        expect(json_body['trees_count']).to eq(2)
+        expect(json_body['stock']['seeds']).to eq(2)
+        expect(json_body['stock']['nutrients']).to eq(0)
+      end
+    end
+
+    describe 'when answers are avaliable' do
+      let!(:garden) { create(:garden) }
+      let!(:answers) { create_list(:answer, 5, user:, created_at: Time.now) }
+
+      it 'returns journal with monthly question' do
+        get "/api/gardens/#{garden.id}/journal.json", headers: { 'Authorization' => "Bearer #{token}" }
+  
+        expect(response).to have_http_status(:success)
+        expect(json_body).to include('monthly_progress_score')
+        expect(json_body['monthly_progress_score']).to be > 0
+      end
+    end
+  end
 end
