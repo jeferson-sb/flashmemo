@@ -153,10 +153,10 @@ RSpec.describe 'Gardens', type: :request do
     describe 'when garden avaliable' do
       let!(:garden) { create(:garden, :with_trees, seeds: 2) }
       let(:tree) { create(:tree) }
-  
+
       it 'returns default garden journal summary' do
         get "/api/gardens/#{garden.id}/journal.json", headers: { 'Authorization' => "Bearer #{token}" }
-  
+
         expect(response).to have_http_status(:success)
         expect(json_body).to include('today')
         expect(json_body['message']).to include('Your daily journal')
@@ -172,10 +172,62 @@ RSpec.describe 'Gardens', type: :request do
 
       it 'returns journal with monthly question' do
         get "/api/gardens/#{garden.id}/journal.json", headers: { 'Authorization' => "Bearer #{token}" }
-  
+
         expect(response).to have_http_status(:success)
         expect(json_body).to include('monthly_progress_score')
         expect(json_body['monthly_progress_score']).to be > 0
+      end
+    end
+  end
+
+  describe 'POST /:id/journal/surprise_question' do
+    let!(:garden) { create(:garden, :with_trees, user_id: user.id, seeds: 2) }
+    let!(:surprise_question) { create(:question, :with_options) }
+
+    before do
+      surprise_question.mark_as_surprise_question
+    end  
+
+    describe 'when wrong answer' do
+      let(:params) do
+        { answer: 1 }
+      end
+
+      it 'return error message' do
+        post "/api/gardens/#{garden.id}/journal/surprise_question", params:, headers: { 'Authorization' => "Bearer #{token}" }
+  
+        expect(response).to have_http_status(:success)
+        expect(json_body['result']).to eq("Oops, try again!")
+      end
+    end
+
+    describe 'when correct answer' do
+      let(:params) do
+        { answer: surprise_question.options.first.id }
+      end
+
+      it 'return with bonus earned' do
+        post "/api/gardens/#{garden.id}/journal/surprise_question", params:, headers: { 'Authorization' => "Bearer #{token}" }
+  
+        expect(response).to have_http_status(:success)
+        expect(json_body['result']).to include("Great! You just won")
+      end
+    end
+
+    describe 'when max attempts reached' do
+      before do
+        create_list(:surprise_question_answer, 3, user_id: user.id, question_id: surprise_question.id)
+      end
+
+      let(:params) do
+        { answer: surprise_question.options.first.id }
+      end
+
+      it 'return error message' do
+        post "/api/gardens/#{garden.id}/journal/surprise_question", params:, headers: { 'Authorization' => "Bearer #{token}" }
+  
+        expect(response).to have_http_status(:success)
+        expect(json_body['error']).to eq("Reached limit attempts for this user!")
       end
     end
   end

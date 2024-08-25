@@ -132,6 +132,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_17_212900) do
   create_table "surprise_question_answers", force: :cascade do |t|
     t.bigint "question_id", null: false
     t.bigint "user_id", null: false
+    t.boolean "winner", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_surprise_question_answers_on_question_id"

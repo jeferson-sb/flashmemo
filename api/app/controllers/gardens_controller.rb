@@ -50,7 +50,26 @@ class GardensController < ApplicationController
     @surprise_question = Question.surprise_question
     return if answers.empty?
 
-    @score, _ = Users::Progress.perform(answers)
+    @score, = Users::Progress.perform(answers)
+  end
+
+  def evaluate_surprise_question
+    user_answer = params[:answer]
+
+    @question = Question.surprise_question
+
+    return render json: { error: I18n.t('error.max_attempts') } if max_attempts_reached?(@question)
+
+    expected = @question.options.find_by(correct: true).id
+    is_winner = user_answer.to_i == expected
+
+    SurpriseQuestionAnswer.create(question_id: @question.id, user_id: @user.id, winner: is_winner)
+
+    if is_winner
+      render json: { result: I18n.t('success.won_seeds', seeds: draw_seeds) }
+    else
+      render json: { result: I18n.t('try_again') }
+    end
   end
 
   private
@@ -61,5 +80,15 @@ class GardensController < ApplicationController
 
   def nutrients_params
     params.permit(:tree_id, :nutrients)
+  end
+
+  def max_attempts_reached?(question)
+    attempts = SurpriseQuestionAnswer.per_user(@user.id, question.id).count
+    attempts >= SurpriseQuestionAnswer::MAX_ATTEMPTS
+  end
+
+  def draw_seeds
+    distributor = Rewards::Distribute.new(@user.garden)
+    Rewards::QuickPrize.draw(distributor)
   end
 end

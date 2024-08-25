@@ -29,6 +29,7 @@ pt:
     failed_evaluate: "Falha ao avaliar o seu teste: %{reason}"
     failed_feed: "Falha ao alimentar árvore: %{reason}"
     failed_plant: "Falha para plantar: %{reason}"
+    max_attempts: "Você chegou no seu limite de tentativas para essa questão"
   failed:
     creation: "Falha ao criar %{entity}"
   success:
@@ -36,6 +37,7 @@ pt:
     deleted: "%{entity} deletado com sucesso."
     planted: "%{entity} %{name} plantado com sucesso."
     fed: "%{entity} %{name} nutrido com sucesso."
+    won_seeds: "Boa! Você ganhou %{seeds} sementes. Faça bom uso!"
   match_the_duos: Combine os pares
   well_done: Excelente!
   try_again: Oops, tente novamente!
