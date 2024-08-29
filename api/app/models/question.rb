@@ -6,10 +6,21 @@ class Question < ApplicationRecord
   validates :title, presence: true
 
   has_many :options, dependent: :destroy
+  has_many :surprise_question_answers, dependent: :destroy
   has_and_belongs_to_many :exams
   has_one_attached :image
 
   validate :validate_image
+
+  scope :surprise_question_active, -> { where(is_limited_between: Date.current..1.week.from_now) }
+
+  def self.surprise_question
+    surprise_question_active.last
+  end
+
+  def mark_as_surprise_question
+    update(is_limited_between: Date.current..1.week.from_now)
+  end
 
   private
 

@@ -2,14 +2,14 @@
 
 module Rewards
   class Distribute
-    def initialize(garden_id)
-      @garden_id = garden_id
+    def initialize(garden)
+      @garden = garden
     end
 
-    def earn(garden, seeds, nutrients)
-      garden.seeds += seeds
-      garden.nutrients += nutrients
-      garden.save!
+    def earn(seeds, nutrients)
+      @garden.seeds += seeds
+      @garden.nutrients += nutrients
+      @garden.save!
     end
   end
 end

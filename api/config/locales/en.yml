@@ -12,6 +12,7 @@ en:
         one: Answer
         other: Answers
       category: Category
+      journal: Journal
   error:
     unauthorized: Unauthorized
     authentication_required: You need to log in first.
@@ -20,6 +21,7 @@ en:
     failed_evaluate: "Failed to evalute your test: %{reason}"
     failed_feed: "Failed to feed tree: %{reason}"
     failed_plant: "Failed to plant: %{reason}"
+    max_attempts: "Reached limit attempts for this user!"
   failed:
     creation: "Failed to create %{entity}"
   success:
@@ -27,7 +29,9 @@ en:
     deleted: "%{entity} successfully deleted."
     planted: "%{entity} %{name} successfully planted."
     fed: "%{entity} %{name} successfully fed."
+    won_seeds: "Great! You just won %{seeds} seeds. Use wisely!"
   match_the_duos: Match the duos
   well_done: Well done!
   try_again: Oops, try again!
   not_avaliable: "No %{entity} avaliable yet."
+  daily_journal: "Your daily journal"

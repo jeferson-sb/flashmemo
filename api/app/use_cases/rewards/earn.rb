@@ -16,8 +16,8 @@ module Rewards
                                                is_review: revision
                                              })
 
-        distributor = Rewards::Distribute.new(user.garden.id)
-        distributor.earn(user.garden, seeds, nutrients)
+        distributor = Rewards::Distribute.new(user.garden)
+        distributor.earn(seeds, nutrients)
       end
     end
   end

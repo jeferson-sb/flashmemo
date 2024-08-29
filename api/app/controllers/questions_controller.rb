@@ -69,7 +69,7 @@ class QuestionsController < ApplicationController
   end
 
   def create_params
-    params.permit(:title, :exam_id, :has_duo, options: %i[text correct])
+    params.permit(:title, :exam_id, :has_duo, :is_limited_between, options: %i[text correct])
   end
 
   def bulk_params
