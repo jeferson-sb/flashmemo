@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
+  def index
+    @categories = Category.all
+    render json: @categories
+  end
+
   def create
     @category = Category.new(title: create_params[:title].strip.downcase)
 
