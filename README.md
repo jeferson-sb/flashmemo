@@ -20,3 +20,5 @@ This project learning mode is based on the *Trees Rewards System* where users ca
 - Rewards System (Trees, Gardens, Seeds)
 
 See doc for [API](./api/README.md)
+
+Share and learn!
