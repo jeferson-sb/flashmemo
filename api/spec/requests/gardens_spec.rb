@@ -186,7 +186,7 @@ RSpec.describe 'Gardens', type: :request do
 
     before do
       surprise_question.mark_as_surprise_question
-    end  
+    end
 
     describe 'when wrong answer' do
       let(:params) do
@@ -194,10 +194,11 @@ RSpec.describe 'Gardens', type: :request do
       end
 
       it 'return error message' do
-        post "/api/gardens/#{garden.id}/journal/surprise_question", params:, headers: { 'Authorization' => "Bearer #{token}" }
-  
+        post "/api/gardens/#{garden.id}/journal/surprise_question", params:,
+                                                                    headers: { 'Authorization' => "Bearer #{token}" }
+
         expect(response).to have_http_status(:success)
-        expect(json_body['result']).to eq("Oops, try again!")
+        expect(json_body['result']).to eq('Oops, try again!')
       end
     end
 
@@ -207,10 +208,11 @@ RSpec.describe 'Gardens', type: :request do
       end
 
       it 'return with bonus earned' do
-        post "/api/gardens/#{garden.id}/journal/surprise_question", params:, headers: { 'Authorization' => "Bearer #{token}" }
-  
+        post "/api/gardens/#{garden.id}/journal/surprise_question", params:,
+                                                                    headers: { 'Authorization' => "Bearer #{token}" }
+
         expect(response).to have_http_status(:success)
-        expect(json_body['result']).to include("Great! You just won")
+        expect(json_body['result']).to include('Great! You just won')
       end
     end
 
@@ -224,10 +226,11 @@ RSpec.describe 'Gardens', type: :request do
       end
 
       it 'return error message' do
-        post "/api/gardens/#{garden.id}/journal/surprise_question", params:, headers: { 'Authorization' => "Bearer #{token}" }
-  
+        post "/api/gardens/#{garden.id}/journal/surprise_question", params:,
+                                                                    headers: { 'Authorization' => "Bearer #{token}" }
+
         expect(response).to have_http_status(:success)
-        expect(json_body['error']).to eq("Reached limit attempts for this user!")
+        expect(json_body['error']).to eq('Reached limit attempts for this user!')
       end
     end
   end
