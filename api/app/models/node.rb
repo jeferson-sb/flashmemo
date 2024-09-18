@@ -3,9 +3,9 @@
 class Node < ApplicationRecord
   belongs_to :nodeable, polymorphic: true
   belongs_to :graph, class_name: 'MindMap', foreign_key: 'graph_id', optional: true
-  
+
   has_many :edges, dependent: :destroy
-  has_many :edges, foreign_key: 'to_node_id'
+  has_many :edges, foreign_key: 'from_node_id'
 
   validates :nodeable_type, presence: true
   validates :nodeable_id, presence: true

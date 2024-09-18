@@ -4,10 +4,12 @@ class MindMap < ApplicationRecord
   belongs_to :category
   has_many :nodes, foreign_key: 'graph_id'
 
+  validates :name, presence: true
+
   scope :for_category, ->(category) { where(category_id: category.id) }
 
   def add_node(node)
-    node.update!(graph_id: self.id)
+    node.update!(graph_id: id)
   end
 
   def remove_node(node)

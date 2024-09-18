@@ -3,5 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Edge, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:from_node_id) }
+    it { is_expected.to validate_presence_of(:to_node_id) }
+  end
 end
