@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_240_817_212_900) do
+ActiveRecord::Schema[7.0].define(version: 20_240_915_162_642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -71,6 +71,16 @@ ActiveRecord::Schema[7.0].define(version: 20_240_817_212_900) do
     t.datetime 'updated_at', null: false
   end
 
+  create_table 'edges', force: :cascade do |t|
+    t.bigint 'from_node_id', null: false
+    t.bigint 'to_node_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index %w[from_node_id to_node_id], name: 'index_edges_on_from_node_id_and_to_node_id', unique: true
+    t.index ['from_node_id'], name: 'index_edges_on_from_node_id'
+    t.index ['to_node_id'], name: 'index_edges_on_to_node_id'
+  end
+
   create_table 'exams', force: :cascade do |t|
     t.string 'title'
     t.integer 'difficulty', default: 0
@@ -98,6 +108,27 @@ ActiveRecord::Schema[7.0].define(version: 20_240_817_212_900) do
     t.datetime 'updated_at', null: false
     t.integer 'nutrients', default: 0
     t.index ['user_id'], name: 'index_gardens_on_user_id'
+  end
+
+  create_table 'mind_maps', force: :cascade do |t|
+    t.string 'name'
+    t.bigint 'category_id', null: false
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['category_id'], name: 'index_mind_maps_on_category_id'
+    t.index ['user_id'], name: 'index_mind_maps_on_user_id'
+  end
+
+  create_table 'nodes', force: :cascade do |t|
+    t.string 'nodeable_type', null: false
+    t.bigint 'nodeable_id', null: false
+    t.integer 'position'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.integer 'graph_id'
+    t.index %w[nodeable_type nodeable_id], name: 'index_nodes_on_nodeable'
+    t.index %w[nodeable_type nodeable_id], name: 'index_nodes_on_nodeable_type_and_nodeable_id', unique: true
   end
 
   create_table 'options', force: :cascade do |t|
@@ -166,10 +197,14 @@ ActiveRecord::Schema[7.0].define(version: 20_240_817_212_900) do
   add_foreign_key 'answers', 'exams'
   add_foreign_key 'answers', 'users'
   add_foreign_key 'branches', 'trees'
+  add_foreign_key 'edges', 'nodes', column: 'from_node_id'
+  add_foreign_key 'edges', 'nodes', column: 'to_node_id'
   add_foreign_key 'exams', 'categories'
   add_foreign_key 'exams_questions', 'exams'
   add_foreign_key 'exams_questions', 'questions'
   add_foreign_key 'gardens', 'users'
+  add_foreign_key 'mind_maps', 'categories'
+  add_foreign_key 'mind_maps', 'users'
   add_foreign_key 'options', 'questions'
   add_foreign_key 'questions', 'exams'
   add_foreign_key 'questions', 'revisions'
