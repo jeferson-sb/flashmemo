@@ -168,13 +168,14 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.18.1-x86_64-linux-gnu)
       racc (~> 1.4)
+    observer (0.1.2)
     ostruct (0.6.1)
     parallel (1.23.0)
     parser (3.3.7.0)
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
-    pkg-config (1.5.5)
+    pkg-config (1.5.9)
     psych (5.2.3)
       date
       stringio
@@ -226,7 +227,8 @@ GEM
     regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
-    rmagick (5.3.0)
+    rmagick (6.0.1)
+      observer (~> 0.1)
       pkg-config (~> 1.4)
     rspec-core (3.13.2)
       rspec-support (~> 3.13.0)
@@ -308,8 +310,6 @@ GEM
     timeout (0.4.3)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2025.1)
-      tzinfo (>= 1.0.0)
     unicode-display_width (2.4.2)
     uri (1.0.2)
     useragent (0.16.11)
@@ -340,7 +340,7 @@ DEPENDENCIES
   pg (~> 1.5.9)
   puma (~> 6.0)
   rails (~> 8.0.0)
-  rmagick (~> 5.3)
+  rmagick (~> 6.0.1)
   rspec-rails (~> 7.1.0)
   rubocop-rails (~> 2.19)
   rubocop-rails-omakase
