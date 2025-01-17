@@ -29,9 +29,9 @@ group :development, :test do
   gem 'dotenv', '~> 3.1', '>= 3.1.2'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'faker', '~> 3.2'
-  gem 'rspec-rails', '~> 6.0'
+  gem 'rspec-rails', '~> 7.1.0'
   gem 'rubocop-rails', '~> 2.19', require: false
-  gem 'rubocop-rspec', '~> 2.22', require: false
+  gem 'rubocop-rspec', '~> 3.3.0', require: false
   gem "rubocop-rails-omakase", require: false
   gem 'shoulda-matchers', '~> 5.1'
   gem 'whenever', '~> 1.0', require: false
