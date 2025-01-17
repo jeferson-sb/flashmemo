@@ -8,7 +8,7 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: ./api
+    working-directory: api
 
 jobs:
   scan:
