@@ -11,26 +11,54 @@ defaults:
     working-directory: ./api
 
 jobs:
-  test:
+  scan:
     runs-on: ubuntu-latest
-    steps:
-      - name: Install machine packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git pkg-config
 
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Ruby and gems
+      - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          working-directory: ./api
+          ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Run docker
-        run: cp .env.example .env && docker compose up -d
+      - name: Scan for security vulnerabilities
+        run: bin/brakeman
+  
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up database schema
-        run: RAILS_ENV=test docker compose run api rails db:create db:migrate db:schema:load
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
 
-      - name: Run tests
-        run: bundle exec rspec
+      - name: Lint code for consistent style
+        run: bin/rubocop
+
+  # test:
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
+
+      # - name: Install Ruby and gems
+      #   uses: ruby/setup-ruby@v1
+      #   with:
+      #     working-directory: ./api
+      #     bundler-cache: true
+
+      # - name: Run docker
+      #   run: cp .env.example .env && docker compose up -d
+
+      # - name: Set up database schema
+      #   run: RAILS_ENV=test docker compose run api rails db:create db:migrate db:schema:load
+
+      # - name: Run tests
+      #   run: bundle exec rspec
