@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ProgressTreesLifecycleJob < ApplicationJob
-  queue_as :default
-
   CYCLE = {
     seed: 3,
     growing: 10,
