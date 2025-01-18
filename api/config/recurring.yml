@@ -7,7 +7,7 @@ development:
     class: ProgressTreesLifecycleJob
     queue: background
     schedule: every day
-  # send_review_email:
-  #   command: "rake send_review_email:all"
-  #   priority: 2
-  #   schedule: every day
+  send_review_email:
+    class: RakeTaskJob
+    args: "send_review_email:all"
+    schedule: every day
