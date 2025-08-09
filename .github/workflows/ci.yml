@@ -19,12 +19,13 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          ruby-version: "3.3"
           working-directory: ./api
           bundler-cache: true
 
       - name: Scan for security vulnerabilities
         run: bin/brakeman
-  
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -37,6 +38,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          ruby-version: "3.3"
           working-directory: ./api
           bundler-cache: true
 
@@ -44,22 +46,22 @@ jobs:
         run: bin/rubocop
 
   # test:
-    # runs-on: ubuntu-latest
-    # steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
+  # runs-on: ubuntu-latest
+  # steps:
+  # - name: Checkout code
+  #   uses: actions/checkout@v4
 
-      # - name: Install Ruby and gems
-      #   uses: ruby/setup-ruby@v1
-      #   with:
-      #     working-directory: ./api
-      #     bundler-cache: true
+  # - name: Install Ruby and gems
+  #   uses: ruby/setup-ruby@v1
+  #   with:
+  #     working-directory: ./api
+  #     bundler-cache: true
 
-      # - name: Run docker
-      #   run: cp .env.example .env && docker compose up -d
+  # - name: Run docker
+  #   run: cp .env.example .env && docker compose up -d
 
-      # - name: Set up database schema
-      #   run: RAILS_ENV=test docker compose run api rails db:create db:migrate db:schema:load
+  # - name: Set up database schema
+  #   run: RAILS_ENV=test docker compose run api rails db:create db:migrate db:schema:load
 
-      # - name: Run tests
-      #   run: bundle exec rspec
+  # - name: Run tests
+  #   run: bundle exec rspec
