@@ -1,0 +1,13 @@
+development:
+  decay_tree_health:
+    class: DecayTreeHealthJob
+    queue: background
+    schedule: every week
+  progress_trees_lifecycle:
+    class: ProgressTreesLifecycleJob
+    queue: background
+    schedule: every day
+  send_review_email:
+    class: RakeTaskJob
+    args: "send_review_email:all"
+    schedule: every day

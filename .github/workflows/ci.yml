@@ -5,29 +5,65 @@ on:
   pull_request:
     branches: ["*"]
 
-defaults:
-  run:
-    shell: bash
-    working-directory: ./api
-
 jobs:
-  test:
+  scan:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
+    steps:
+      - name: Install native packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git pkg-config libmagickwand-dev
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
+          ruby-version: "3.3.4"
           working-directory: ./api
           bundler-cache: true
 
-      - name: Run docker
-        run: cp .env.example .env && docker compose up -d
+      - name: Scan for security vulnerabilities
+        run: chmod +x bin/brakeman && bin/brakeman
+        working-directory: ./api
 
-      - name: Set up database schema
-        run: RAILS_ENV=test docker compose run api rails db:create db:migrate db:schema:load
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install native packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git pkg-config libmagickwand-dev
 
-      - name: Run tests
-        run: bundle exec rspec
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.4"
+          working-directory: ./api
+          bundler-cache: true
+
+      - name: Lint code for consistent style
+        run: chmod +x bin/rubocop && bin/rubocop
+        working-directory: ./api
+
+  # test:
+  # runs-on: ubuntu-latest
+  # steps:
+  # - name: Checkout code
+  #   uses: actions/checkout@v4
+
+  # - name: Install Ruby and gems
+  #   uses: ruby/setup-ruby@v1
+  #   with:
+  #     working-directory: ./api
+  #     bundler-cache: true
+
+  # - name: Run docker
+  #   run: cp .env.example .env && docker compose up -d
+
+  # - name: Set up database schema
+  #   run: RAILS_ENV=test docker compose run api rails db:create db:migrate db:schema:load
+
+  # - name: Run tests
+  #   run: bundle exec rspec

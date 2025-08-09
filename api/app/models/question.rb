@@ -28,7 +28,7 @@ class Question < ApplicationRecord
     errors.add(:options, 'At least one option should be present') if options.empty?
     unless options.any?(&:correct?)
       errors.add(:options,
-                 'can only have one option with the attribute \'correct:true\'')
+                 "can only have one option with the attribute 'correct:true'")
     end
     errors.add(:options, 'must be at least 2') if options.size < 2
     errors.add(:options, 'must be at most 5') if options.size > 5

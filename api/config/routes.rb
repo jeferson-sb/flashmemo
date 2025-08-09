@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  get 'up', to: 'rails/health#show', as: :rails_health_check
+
   scope '/api' do
     resources :answers, only: %i[show create]
     resources :revisions, only: %i[show] do

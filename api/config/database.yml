@@ -7,13 +7,28 @@ default: &default
   host: <%= ENV.fetch('DB_HOST', 'localhost') %>
 
 development:
-  <<: *default
-  database: flashmemo_development
+  primary: &primary_development
+    <<: *default
+    database: flashmemo_development
+  queue:
+    <<: *primary_development
+    database: flashmemo_development_queue
+    migrations_paths: db/queue_migrate
 
 test:
-  <<: *default
-  database: flashmemo_test
+  primary: &primary_test
+    <<: *default
+    database: flashmemo_test
+  queue:
+    <<: *primary_test
+    database: flashmemo_test_queue
+    migrations_paths: db/queue_migrate
 
 production:
-  <<: *default
-  database: flashmemo_production
+  primary: &primary_production
+    <<: *default
+    database: flashmemo_production
+  queue:
+    <<: *primary_production
+    database: flashmemo_production_queue
+    migrations_paths: db/queue_migrate

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DecayTreeHealthJob < ApplicationJob
-  queue_as :default
-
   DECAY_VALUE = 1
 
   def perform
