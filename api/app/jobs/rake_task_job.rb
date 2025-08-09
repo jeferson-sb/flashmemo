@@ -2,7 +2,7 @@
 
 class RakeTaskJob < ApplicationJob
   def perform(command)
-    require "rake"
+    require 'rake'
 
     Rake.application.init
     Rake.application.load_rakefile
