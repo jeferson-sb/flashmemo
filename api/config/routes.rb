@@ -34,5 +34,6 @@ Rails.application.routes.draw do
       post '/journal/surprise_question', to: 'gardens#evaluate_surprise_question'
     end
     resources :trees, only: %i[index show]
+    resources :mindmaps
   end
 end
