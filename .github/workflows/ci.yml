@@ -24,7 +24,7 @@ jobs:
           bundler-cache: true
 
       - name: Scan for security vulnerabilities
-        run: bin/brakeman
+        run: chmod +x bin/brakeman && bin/brakeman
         working-directory: ./api
 
   lint:
@@ -44,7 +44,7 @@ jobs:
           bundler-cache: true
 
       - name: Lint code for consistent style
-        run: bin/rubocop
+        run: chmod +x bin/rubocop && bin/rubocop
         working-directory: ./api
 
   # test:
