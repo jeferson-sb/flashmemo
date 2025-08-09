@@ -25,6 +25,7 @@ jobs:
 
       - name: Scan for security vulnerabilities
         run: bin/brakeman
+        working-directory: ./api
 
   lint:
     runs-on: ubuntu-latest
@@ -44,6 +45,7 @@ jobs:
 
       - name: Lint code for consistent style
         run: bin/rubocop
+        working-directory: ./api
 
   # test:
   # runs-on: ubuntu-latest
