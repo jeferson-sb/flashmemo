@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Install native packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git pkg-config
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git pkg-config libmagickwand-dev
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install native packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git pkg-config
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git pkg-config libmagickwand-dev
 
       - name: Checkout code
         uses: actions/checkout@v4
