@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_08_17_212900) do
+ActiveRecord::Schema[8.0].define(version: 2024_09_15_162642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -68,25 +68,25 @@ ActiveRecord::Schema[8.0].define(version: 2024_08_17_212900) do
     t.datetime "updated_at", null: false
   end
 
-  create_table 'edges', force: :cascade do |t|
-    t.bigint 'from_node_id', null: false
-    t.bigint 'to_node_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index %w[from_node_id to_node_id], name: 'index_edges_on_from_node_id_and_to_node_id', unique: true
-    t.index ['from_node_id'], name: 'index_edges_on_from_node_id'
-    t.index ['to_node_id'], name: 'index_edges_on_to_node_id'
+  create_table "edges", force: :cascade do |t|
+    t.bigint "from_node_id", null: false
+    t.bigint "to_node_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_node_id", "to_node_id"], name: "index_edges_on_from_node_id_and_to_node_id", unique: true
+    t.index ["from_node_id"], name: "index_edges_on_from_node_id"
+    t.index ["to_node_id"], name: "index_edges_on_to_node_id"
   end
 
-  create_table 'exams', force: :cascade do |t|
-    t.string 'title'
-    t.integer 'difficulty', default: 0
-    t.integer 'version'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.bigint 'category_id'
-    t.index ['category_id'], name: 'index_exams_on_category_id'
-    t.index ['id'], name: 'index_exams_on_id'
+  create_table "exams", force: :cascade do |t|
+    t.string "title"
+    t.integer "difficulty", default: 0
+    t.integer "version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_exams_on_category_id"
+    t.index ["id"], name: "index_exams_on_id"
   end
 
   create_table "exams_questions", id: false, force: :cascade do |t|
@@ -107,34 +107,34 @@ ActiveRecord::Schema[8.0].define(version: 2024_08_17_212900) do
     t.index ["user_id"], name: "index_gardens_on_user_id"
   end
 
-  create_table 'mind_maps', force: :cascade do |t|
-    t.string 'name'
-    t.bigint 'category_id', null: false
-    t.bigint 'user_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['category_id'], name: 'index_mind_maps_on_category_id'
-    t.index ['user_id'], name: 'index_mind_maps_on_user_id'
+  create_table "mind_maps", force: :cascade do |t|
+    t.string "name"
+    t.bigint "category_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_mind_maps_on_category_id"
+    t.index ["user_id"], name: "index_mind_maps_on_user_id"
   end
 
-  create_table 'nodes', force: :cascade do |t|
-    t.string 'nodeable_type', null: false
-    t.bigint 'nodeable_id', null: false
-    t.integer 'position'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.integer 'graph_id'
-    t.index %w[nodeable_type nodeable_id], name: 'index_nodes_on_nodeable'
-    t.index %w[nodeable_type nodeable_id], name: 'index_nodes_on_nodeable_type_and_nodeable_id', unique: true
+  create_table "nodes", force: :cascade do |t|
+    t.string "nodeable_type", null: false
+    t.bigint "nodeable_id", null: false
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "graph_id"
+    t.index ["nodeable_type", "nodeable_id"], name: "index_nodes_on_nodeable"
+    t.index ["nodeable_type", "nodeable_id"], name: "index_nodes_on_nodeable_type_and_nodeable_id", unique: true
   end
 
-  create_table 'options', force: :cascade do |t|
-    t.string 'text'
-    t.bigint 'question_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.boolean 'correct', default: false
-    t.index ['question_id'], name: 'index_options_on_question_id'
+  create_table "options", force: :cascade do |t|
+    t.string "text"
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "correct", default: false
+    t.index ["question_id"], name: "index_options_on_question_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -189,25 +189,25 @@ ActiveRecord::Schema[8.0].define(version: 2024_08_17_212900) do
     t.string "name"
   end
 
-  add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'answers', 'exams'
-  add_foreign_key 'answers', 'users'
-  add_foreign_key 'branches', 'trees'
-  add_foreign_key 'edges', 'nodes', column: 'from_node_id'
-  add_foreign_key 'edges', 'nodes', column: 'to_node_id'
-  add_foreign_key 'exams', 'categories'
-  add_foreign_key 'exams_questions', 'exams'
-  add_foreign_key 'exams_questions', 'questions'
-  add_foreign_key 'gardens', 'users'
-  add_foreign_key 'mind_maps', 'categories'
-  add_foreign_key 'mind_maps', 'users'
-  add_foreign_key 'options', 'questions'
-  add_foreign_key 'questions', 'exams'
-  add_foreign_key 'questions', 'revisions'
-  add_foreign_key 'revisions', 'exams'
-  add_foreign_key 'revisions', 'users'
-  add_foreign_key 'surprise_question_answers', 'questions'
-  add_foreign_key 'surprise_question_answers', 'users'
-  add_foreign_key 'trees', 'gardens'
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "answers", "exams"
+  add_foreign_key "answers", "users"
+  add_foreign_key "branches", "trees"
+  add_foreign_key "edges", "nodes", column: "from_node_id"
+  add_foreign_key "edges", "nodes", column: "to_node_id"
+  add_foreign_key "exams", "categories"
+  add_foreign_key "exams_questions", "exams"
+  add_foreign_key "exams_questions", "questions"
+  add_foreign_key "gardens", "users"
+  add_foreign_key "mind_maps", "categories"
+  add_foreign_key "mind_maps", "users"
+  add_foreign_key "options", "questions"
+  add_foreign_key "questions", "exams"
+  add_foreign_key "questions", "revisions"
+  add_foreign_key "revisions", "exams"
+  add_foreign_key "revisions", "users"
+  add_foreign_key "surprise_question_answers", "questions"
+  add_foreign_key "surprise_question_answers", "users"
+  add_foreign_key "trees", "gardens"
 end
