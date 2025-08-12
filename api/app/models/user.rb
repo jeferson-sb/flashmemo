@@ -10,5 +10,6 @@ class User < ApplicationRecord
 
   has_many :answer
   has_many :exams, through: :answer
+  has_many :mind_map
   has_one :garden
 end
