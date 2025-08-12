@@ -17,7 +17,7 @@ class MindmapsController < ApplicationController
 
     render json: { error: 'Should have at least one edge' }, status: :bad_request if edges.empty?
 
-    Mindmaps::Create.perform(edges)
+    Mindmaps::Create.perform(edges, @mm)
   end
 
   def update; end

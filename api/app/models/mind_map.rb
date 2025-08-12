@@ -2,6 +2,7 @@
 
 class MindMap < ApplicationRecord
   belongs_to :category
+  belongs_to :user
   has_many :nodes, foreign_key: 'graph_id'
 
   validates :name, presence: true

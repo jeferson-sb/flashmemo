@@ -3,20 +3,20 @@
 module Mindmaps
   class Create
     class << self
-      def perform(edges)
+      def perform(edges, mindmap)
         edges.each do |e|
           from, to = e
 
           ActiveRecord::Base.transaction do
             from_node = Node.find_by(nodeable_type: 'Exam', nodeable_id: from)
             unless from_node
-              from_node = Node.new(nodeable_type: 'Exam', nodeable_id: from, graph_id: @mm.id)
+              from_node = Node.new(nodeable_type: 'Exam', nodeable_id: from, graph_id: mindmap.id)
               from_node.save!
             end
 
             to_node = Node.find_by(nodeable_type: 'Exam', nodeable_id: to)
             unless to_node
-              to_node = Node.new(nodeable_type: 'Exam', nodeable_id: to, graph_id: @mm.id)
+              to_node = Node.new(nodeable_type: 'Exam', nodeable_id: to, graph_id: mindmap.id)
               to_node.save!
             end
 
