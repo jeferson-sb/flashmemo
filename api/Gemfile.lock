@@ -175,7 +175,7 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
-    pg (1.5.9)
+    pg (1.6.2-x86_64-linux)
     pkg-config (1.5.9)
     prism (1.4.0)
     psych (5.2.3)
@@ -340,7 +340,7 @@ DEPENDENCIES
   jbuilder (~> 2.13.0)
   jwt (~> 3.1)
   kamal
-  pg (~> 1.5.9)
+  pg (~> 1.6.2)
   puma (~> 6.6)
   rails (~> 8.0.0)
   rmagick (~> 6.0.1)
