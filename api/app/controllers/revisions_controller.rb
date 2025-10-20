@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class RevisionsController < ApplicationController
-  before_action :authenticate_request
-
   def show
     @revision = Revision.find(params[:id])
   end
 
   def evaluate
     questions = params[:questions]
+    @user = Current.session.user
     @revision = Revision.find(params[:revision_id])
 
     begin

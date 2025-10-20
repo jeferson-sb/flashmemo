@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       get 'random', on: :collection
       post 'bulk', on: :collection
     end
-    resources :exams, only: %i[index show create] do
+    resources :exams do
       post '/evaluate', to: 'exams#evaluate'
       get 'duos', to: 'exams#duos'
       post 'duos/evaluate', to: 'exams#evaluate_duos'
@@ -27,8 +27,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[create] do
       get '/progress', to: 'users#progress'
     end
-    resources :categories, only: %i[create]
-    post '/auth/login', to: 'authentication#login'
+    resources :categories, only: %i[index create]
     resources :gardens, only: %i[index show create] do
       post '/plant', to: 'gardens#plant'
       post '/nurture', to: 'gardens#nurture'

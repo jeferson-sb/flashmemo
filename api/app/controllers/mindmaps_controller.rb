@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MindmapsController < ApplicationController
-  before_action :authenticate_request, only: :create
+  allow_unauthenticated_access only: %i[index show]
 
   def show
     @mm = MindMap.find(params[:id])
@@ -12,6 +12,7 @@ class MindmapsController < ApplicationController
   end
 
   def create
+    @user = Current.session.user
     @mm = MindMap.create!(category_id: create_params[:category_id], name: create_params[:name], user_id: @user.id)
     edges = params[:edges]
 

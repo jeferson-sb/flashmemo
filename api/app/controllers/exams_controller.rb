@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ExamsController < ApplicationController
-  before_action :authenticate_request, only: :evaluate
+  allow_unauthenticated_access only: %i[index show]
 
   def show
     @exam = Exam.find(params[:id])
@@ -14,6 +14,7 @@ class ExamsController < ApplicationController
 
   def evaluate
     @exam = Exam.find(params[:exam_id])
+    @user = Current.session.user
     questions = params[:questions]
 
     score, questions_answered_incorrectly = get_results(@exam, questions)
@@ -44,6 +45,24 @@ class ExamsController < ApplicationController
       message = @exam.errors
       render json: { error: message }, status: :unprocessable_entity
     end
+  end
+
+  def update
+    @exam = Exam.find(params[:id])
+
+    if @exam.update(create_params.slice(:title, :difficulty, :version, :category_id))
+      render json: @exam, status: :ok
+    else
+      message = @exam.errors.full_messages
+      render json: { error: message }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @exam = Exam.find(params[:id])
+    @exam.destroy
+
+    render json: { message: I18n.t('success.deleted', entity: Exam.model_name.human) }, status: :no_content
   end
 
   def duos

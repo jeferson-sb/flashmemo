@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GardensController < ApplicationController
-  before_action :authenticate_request, except: %i[index show]
+  allow_unauthenticated_access only: %i[index show]
 
   def index
     @gardens = Garden.all
@@ -12,6 +12,7 @@ class GardensController < ApplicationController
   end
 
   def create
+    @user = Current.session.user
     @garden = Garden.new(user_id: @user.id, name: "#{@user.name}'s garden")
 
     if @garden.save
@@ -46,6 +47,7 @@ class GardensController < ApplicationController
 
   def journal
     @garden = Garden.find(params[:garden_id])
+    @user = Current.session.user
     answers = Answers::InRange.perform(@user.id, 'monthly')
     @surprise_question = Question.surprise_question
     return if answers.empty?
