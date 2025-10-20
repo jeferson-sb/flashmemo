@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'up', to: 'rails/health#show', as: :rails_health_check
 
   scope '/api' do
+    resource :sessions
+    resources :passwords, param: :token
     resources :answers, only: %i[show create]
     resources :revisions, only: %i[show] do
       post '/evaluate', to: 'revisions#evaluate'

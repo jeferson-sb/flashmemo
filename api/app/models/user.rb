@@ -8,6 +8,9 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }
 
+  normalizes :email, with: ->(e) { e.strip.downcase }
+
+  has_many :sessions, dependent: :destroy
   has_many :answer
   has_many :exams, through: :answer
   has_many :mind_map

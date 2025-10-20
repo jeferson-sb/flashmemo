@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hey <%= @user.username %></h1>
+    <p>
+      Click <a href=<%= "http://localhost:3000/api/passwords/#{@user.password_reset_token}" %>>here</a> to reset your password.
+    </p>
+    <p>Thanks, have a great day!</p>
+  </body>
+</html>

@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate_request, except: [:create]
+  allow_unauthenticated_access only: %i[ create ]
 
   def create
     @user = User.new(create_params)
 
     if @user.save
-      render json: { message: I18n.t('success.created', entity: User.model_name.human) }, status: :created
+      start_new_session_for(@user)
+      render json: { message: I18n.t('success.created', entity: User.model_name.human), token: Current.session.token }, status: :created
     else
-      message = @user.errors
-      render json: { error: message }, status: :unprocessable_entity
+      render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
