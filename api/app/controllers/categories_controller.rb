@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
+  allow_unauthenticated_access only: [:index]
+
   def index
     @categories = Category.all
     render json: @categories
