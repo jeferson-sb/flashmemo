@@ -59,8 +59,9 @@ class GardensController < ApplicationController
     user_answer = params[:answer]
 
     @question = Question.surprise_question
+    @user = Current.session.user
 
-    return render json: { error: I18n.t('error.max_attempts') } if max_attempts_reached?(@question)
+    return render json: { error: I18n.t('error.max_attempts') } if max_attempts_reached?(@user, @question)
 
     expected = @question.options.find_by(correct: true).id
     is_winner = user_answer.to_i == expected
@@ -84,8 +85,8 @@ class GardensController < ApplicationController
     params.permit(:tree_id, :nutrients)
   end
 
-  def max_attempts_reached?(question)
-    attempts = SurpriseQuestionAnswer.per_user(@user.id, question.id).count
+  def max_attempts_reached?(user, question)
+    attempts = SurpriseQuestionAnswer.per_user(user.id, question.id).count
     attempts >= SurpriseQuestionAnswer::MAX_ATTEMPTS
   end
 
