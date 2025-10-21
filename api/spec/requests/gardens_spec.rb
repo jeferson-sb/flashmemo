@@ -6,8 +6,6 @@ RSpec.describe 'Gardens', type: :request do
   let(:json_body) do
     JSON.parse(response.body)
   end
-  let!(:user) { create(:user) }
-  let(:token) { JsonWebToken.encode(user_id: user.id) }
 
   describe 'GET /' do
     before { create_list(:garden, 5) }
@@ -34,7 +32,7 @@ RSpec.describe 'Gardens', type: :request do
 
   describe 'POST /' do
     it 'creates a new garden successfully' do
-      post '/api/gardens.json', headers: { 'Authorization' => "Bearer #{token}" }
+      post '/api/gardens.json', headers: auth_headers
 
       expect(response).to have_http_status(:success)
       expect(json_body).to include('message')
@@ -52,7 +50,7 @@ RSpec.describe 'Gardens', type: :request do
       before { create(:garden, id: 1) }
 
       it 'returns error message' do
-        post '/api/gardens/1/plant.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
+        post '/api/gardens/1/plant.json', params:, headers: auth_headers
 
         expect(response).to have_http_status(:bad_request)
         expect(json_body).to include('error')
@@ -63,7 +61,7 @@ RSpec.describe 'Gardens', type: :request do
       before { create(:garden, id: 1, seeds: 2) }
 
       it 'creates a new tree successfully' do
-        post '/api/gardens/1/plant.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
+        post '/api/gardens/1/plant.json', params:, headers: auth_headers
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('message')
@@ -86,7 +84,7 @@ RSpec.describe 'Gardens', type: :request do
       end
 
       it 'returns error message' do
-        post '/api/gardens/1/nurture.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
+        post '/api/gardens/1/nurture.json', params:, headers: auth_headers
 
         expect(response).to have_http_status(:bad_request)
         expect(json_body).to include('error')
@@ -106,7 +104,7 @@ RSpec.describe 'Gardens', type: :request do
         end
 
         it 'returns error message' do
-          post '/api/gardens/1/nurture.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
+          post '/api/gardens/1/nurture.json', params:, headers: auth_headers
 
           expect(response).to have_http_status(:bad_request)
           expect(json_body).to include('error')
@@ -123,7 +121,7 @@ RSpec.describe 'Gardens', type: :request do
         end
 
         it 'returns error message' do
-          post '/api/gardens/1/nurture.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
+          post '/api/gardens/1/nurture.json', params:, headers: auth_headers
 
           expect(response).to have_http_status(:bad_request)
           expect(json_body).to include('error')
@@ -140,7 +138,7 @@ RSpec.describe 'Gardens', type: :request do
         end
 
         it 'feeds a tree' do
-          post '/api/gardens/1/nurture.json', params:, headers: { 'Authorization' => "Bearer #{token}" }
+          post '/api/gardens/1/nurture.json', params:, headers: auth_headers
 
           expect(response).to have_http_status(:success)
           expect(json_body).to include('message')
@@ -155,7 +153,7 @@ RSpec.describe 'Gardens', type: :request do
       let(:tree) { create(:tree) }
 
       it 'returns default garden journal summary' do
-        get "/api/gardens/#{garden.id}/journal.json", headers: { 'Authorization' => "Bearer #{token}" }
+        get "/api/gardens/#{garden.id}/journal.json", headers: auth_headers
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('today')
@@ -166,12 +164,13 @@ RSpec.describe 'Gardens', type: :request do
       end
     end
 
-    describe 'when answers are avaliable' do
-      let!(:garden) { create(:garden) }
+    describe 'when answers are available' do
+      let!(:user) { create(:user) }
+      let!(:garden) { create(:garden, user_id: user.id) }
       let!(:answers) { create_list(:answer, 5, user:, created_at: Time.now) }
 
       it 'returns journal with monthly question' do
-        get "/api/gardens/#{garden.id}/journal.json", headers: { 'Authorization' => "Bearer #{token}" }
+        get "/api/gardens/#{garden.id}/journal.json", headers: auth_headers_for(user)
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('monthly_progress_score')
@@ -181,6 +180,7 @@ RSpec.describe 'Gardens', type: :request do
   end
 
   describe 'POST /:id/journal/surprise_question' do
+    let!(:user) { create(:user) }
     let!(:garden) { create(:garden, :with_trees, user_id: user.id, seeds: 2) }
     let!(:surprise_question) { create(:question, :with_options) }
 
@@ -195,7 +195,7 @@ RSpec.describe 'Gardens', type: :request do
 
       it 'return error message' do
         post "/api/gardens/#{garden.id}/journal/surprise_question", params:,
-                                                                    headers: { 'Authorization' => "Bearer #{token}" }
+                                                                    headers: auth_headers_for(user)
 
         expect(response).to have_http_status(:success)
         expect(json_body['result']).to eq('Oops, try again!')
@@ -209,7 +209,7 @@ RSpec.describe 'Gardens', type: :request do
 
       it 'return with bonus earned' do
         post "/api/gardens/#{garden.id}/journal/surprise_question", params:,
-                                                                    headers: { 'Authorization' => "Bearer #{token}" }
+                                                                    headers: auth_headers_for(user)
 
         expect(response).to have_http_status(:success)
         expect(json_body['result']).to include('Great! You just won')
@@ -227,7 +227,7 @@ RSpec.describe 'Gardens', type: :request do
 
       it 'return error message' do
         post "/api/gardens/#{garden.id}/journal/surprise_question", params:,
-                                                                    headers: { 'Authorization' => "Bearer #{token}" }
+                                                                    headers: auth_headers_for(user)
 
         expect(response).to have_http_status(:success)
         expect(json_body['error']).to eq('Reached limit attempts for this user!')

@@ -45,7 +45,7 @@ RSpec.describe 'Questions', type: :request do
 
   describe 'DELETE /:id' do
     it 'delete specified question' do
-      delete '/api/questions/1.json'
+      delete '/api/questions/1.json', headers: auth_headers
 
       expect(response).to have_http_status(:no_content)
     end
@@ -65,7 +65,7 @@ RSpec.describe 'Questions', type: :request do
     end
 
     it 'updates title of the question' do
-      put('/api/questions/1.json', params:)
+      put('/api/questions/1.json', params:, headers: auth_headers)
 
       expect(response).to be_successful
       expect(json_body).to include('title')
@@ -73,13 +73,13 @@ RSpec.describe 'Questions', type: :request do
     end
 
     it 'adds image to the question' do
-      put('/api/questions/1.json', params: { image: file })
+      put('/api/questions/1.json', params: { image: file }, headers: auth_headers)
 
       expect(response).to have_http_status(:ok)
     end
 
     it 'adds wrong file to the question' do
-      put('/api/questions/1.json', params: { image: wrongfile })
+      put('/api/questions/1.json', params: { image: wrongfile }, headers: auth_headers)
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(json_body['error']).to include('Questions Invalid format. File extensions available: png, jpg, jpeg')
@@ -101,7 +101,7 @@ RSpec.describe 'Questions', type: :request do
       end
 
       it 'returns an error message' do
-        post('/api/questions.json', params:)
+        post('/api/questions.json', params:, headers: auth_headers)
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_body).to include('error')
@@ -126,7 +126,7 @@ RSpec.describe 'Questions', type: :request do
       end
 
       it 'create new question' do
-        post('/api/questions.json', params:)
+        post('/api/questions.json', params:, headers: auth_headers)
 
         expect(response).to be_successful
       end
@@ -170,7 +170,7 @@ RSpec.describe 'Questions', type: :request do
       end
 
       it 'creates all questions' do
-        post('/api/questions/bulk.json', params:)
+        post('/api/questions/bulk.json', params:, headers: auth_headers)
         expect(response).to be_successful
       end
     end
@@ -190,7 +190,7 @@ RSpec.describe 'Questions', type: :request do
       end
 
       it 'returns an error message' do
-        post('/api/questions/bulk.json', params:)
+        post('/api/questions/bulk.json', params:, headers: auth_headers)
 
         expect(response).to have_http_status(:bad_request)
         expect(json_body).to include('error')

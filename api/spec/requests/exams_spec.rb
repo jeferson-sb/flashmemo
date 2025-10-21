@@ -32,9 +32,7 @@ RSpec.describe 'Exams', type: :request do
   end
 
   describe 'POST /:id/evaluate' do
-    let!(:user) { create(:user) }
     let!(:exam) { create(:exam, :with_questions, id: 1) }
-    let(:token) { JsonWebToken.encode(user_id: user.id) }
 
     let(:question) { exam.questions.first }
     let(:option) { question.options.first }
@@ -53,7 +51,7 @@ RSpec.describe 'Exams', type: :request do
       end
 
       it 'return score for an exam' do
-        post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+        post('/api/exams/1/evaluate.json', params:, headers: auth_headers)
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('score')
@@ -61,7 +59,7 @@ RSpec.describe 'Exams', type: :request do
 
       it 'register a new answer' do
         expect do
-          post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+          post('/api/exams/1/evaluate.json', params:, headers: auth_headers)
         end.to change(Answer, :count).by(1)
 
         expect(response).to have_http_status(:success)
@@ -82,7 +80,7 @@ RSpec.describe 'Exams', type: :request do
 
       it 'register a new revision' do
         expect do
-          post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+          post('/api/exams/1/evaluate.json', params:, headers: auth_headers)
         end.to change(Revision, :count).by(1)
 
         expect(response).to have_http_status(:success)
@@ -90,6 +88,7 @@ RSpec.describe 'Exams', type: :request do
     end
 
     describe 'when garden exists' do
+      let!(:user) { create(:user) }
       let!(:garden) { create(:garden, user_id: user.id) }
       let(:params) do
         {
@@ -105,7 +104,7 @@ RSpec.describe 'Exams', type: :request do
       it 'save new seeds to garden' do
         travel_to Time.zone.parse('2024-05-01 00:20:00')
 
-        post('/api/exams/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+        post('/api/exams/1/evaluate.json', params:, headers: auth_headers_for(user))
 
         expect(response).to have_http_status(:success)
         expect(Garden.last.seeds).to be >= 1
@@ -128,7 +127,7 @@ RSpec.describe 'Exams', type: :request do
       end
 
       it 'creates a new exam' do
-        post('/api/exams', params:)
+        post('/api/exams', params:, headers: auth_headers)
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('message')
@@ -163,7 +162,7 @@ RSpec.describe 'Exams', type: :request do
       end
 
       it 'return failure message' do
-        post '/api/exams/1/duos/evaluate', params:, as: :json
+        post '/api/exams/1/duos/evaluate', params:, headers: auth_headers, as: :json
 
         expect(response).to have_http_status(:bad_request)
         expect(json_body['message']).to eq('Oops, try again!')
@@ -178,7 +177,7 @@ RSpec.describe 'Exams', type: :request do
       end
 
       it 'return success message' do
-        post '/api/exams/1/duos/evaluate', params:, as: :json
+        post '/api/exams/1/duos/evaluate', params:, headers: auth_headers, as: :json
 
         expect(response).to have_http_status(:success)
         expect(json_body['message']).to eq('Well done!')

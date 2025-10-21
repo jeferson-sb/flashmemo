@@ -10,10 +10,9 @@ RSpec.describe 'Revisions', type: :request do
   describe 'GET /:id' do
     let!(:user) { create(:user) }
     let!(:revision) { create(:revision, :with_questions, id: 1) }
-    let!(:token) { JsonWebToken.encode(user_id: user.id) }
 
     it 'returns an revision successfully' do
-      get '/api/revisions/1.json', headers: { 'Authorization' => "Bearer #{token}" }
+      get '/api/revisions/1.json', headers: auth_headers
 
       expect(json_body).to include('exam_id')
       expect(json_body).to include('user_id')
@@ -26,7 +25,6 @@ RSpec.describe 'Revisions', type: :request do
   describe 'POST /:id/evaluate' do
     let!(:user) { create(:user) }
     let!(:revision) { create(:revision, :with_questions, user:, id: 1) }
-    let!(:token) { JsonWebToken.encode(user_id: user.id) }
 
     let(:question) { revision.questions.first }
     let(:option) { question.options.first }
@@ -44,7 +42,7 @@ RSpec.describe 'Revisions', type: :request do
       end
 
       it 'return score for an exam' do
-        post('/api/revisions/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+        post('/api/revisions/1/evaluate.json', params:, headers: auth_headers)
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('score')
@@ -52,7 +50,7 @@ RSpec.describe 'Revisions', type: :request do
 
       it 'register a new answer' do
         expect do
-          post('/api/revisions/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+          post('/api/revisions/1/evaluate.json', params:, headers: auth_headers)
         end.to change(Answer, :count).by(1)
 
         expect(response).to have_http_status(:success)
@@ -73,7 +71,7 @@ RSpec.describe 'Revisions', type: :request do
       end
 
       it 'save new seeds to garden' do
-        post('/api/revisions/1/evaluate.json', params:, headers: { 'Authorization' => "Bearer #{token}" })
+        post('/api/revisions/1/evaluate.json', params:, headers: auth_headers_for(user))
 
         expect(response).to have_http_status(:success)
         expect(Garden.last.seeds).to be >= 1

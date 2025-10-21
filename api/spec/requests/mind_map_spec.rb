@@ -7,13 +7,12 @@ RSpec.describe 'MindMaps', type: :request do
     JSON.parse(response.body)
   end
   let!(:user) { create(:user) }
-  let!(:token) { JsonWebToken.encode(user_id: user.id) }
 
   describe 'GET /' do
     before { create(:mind_map) }
 
     it 'returns all mindmaps' do
-      get '/api/mindmaps.json', headers: { 'Authorization' => "Bearer #{token}" }
+      get '/api/mindmaps.json', headers: auth_headers
 
       expect(response).to be_successful
     end
@@ -23,7 +22,7 @@ RSpec.describe 'MindMaps', type: :request do
     let(:mind_map) { create(:mind_map) }
 
     it 'returns a mindmap' do
-      get "/api/mindmaps/#{mind_map.id}.json", headers: { 'Authorization' => "Bearer #{token}" }
+      get "/api/mindmaps/#{mind_map.id}.json", headers: auth_headers
 
       expect(response).to be_successful
       expect(json_body).to include('name')
@@ -47,7 +46,7 @@ RSpec.describe 'MindMaps', type: :request do
       end
 
       it 'creates a new mind map' do
-        post('/api/mindmaps.json', params:, headers: { 'Authorization' => "Bearer #{token}" }, as: :json)
+        post('/api/mindmaps.json', params:, headers: auth_headers, as: :json)
 
         expect(response).to have_http_status(:success)
       end
@@ -63,7 +62,7 @@ RSpec.describe 'MindMaps', type: :request do
       end
 
       it 'returns an error message' do
-        post('/api/mindmaps.json', params:, headers: { 'Authorization' => "Bearer #{token}" }, as: :json)
+        post('/api/mindmaps.json', params:, headers: auth_headers, as: :json)
         
         expect(response).to have_http_status(:bad_request)
         expect(json_body).to include('error')

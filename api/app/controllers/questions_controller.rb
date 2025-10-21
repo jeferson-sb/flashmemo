@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  allow_unauthenticated_access only: %i[index show random]
+
   def index
     @questions = Question.all
     render json: @questions

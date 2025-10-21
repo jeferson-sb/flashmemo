@@ -26,13 +26,12 @@ RSpec.describe 'Users', type: :request do
 
   describe 'POST /users/:id/progress' do
     let(:user) { create(:user) }
-    let(:token) { JsonWebToken.encode(user_id: user.id) }
 
     describe 'when user have answers' do
       before { create(:answer, user:) }
 
       it 'return average score' do
-        get user_progress_path(user_id: user.id), headers: { 'Authorization' => "Bearer #{token}" }
+        get user_progress_path(user_id: user.id), headers: auth_headers
 
         expect(response).to have_http_status(:success)
         expect(json_body).to include('average')
@@ -47,7 +46,7 @@ RSpec.describe 'Users', type: :request do
       it 'return average for the month' do
         get user_progress_path(user_id: user.id),
             params: { time: 'monthly' },
-            headers: { 'Authorization' => "Bearer #{token}" }
+            headers: auth_headers
 
         expect(response).to have_http_status(:success)
         expect(json_body['exams'].length).to be(2)
@@ -59,8 +58,7 @@ RSpec.describe 'Users', type: :request do
       let!(:answer) { create(:answer, user:, created_at: 1.year.ago) }
 
       it 'return average for the year' do
-        get user_progress_path(user_id: user.id), params: { time: 'yearly' },
-                                                  headers: { 'Authorization' => "Bearer #{token}" }
+        get user_progress_path(user_id: user.id), params: { time: 'yearly' }, headers: auth_headers
 
         expect(response).to have_http_status(:success)
         expect(json_body['exams'].length).to be(3)
@@ -72,8 +70,7 @@ RSpec.describe 'Users', type: :request do
       let!(:answer) { create(:answer, user:, created_at: 6.months.ago) }
 
       it 'return average for the last semester' do
-        get user_progress_path(user_id: user.id), params: { time: 'semester' },
-                                                  headers: { 'Authorization' => "Bearer #{token}" }
+        get user_progress_path(user_id: user.id), params: { time: 'semester' }, headers: auth_headers
 
         expect(response).to have_http_status(:success)
         expect(json_body['exams'].length).to be(1)
@@ -84,8 +81,7 @@ RSpec.describe 'Users', type: :request do
       let!(:answers) { create_list(:answer, 2, user:, created_at: Time.now) }
 
       it 'return error' do
-        get user_progress_path(user_id: user.id), params: { time: 'semester' },
-                                                  headers: { 'Authorization' => "Bearer #{token}" }
+        get user_progress_path(user_id: user.id), params: { time: 'semester' }, headers: auth_headers
 
         expect(response).to have_http_status(:not_found)
         expect(json_body).to include('error')

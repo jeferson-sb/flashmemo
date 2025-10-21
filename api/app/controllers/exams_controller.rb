@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ExamsController < ApplicationController
-  allow_unauthenticated_access only: %i[index show]
+  allow_unauthenticated_access only: %i[index show duos]
 
   def show
     @exam = Exam.find(params[:id])

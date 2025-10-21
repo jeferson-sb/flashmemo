@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TreesController < ApplicationController
+  allow_unauthenticated_access only: %i[index show]
+
   def index
     @trees = Tree.all
   end
