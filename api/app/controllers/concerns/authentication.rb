@@ -25,7 +25,7 @@ module Authentication
     end
 
     def render_unauthorized
-      render json: { error: "Unauthorized" }, status: :unauthorized
+      render json: { error: 'Unauthorized' }, status: :unauthorized
     end
 
     def find_session_by_token

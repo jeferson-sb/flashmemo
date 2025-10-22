@@ -9,12 +9,12 @@ class SessionsController < ApplicationController
       start_new_session_for user
       render json: { token: Current.session.token }
     else
-      render json: { error: "Invalid email address or password" }, status: :unauthorized
+      render json: { error: 'Invalid email address or password' }, status: :unauthorized
     end
   end
 
   def destroy
     terminate_session
-    render json: { message: "Logged out" }, status: :ok
+    render json: { message: 'Logged out' }, status: :ok
   end
 end

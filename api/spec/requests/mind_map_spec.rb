@@ -63,7 +63,7 @@ RSpec.describe 'MindMaps', type: :request do
 
       it 'returns an error message' do
         post('/api/mindmaps.json', params:, headers: auth_headers, as: :json)
-        
+
         expect(response).to have_http_status(:bad_request)
         expect(json_body).to include('error')
       end
