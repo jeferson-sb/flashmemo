@@ -20,6 +20,6 @@ class Revision < ApplicationRecord
   end
 
   def valid_interval?(date)
-    date + INTERVALS[self.interval_level] < Time.now
+    self.interval_level == 0 || date + INTERVALS[self.interval_level] < Time.now
   end
 end

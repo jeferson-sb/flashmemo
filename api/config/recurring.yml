@@ -8,6 +8,6 @@ development:
     queue: background
     schedule: every day
   send_review_email:
-    class: RakeTaskJob
-    args: "send_review_email:all"
+    class: SendReviewEmailJob
+    queue: background
     schedule: every day
