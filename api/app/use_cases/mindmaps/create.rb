@@ -3,25 +3,22 @@
 module Mindmaps
   class Create
     class << self
-      def perform(edges, mindmap)
-        edges.each do |e|
+      def perform(connections, mindmap)
+        connections.each do |e|
           from, to = e
+          # from_node = ExamNode.find_by(exam_id: from)
+          # unless from_node
+          #   from_node = ExamNode.find_or_create_by(name: "test", exam_id: from, mindmap_id: 1)
+          # end
 
-          ActiveRecord::Base.transaction do
-            from_node = Node.find_by(nodeable_type: 'Exam', nodeable_id: from)
-            unless from_node
-              from_node = Node.new(nodeable_type: 'Exam', nodeable_id: from, graph_id: mindmap.id)
-              from_node.save!
-            end
+          # to_node = ExamNode.find_by(exam_id: to)
+          # unless to_node
+          #   to_node = ExamNode.create(name: "test", exam_id: to, mindmap_id: 1)
+          # end
 
-            to_node = Node.find_by(nodeable_type: 'Exam', nodeable_id: to)
-            unless to_node
-              to_node = Node.new(nodeable_type: 'Exam', nodeable_id: to, graph_id: mindmap.id)
-              to_node.save!
-            end
-
-            edge = Edge.create!(from_node_id: from_node.id, to_node_id: to_node.id)
-          end
+          # from_node.exams << to_node
+          puts "Node type is #{from.inspect}"
+          puts "Node type is #{to.inspect}"
         end
       end
     end

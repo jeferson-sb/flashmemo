@@ -13,12 +13,13 @@ class MindmapsController < ApplicationController
 
   def create
     @user = Current.session.user
-    @mm = MindMap.create!(category_id: create_params[:category_id], name: create_params[:name], user_id: @user.id)
-    edges = params[:edges]
+    # @mm = MindMap.create!(name: create_params[:name], user_id: @user.id)
+    connections = params[:connections]
 
-    render json: { error: 'Should have at least one edge' }, status: :bad_request if edges.empty?
+    render json: { error: 'Should have at least one connection' }, status: :bad_request if connections.empty?
 
-    Mindmaps::Create.perform(edges, @mm)
+    # Mindmaps::Create.perform(connections, @mm)
+    Mindmaps::Create.perform(connections, nil)
   end
 
   def update; end
@@ -26,6 +27,6 @@ class MindmapsController < ApplicationController
   private
 
   def create_params
-    params.permit(:name, :category_id, edges: { multiple: true })
+    params.permit(:name, connections: { multiple: true })
   end
 end
