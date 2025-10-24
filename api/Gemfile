@@ -18,6 +18,8 @@ gem 'sqlite3', '~> 2.5'
 gem 'tzinfo-data', platforms: %i[ windows jruby ]
 gem 'kamal', require: false
 gem 'thruster', require: false
+gem 'activegraph', '~> 12.0.0.beta.5'
+gem 'neo4j-ruby-driver', '~> 5.7.0.alpha.3'
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem 'solid_cache'
