@@ -13,13 +13,14 @@ class MindmapsController < ApplicationController
 
   def create
     @user = Current.session.user
-    # @mm = MindMap.create!(name: create_params[:name], user_id: @user.id)
+    @mm = MindMap.create!(name: create_params[:name], user_id: @user.id)
     connections = params[:connections]
 
     render json: { error: 'Should have at least one connection' }, status: :bad_request if connections.empty?
 
-    # Mindmaps::Create.perform(connections, @mm)
-    Mindmaps::Create.perform(connections, nil)
+    Mindmaps::Create.perform(connections, @mm)
+
+    render json: { message: I18n.t('success.created', entity: MindMap.model_name.human) }, status: :created
   end
 
   def update; end

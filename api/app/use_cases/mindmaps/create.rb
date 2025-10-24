@@ -6,19 +6,24 @@ module Mindmaps
       def perform(connections, mindmap)
         connections.each do |e|
           from, to = e
-          # from_node = ExamNode.find_by(exam_id: from)
-          # unless from_node
-          #   from_node = ExamNode.find_or_create_by(name: "test", exam_id: from, mindmap_id: 1)
-          # end
+          from_node = find_or_create_node(from, mindmap.id)
+          to_node = find_or_create_node(to, mindmap.id)
 
-          # to_node = ExamNode.find_by(exam_id: to)
-          # unless to_node
-          #   to_node = ExamNode.create(name: "test", exam_id: to, mindmap_id: 1)
-          # end
+          if to.key?(:exam_id)
+          from_node.exams << to_node
+          else
+          from_node.categories << to_node
+          end
+        end
+      end
 
-          # from_node.exams << to_node
-          puts "Node type is #{from.inspect}"
-          puts "Node type is #{to.inspect}"
+      private
+
+      def find_or_create_node(param, mindmap_id)
+        if param.key?(:category_id)
+          CategoryNode.find_or_create_by(name: param[:name], category_id: param[:category_id], mindmap_id: mindmap_id)
+        else
+          ExamNode.find_or_create_by(name: param[:name], exam_id: param[:exam_id], mindmap_id: mindmap_id)
         end
       end
     end
