@@ -25,6 +25,16 @@ class MindmapsController < ApplicationController
 
   def update; end
 
+  def update_node
+    mm = MindMap.find(params[:mindmap_id])
+    changes = params[:changes]
+    render json: { error: 'Changeset is required and should have at least one change' }, status: :bad_request if changes.empty?
+
+    Mindmaps::Create.perform(changes, mm)
+
+    render json: { message: I18n.t('success.updated', entity: MindMap.model_name.human) }, status: :ok
+  end
+
   private
 
   def create_params

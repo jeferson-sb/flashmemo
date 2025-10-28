@@ -35,6 +35,8 @@ Rails.application.routes.draw do
       post '/journal/surprise_question', to: 'gardens#evaluate_surprise_question'
     end
     resources :trees, only: %i[index show]
-    resources :mindmaps
+    resources :mindmaps do
+      patch '/nodes', to: 'mindmaps#update_node'
+    end
   end
 end
