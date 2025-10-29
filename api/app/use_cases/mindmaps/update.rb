@@ -9,7 +9,7 @@ module Mindmaps
             from, to = e
             from_node = find_or_create_node(from, mindmap.id)
             to_node = find_or_create_node(to, mindmap.id)
-  
+
             if to.key?(:exam_id)
             from_node.exams << to_node
             else
@@ -27,7 +27,6 @@ module Mindmaps
             end
           end
         end
-
       end
 
       private

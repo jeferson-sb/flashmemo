@@ -8,7 +8,6 @@ RSpec.describe MindMap, type: :model do
   end
 
   describe 'relations' do
-    it { is_expected.to have_many(:nodes) }
-    it { is_expected.to belong_to(:category) }
+    it { is_expected.to belong_to(:user) }
   end
 end
