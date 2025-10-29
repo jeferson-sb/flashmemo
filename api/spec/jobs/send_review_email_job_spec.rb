@@ -16,7 +16,7 @@ RSpec.describe SendReviewEmailJob, type: :job do
     it 'send review email when having enough questions and answer in the valid interval' do
       allow(NotificationMailer).to receive_message_chain(:with, :review_email, :deliver_now)
 
-      described_class.perform_now 
+      described_class.perform_now
 
       expect(NotificationMailer).to have_received(:with).with(hash_including(user: rev_with_questions.user.id,
                                                                              url: "/api/revisions/#{rev_with_questions.id}"))
