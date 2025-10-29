@@ -15,4 +15,5 @@ class User < ApplicationRecord
   has_many :exams, through: :answer
   has_many :mind_map
   has_one :garden
+  has_one :profile, dependent: :destroy
 end

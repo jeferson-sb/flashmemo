@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'tzinfo'
+
 module Dates
   class Season
     class << self
@@ -20,6 +22,20 @@ module Dates
 
         season = SEASONS.find { |_, v| v[hemisphere] == quarter }
         season ? season.first : raise("Season not found for hemisphere: #{hemisphere}, quarter: #{quarter}")
+      end
+
+      def hemisphere_from_country(country_name)
+        c = TZInfo::Country.get(country_name)
+        lat = c.zone_info.first.latitude
+        if lat.nil?
+          :unknown
+        elsif lat > 0
+          :north
+        elsif lat < 0
+          :south
+        else
+          :equator
+        end
       end
 
       private

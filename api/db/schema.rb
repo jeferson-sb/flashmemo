@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_17_133739) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_20_195014) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -109,11 +110,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_17_133739) do
 
   create_table "mind_maps", force: :cascade do |t|
     t.string "name"
-    t.bigint "category_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_mind_maps_on_category_id"
     t.index ["user_id"], name: "index_mind_maps_on_user_id"
   end
 
@@ -135,6 +134,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_17_133739) do
     t.datetime "updated_at", null: false
     t.boolean "correct", default: false
     t.index ["question_id"], name: "index_options_on_question_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.hstore "settings"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -214,6 +221,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_17_133739) do
   add_foreign_key "mind_maps", "categories"
   add_foreign_key "mind_maps", "users"
   add_foreign_key "options", "questions"
+  add_foreign_key "profiles", "users"
   add_foreign_key "questions", "exams"
   add_foreign_key "questions", "revisions"
   add_foreign_key "revisions", "exams"
