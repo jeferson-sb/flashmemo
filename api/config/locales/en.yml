@@ -26,6 +26,7 @@ en:
     creation: "Failed to create %{entity}"
   success:
     created: "%{entity} successfully created."
+    updated: "%{entity} successfully updated."
     deleted: "%{entity} successfully deleted."
     planted: "%{entity} %{name} successfully planted."
     fed: "%{entity} %{name} successfully fed."

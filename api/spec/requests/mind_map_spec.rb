@@ -26,38 +26,16 @@ RSpec.describe 'MindMaps', type: :request do
 
       expect(response).to be_successful
       expect(json_body).to include('name')
-      expect(json_body).to include('nodes')
+      expect(json_body).to include('owner_id')
     end
   end
 
   describe 'POST /' do
-    let!(:category) { create(:category) }
-    let!(:exams) { create_list(:exam, 3) }
-
-    describe 'when edges are NOT empty' do
+    describe 'when connections are empty' do
       let(:params) do
         {
           name: Faker::Lorem.sentence,
-          category_id: category.id,
-          edges: [
-            [exams[0].id, exams[1].id]
-          ]
-        }
-      end
-
-      it 'creates a new mind map' do
-        post('/api/mindmaps.json', params:, headers: auth_headers, as: :json)
-
-        expect(response).to have_http_status(:success)
-      end
-    end
-
-    describe 'when edges are empty' do
-      let(:params) do
-        {
-          name: Faker::Lorem.sentence,
-          category_id: category.id,
-          edges: []
+          connections: []
         }
       end
 

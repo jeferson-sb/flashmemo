@@ -34,6 +34,7 @@ pt:
     creation: "Falha ao criar %{entity}"
   success:
     created: "%{entity} criado com sucesso."
+    updated: "%{entity} atualizado com sucesso."
     deleted: "%{entity} deletado com sucesso."
     planted: "%{entity} %{name} plantado com sucesso."
     fed: "%{entity} %{name} nutrido com sucesso."
