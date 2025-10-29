@@ -30,7 +30,7 @@ class MindmapsController < ApplicationController
     changes = params[:changes]
     render json: { error: 'Changeset is required and should have at least one change' }, status: :bad_request if changes.empty?
 
-    Mindmaps::Create.perform(changes, mm)
+    Mindmaps::Update.perform(changes, mm)
 
     render json: { message: I18n.t('success.updated', entity: MindMap.model_name.human) }, status: :ok
   end

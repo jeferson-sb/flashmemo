@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     end
     resources :trees, only: %i[index show]
     resources :mindmaps do
-      patch '/nodes', to: 'mindmaps#update_node'
+      post '/nodes', to: 'mindmaps#update_node'
     end
   end
 end
