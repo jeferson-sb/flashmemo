@@ -90,7 +90,7 @@ GEM
     bcrypt_pbkdf (1.1.1)
     benchmark (0.4.1)
     bigdecimal (3.2.2)
-    bootsnap (1.16.0)
+    bootsnap (1.18.6)
       msgpack (~> 1.2)
     brakeman (7.1.0)
       racc
@@ -173,7 +173,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     minitest (5.25.5)
-    msgpack (1.7.0)
+    msgpack (1.8.0)
     neo4j-ruby-driver (5.7.0.alpha.4)
       activesupport (>= 7.1)
       async (< 2.13)
