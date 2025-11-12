@@ -208,7 +208,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
-    pkg-config (1.5.9)
+    pkg-config (1.6.4)
     prism (1.4.0)
     psych (5.2.3)
       date
@@ -262,7 +262,7 @@ GEM
     regexp_parser (2.11.2)
     reline (0.6.0)
       io-console (~> 0.5)
-    rmagick (6.0.1)
+    rmagick (6.1.4)
       observer (~> 0.1)
       pkg-config (~> 1.4)
     rspec-core (3.13.2)
@@ -385,7 +385,7 @@ DEPENDENCIES
   pg (~> 1.5.9)
   puma (~> 6.6)
   rails (~> 8.0.0)
-  rmagick (~> 6.0.1)
+  rmagick (~> 6.1.4)
   rspec-rails (~> 7.1.0)
   rubocop-rails (~> 2.32)
   rubocop-rails-omakase
