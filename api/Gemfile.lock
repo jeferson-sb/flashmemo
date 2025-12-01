@@ -338,8 +338,8 @@ GEM
     sorted_set (1.0.3)
       rbtree
       set (~> 1.0)
-    sqlite3 (2.5.0-aarch64-linux-gnu)
-    sqlite3 (2.5.0-x86_64-linux-gnu)
+    sqlite3 (2.8.1-aarch64-linux-gnu)
+    sqlite3 (2.8.1-x86_64-linux-gnu)
     sshkit (1.23.2)
       base64
       net-scp (>= 1.1.2)
@@ -394,7 +394,7 @@ DEPENDENCIES
   solid_cable
   solid_cache
   solid_queue
-  sqlite3 (~> 2.5)
+  sqlite3 (~> 2.8)
   thruster
   tzinfo-data
 

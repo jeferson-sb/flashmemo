@@ -14,7 +14,7 @@ gem 'pg', '~> 1.5.9'
 gem 'puma', '~> 6.6'
 gem 'rails', '~> 8.0.0'
 gem 'rmagick', '~> 6.1.4'
-gem 'sqlite3', '~> 2.5'
+gem 'sqlite3', '~> 2.8'
 gem 'tzinfo-data', platforms: %i[ windows jruby ]
 gem 'kamal', require: false
 gem 'thruster', require: false
