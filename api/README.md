@@ -37,6 +37,13 @@ docker compose run api rails db:migrate
 docker compose run api rails db:seed
 ```
 
+or run from within the container
+
+```sh
+docker exec -it flashmemo_api /bin/bash
+bin/rails db:create // or whatever command you need
+```
+
 ## Tests
 
 ```
@@ -48,3 +55,12 @@ rspec .
 ```
 rubocop -a
 ```
+
+## Neo4J
+
+After successfully running the application with docker compose the neo4j container should be up and running.
+Access the neo4j browser at: http://localhost:7474
+
+## Preview mailers
+
+Open up `http://localhost:3000/rails/mailers` in your browser.
