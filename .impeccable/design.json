@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-30T00:00:00Z",
+  "title": "Design System: Flashmemo — Harvest Almanac",
+  "extensions": {
+    "colorMeta": {
+      "crimson-primary": {
+        "role": "primary",
+        "displayName": "Oxblood Crimson",
+        "canonical": "#a3392a",
+        "tonalRamp": ["#2a1210", "#4a1e19", "#6b2a22", "#832a1e", "#a3392a", "#bb4736", "#d6685a", "#ecb0a6"]
+      },
+      "harvest-gold": {
+        "role": "secondary",
+        "displayName": "Harvest Gold",
+        "canonical": "#d89b3c",
+        "tonalRamp": ["#2e2008", "#4f370e", "#7a5416", "#b8802e", "#d89b3c", "#e0ab52", "#f0c874", "#f8e2b3"]
+      },
+      "garden-forest": {
+        "role": "tertiary",
+        "displayName": "Garden Forest",
+        "canonical": "#46612f",
+        "tonalRamp": ["#141d0d", "#22300f", "#334a21", "#46612f", "#5c7d44", "#7c9a5e", "#a3bd85", "#cfe0b8"]
+      },
+      "ground-ink": {
+        "role": "neutral",
+        "displayName": "Ground Ink",
+        "canonical": "#2a1d14",
+        "tonalRamp": ["#0e0904", "#180f09", "#241609", "#2a1d14", "#3c2a1c", "#52402c", "#786248", "#a4917a"]
+      },
+      "ledger-paper": {
+        "role": "neutral",
+        "displayName": "Ledger Paper",
+        "canonical": "#f2e4c6",
+        "tonalRamp": ["#4a3d20", "#6b5738", "#a68e6a", "#c9b08a", "#e8d5ab", "#f2e4c6", "#f7ecd2", "#fbf5e6"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Fraunces Display", "purpose": "H1 masthead headline only." },
+      "body": { "displayName": "Plus Jakarta Sans Body", "purpose": "All prose paragraphs." },
+      "label": { "displayName": "Space Mono Label", "purpose": "Datelines, sample tags, tabular chart/table labels." }
+    },
+    "shadows": [
+      { "name": "paper-lift", "value": "0 1px 0 rgba(255,255,255,0.4) inset, 0 22px 40px -18px rgba(12,7,4,0.65)", "purpose": "Every ledger-paper card, table, and chart sheet." },
+      { "name": "button-press", "value": "0 2px 0 #832a1e", "purpose": "Primary button resting shadow; deepens to 0 6px 0 on hover, flattens to 0 1px 0 on active." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Default easing for the page's two authored moments (chart grow-in, wax-seal stamp) and hover/press states." },
+      { "name": "duration-fast", "value": "240ms", "purpose": "Hover/press micro-transitions." },
+      { "name": "duration-med", "value": "520ms", "purpose": "Menu-toggle bar rotation." },
+      { "name": "duration-slow", "value": "900ms", "purpose": "Harvest-chart bar grow-in." }
+    ],
+    "breakpoints": [
+      { "name": "mobile-nav", "value": "860px" },
+      { "name": "two-col-collapse", "value": "900px" },
+      { "name": "cta-collapse", "value": "760px" },
+      { "name": "table-stack", "value": "700px" },
+      { "name": "compact", "value": "560px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one crimson call-to-action, used for every sign-up/start action across the page.",
+      "html": "<button class=\"ds-btn-primary\">Start your garden</button>",
+      "css": ".ds-btn-primary { background: #a3392a; color: #f3e9d2; border: 1px solid #832a1e; padding: 0.85rem 1.6rem; border-radius: 6px; font-weight: 600; font-size: 0.9375rem; box-shadow: 0 2px 0 #832a1e; transition: transform 240ms cubic-bezier(0.16,1,0.3,1), box-shadow 240ms cubic-bezier(0.16,1,0.3,1), background-color 240ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: #bb4736; transform: translateY(-2px); box-shadow: 0 6px 0 #832a1e; } .ds-btn-primary:active { transform: translateY(0); box-shadow: 0 1px 0 #832a1e; } .ds-btn-primary:focus-visible { outline: 2px solid #f0c874; outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Low-emphasis header action (\"Sign in\"); transparent with a gold-tinted border.",
+      "html": "<button class=\"ds-btn-ghost\">Sign in</button>",
+      "css": ".ds-btn-ghost { background: transparent; color: #f3e9d2; border: 1px solid rgba(216,155,60,0.45); padding: 0.85rem 1.6rem; border-radius: 6px; font-weight: 600; font-size: 0.9375rem; transition: background-color 240ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-ghost:hover { background: rgba(216,155,60,0.12); }"
+    },
+    {
+      "name": "Sample Tag",
+      "kind": "chip",
+      "refersTo": "tag-sample",
+      "description": "Truth-labeling pill that marks every piece of illustrative/demo data (weekly yield, seasonal chart) as synthetic.",
+      "html": "<span class=\"ds-tag-sample\">Sample ledger</span>",
+      "css": ".ds-tag-sample { display: inline-flex; align-items: center; white-space: nowrap; font-family: 'Space Mono', monospace; font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: #f0c874; border: 1px solid rgba(216,155,60,0.55); border-radius: 999px; padding: 0.2rem 0.65rem; }"
+    },
+    {
+      "name": "Ledger Paper Card",
+      "kind": "card",
+      "refersTo": "card-paper",
+      "description": "The lamplit ledger-paper sheet every table, chart, and demo panel sits on. Never the page's own background.",
+      "html": "<div class=\"ds-paper\">Ledger content</div>",
+      "css": ".ds-paper { background-color: #f2e4c6; background-image: radial-gradient(ellipse 140% 90% at 30% 0%, rgba(255,255,255,0.25), transparent 60%); color: #2a1d14; border-radius: 6px; padding: 3.25rem; box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 22px 40px -18px rgba(12,7,4,0.65); }"
+    },
+    {
+      "name": "Wax Seal",
+      "kind": "custom",
+      "refersTo": "wax-seal",
+      "description": "Signature stamp component. Plays a one-time 'stamp down' animation on successful sign-up — the page's single most distinctive motion moment.",
+      "html": "<svg class=\"ds-seal\" width=\"96\" height=\"96\" viewBox=\"0 0 96 96\" fill=\"none\"><circle cx=\"48\" cy=\"48\" r=\"42\" fill=\"#a3392a\" stroke=\"#832a1e\" stroke-width=\"2\"/><circle cx=\"48\" cy=\"48\" r=\"42\" fill=\"none\" stroke=\"#d6685a\" stroke-width=\"1\" stroke-dasharray=\"2 4\" opacity=\"0.6\"/><path d=\"M48 27c4.5 4 7 8.6 7 12.8a7 7 0 1 1-14 0c0-4.2 2.5-8.8 7-12.8Z\" fill=\"#f2e4c6\" opacity=\"0.92\"/><path d=\"M48 40.5v22\" stroke=\"#f2e4c6\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.92\"/><path d=\"M40 55h16\" stroke=\"#f2e4c6\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.92\"/></svg>",
+      "css": ".ds-seal { filter: drop-shadow(0 10px 18px rgba(24,15,9,0.45)); } .ds-seal.stamped { animation: ds-stamp-down 640ms cubic-bezier(0.16,1,0.3,1); } @keyframes ds-stamp-down { 0% { transform: translateY(-26px) scale(1.3) rotate(-8deg); opacity: 0; } 55% { transform: translateY(2px) scale(0.97) rotate(2deg); opacity: 1; } 75% { transform: translateY(-1px) scale(1.02) rotate(-1deg); } 100% { transform: translateY(0) scale(1) rotate(0deg); } }"
+    },
+    {
+      "name": "Ledger Table",
+      "kind": "custom",
+      "refersTo": "ledger-table",
+      "description": "Borderless table where each cell carries its own dashed underline sized to its own content width, like a receipt line. Row headers (th[scope=row]) always render as Fraunces entry titles — this lives in the shared primitive so exam/category titles never accidentally inherit the column-header mono styling.",
+      "html": "<table class=\"ds-ledger-table\"><thead><tr><th scope=\"col\">Entry</th><th scope=\"col\">What it does</th></tr></thead><tbody><tr><th scope=\"row\">Revisions</th><td>Weak spots resurface on their own schedule.</td></tr></tbody></table>",
+      "css": ".ds-ledger-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; } .ds-ledger-table th { text-align: left; font-family: 'Space Mono', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5738; font-weight: 500; padding-block-end: 0.5rem; border-bottom: 1px solid rgba(42,29,20,0.22); } .ds-ledger-table td, .ds-ledger-table th[scope='row'] { padding-block: 0.75rem; border-bottom: 1px dashed rgba(42,29,20,0.18); } .ds-ledger-table th[scope='row'] { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.0625rem; text-transform: none; letter-spacing: normal; color: #2a1d14; }"
+    },
+    {
+      "name": "Stat Tile",
+      "kind": "card",
+      "refersTo": "card-paper",
+      "description": "Operate-mode dashboard primitive: a panel holding one icon/number/label triple (seeds, nutrients, trees, average score). Three to four per row, collapsing to two columns under 640px.",
+      "html": "<div class=\"ds-stat-tile\"><span class=\"ds-stat-tile__value\">7</span><span class=\"ds-stat-tile__label\">seeds in your garden</span></div>",
+      "css": ".ds-stat-tile { background-color: #f2e4c6; border-radius: 6px; padding: 2rem; box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 22px 40px -18px rgba(12,7,4,0.65); display: flex; flex-direction: column; gap: 0.2rem; } .ds-stat-tile__value { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.75rem; color: #2a1d14; } .ds-stat-tile__label { font-size: 0.8125rem; color: #6b5738; }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Difficulty (beginner/intermediate/advanced) and tree-phase (seed/growing/mature/fall) pills. Same markup, two color contexts per The Paper Context Rule: light text on the dark ground, dark text inside a .panel.",
+      "html": "<span class=\"ds-badge ds-badge--beginner\">beginner</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.55rem; border-radius: 999px; white-space: nowrap; background: rgba(70,97,47,0.2); color: #7c9a5e; } .panel .ds-badge--beginner { color: #334a21; }"
+    },
+    {
+      "name": "Dashboard Sidebar Nav",
+      "kind": "nav",
+      "refersTo": "dashboard-nav",
+      "description": "Vertical nav list (Overview/Categories/Exams/Garden/Progress). Active item gets a crimson-tinted background fill, never a border-left accent. Below 860px the whole sidebar collapses to brand+hamburger, reusing the marketing header's morph-to-X toggle to reveal nav + user info + logout inline.",
+      "html": "<a class=\"ds-nav-item\" aria-current=\"page\">Overview</a>",
+      "css": ".ds-nav-item { display: block; padding: 0.55rem 0.85rem; border-radius: 6px; color: #c9b08a; text-decoration: none; font-size: 0.875rem; font-weight: 600; } .ds-nav-item:hover { background: rgba(216,155,60,0.1); color: #faf3e2; } .ds-nav-item[aria-current='page'] { background: rgba(163,57,42,0.18); color: #faf3e2; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Harvest Almanac",
+    "overview": "Flashmemo's landing page is staged as a study desk after dark: a warm, soil-brown ground lit by one lamp, with sheets of ledger paper pinned onto it wherever the product needs to show real information. The world was arrived at through Impeccable's direction-roll process (seed key c5f7050f), landing on an almanac/harvest-ledger reading of the product's existing reward mechanism — seeds, trees, and a garden — rather than the generic warm-cream-plus-serif-plus-red-accent look that a from-scratch AI pass defaults to. The page deliberately inverts that default: the dominant field is dark, not pale cream, and paper only ever appears as a lamplit inset, never as the page's own ground. Every demonstrative number on the page is synthetic and explicitly tagged Sample ledger / Sample season — a real, load-bearing rule, since the product has no hosted instance yet.",
+    "keyCharacteristics": [
+      "Dark, warm soil-brown ground; ledger paper exists only as a lit inset, never as the page background.",
+      "One saturated accent (oxblood crimson) reserved for action and the wax-seal signature moment; harvest gold carries identity and headlines; garden green is used sparingly for the reward motif.",
+      "Mixed type system: warm display serif for headlines, monospace for ledger figures/labels, humanist sans for body copy.",
+      "Structure borrows almanac/ledger conventions (dotted leaders, dashed rules, tabular entries, seasonal brackets) instead of icon-plus-heading card grids.",
+      "Motion is restrained to two authored moments: the harvest-chart bars growing in, and a wax seal stamping down on successful sign-up."
+    ],
+    "rules": [
+      { "name": "The Paper-Never-Is-The-Page Rule", "body": "Ledger paper is only ever a card, table, or chart surface pinned onto the dark ground — it never becomes the page's own background.", "section": "colors" },
+      { "name": "The One Red Rule", "body": "Crimson is the only saturated color used for interactive action. Gold and forest never carry a clickable affordance.", "section": "colors" },
+      { "name": "The Paper Context Rule", "body": "page-title, page-lede, field label, field-error, form-alert--error/--info, button--ghost, and every badge--* default to light tones for the dark ground; each has a .panel-scoped override that darkens it for the light ledger-paper ground instead. Reusing a dark-ground primitive inside a panel without its paper override produces text that is present but functionally invisible — a real contrast failure, learned building the dashboard.", "section": "colors" },
+      { "name": "The No-Kicker Rule", "body": "No section carries a small eyebrow label above its own heading; the almanac dateline appears once, at the very top of the page, as masthead convention rather than a marketing kicker.", "section": "typography" },
+      { "name": "The Grain-Not-Gloss Rule", "body": "Depth on paper surfaces comes from grain and a soft offset shadow, never a gradient overlay standing in for texture or a fake bevel/emboss filter.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep ledger paper as an inset surface only — cards, tables, chart sheets — never the page's own background.",
+      "Do tag every invented number or chart with a Sample ledger/Sample season pill until the product has a real hosted instance with real user data.",
+      "Do reserve crimson for action and the one signature seal moment; keep gold and forest out of clickable chrome.",
+      "Do texture every paper surface with the grain treatment — a flat solid fill reads as machine-made in this world.",
+      "Do default motion to visible-first: any scroll-triggered animation must render its content fully even if the trigger never fires.",
+      "Do give every interactive component all of default/hover/focus/active/disabled/loading/error states before shipping it.",
+      "Do reuse the marketing header's hamburger-to-X pattern for any new mobile nav rather than inventing a horizontal-scroll strip."
+    ],
+    "donts": [
+      "Don't add a kicker/eyebrow label above any section heading.",
+      "Don't use icon-plus-heading-plus-text card grids for feature lists; use the ledger/table/entry vocabulary instead.",
+      "Don't fake physical relief (CSS bevel/emboss/stamped-metal filters) on the wax seal or paper cards.",
+      "Don't apply the same scroll-reveal fade to every section; the page's motion budget is the chart grow-in and the wax-seal stamp, not a uniform per-section entrance.",
+      "Don't place a dark-ground-tuned color primitive inside a .panel without checking it has a paper-context override."
+    ]
+  }
+}

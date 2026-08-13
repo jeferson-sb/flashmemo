@@ -1,0 +1,87 @@
+/**
+ * Harvest Almanac — design tokens.
+ * Scene: a study desk after dark, one warm lamp over an open ledger book.
+ * The page ground is soil-brown, not paper-cream — ledger paper only
+ * appears as lamplit insets pinned to that dark ground.
+ */
+:root {
+	/* --- Ground & ink (the desk, at dusk) --- */
+	--ink-950: #180f09;
+	--ink-900: #241609;
+	--ink-800: #2a1d14;
+	--ink-700: #3c2a1c;
+	--ink-600: #52402c;
+
+	/* --- Ledger paper (lamplit insets, never the full page) --- */
+	--paper-100: #f7ecd2;
+	--paper-200: #f2e4c6;
+	--paper-300: #e8d5ab;
+	--paper-ink: #2a1d14;
+	--paper-ink-muted: #6b5738;
+
+	/* --- Harvest gold (headline, dividers, seed motif) --- */
+	--gold-300: #f0c874;
+	--gold-400: #e0ab52;
+	--gold-500: #d89b3c;
+	--gold-600: #b8802e;
+
+	/* --- Oxblood (the requested red accent: seals, CTA, underlines) --- */
+	--crimson-300: #d6685a;
+	--crimson-400: #bb4736;
+	--crimson-500: #a3392a;
+	--crimson-600: #832a1e;
+
+	/* --- Garden green (foliage, growth, tree motif) --- */
+	--forest-300: #7c9a5e;
+	--forest-400: #5c7d44;
+	--forest-500: #46612f;
+	--forest-600: #334a21;
+
+	/* --- Text on the dark ground, tinted warm — never gray --- */
+	--cream-100: #faf3e2;
+	--cream-200: #f3e9d2;
+	--tan-300: #d8c19a;
+	--tan-400: #c9b08a;
+	--tan-500: #a68e6a;
+
+	/* --- Type families --- */
+	--font-display: 'Fraunces Variable', 'Fraunces', ui-serif, Georgia, serif;
+	--font-mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+	--font-body: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+
+	/* --- Type scale --- */
+	--text-2xs: 0.6875rem;
+	--text-xs: 0.8125rem;
+	--text-sm: 0.9375rem;
+	--text-base: 1.0625rem;
+	--text-lg: 1.3125rem;
+	--text-xl: 1.75rem;
+	--text-2xl: 2.5rem;
+	--text-3xl: 3.5rem;
+	--text-4xl: 5rem;
+	--text-5xl: 6.25rem;
+
+	/* --- Space scale --- */
+	--space-3xs: 0.25rem;
+	--space-2xs: 0.5rem;
+	--space-xs: 0.75rem;
+	--space-sm: 1.25rem;
+	--space-md: 2rem;
+	--space-lg: 3.25rem;
+	--space-xl: 5.25rem;
+	--space-2xl: 8.5rem;
+	--space-3xl: 11rem;
+
+	/* --- Structure --- */
+	--measure: 62ch;
+	--radius-card: 6px;
+	--radius-seal: 50%;
+	--content-width: 78rem;
+	--edge: clamp(1.5rem, 5vw, 4rem);
+
+	/* --- Motion --- */
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+	--duration-fast: 240ms;
+	--duration-med: 520ms;
+	--duration-slow: 900ms;
+}

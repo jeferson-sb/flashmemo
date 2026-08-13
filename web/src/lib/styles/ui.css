@@ -1,0 +1,158 @@
+/* Shared almanac primitives: the vocabulary every section is built from. */
+
+.section {
+	max-width: var(--content-width);
+	margin-inline: auto;
+	padding: var(--space-2xl) var(--edge);
+}
+
+.dateline {
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--tan-500);
+}
+
+.button {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2xs);
+	background: var(--crimson-500);
+	color: var(--cream-100);
+	border: 1px solid var(--crimson-600);
+	padding: 0.85rem 1.6rem;
+	border-radius: var(--radius-card);
+	font-family: var(--font-body);
+	font-weight: 600;
+	font-size: var(--text-sm);
+	text-decoration: none;
+	box-shadow: 0 2px 0 var(--crimson-600);
+	transition:
+		transform var(--duration-fast) var(--ease-out-expo),
+		box-shadow var(--duration-fast) var(--ease-out-expo),
+		background-color var(--duration-fast) var(--ease-out-expo);
+}
+
+.button:hover {
+	background: var(--crimson-400);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 0 var(--crimson-600);
+}
+
+.button:active {
+	transform: translateY(0);
+	box-shadow: 0 1px 0 var(--crimson-600);
+}
+
+.button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: 0 2px 0 var(--crimson-600);
+}
+
+.button:disabled:hover {
+	background: var(--crimson-500);
+	transform: none;
+	box-shadow: 0 2px 0 var(--crimson-600);
+}
+
+.button--ghost:disabled {
+	box-shadow: none;
+}
+
+.button--small {
+	padding: 0.55rem 1.1rem;
+	font-size: var(--text-xs);
+}
+
+.button--ghost {
+	background: transparent;
+	color: var(--cream-100);
+	border-color: color-mix(in srgb, var(--gold-500) 45%, transparent);
+	box-shadow: none;
+}
+
+.button--ghost:hover {
+	background: color-mix(in srgb, var(--gold-500) 12%, transparent);
+	transform: none;
+	box-shadow: none;
+}
+
+/* A sheet of ledger paper, lamplit against the dark ground — grained, not flat. */
+.paper {
+	background-color: var(--paper-200);
+	background-image:
+		radial-gradient(ellipse 140% 90% at 30% 0%, rgba(255, 255, 255, 0.25), transparent 60%),
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.16  0 0 0 0 0.11  0 0 0 0 0.06  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+	background-blend-mode: normal, multiply;
+	color: var(--paper-ink);
+	border-radius: var(--radius-card);
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.4) inset,
+		0 22px 40px -18px rgba(12, 7, 4, 0.65);
+}
+
+.paper :global(a) {
+	color: var(--crimson-500);
+}
+
+.ledger-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-variant-numeric: tabular-nums;
+}
+
+.ledger-table th {
+	text-align: left;
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--paper-ink-muted);
+	font-weight: 500;
+	padding-block-end: var(--space-2xs);
+	border-bottom: 1px solid color-mix(in srgb, var(--paper-ink) 22%, transparent);
+}
+
+/* Row headers (th[scope=row]) are entries, not column labels — Fraunces,
+   normal case, full size, so a title reads as a title everywhere this
+   table is used, not just on the page that first defined the override. */
+.ledger-table th[scope='row'] {
+	font-family: var(--font-display);
+	font-weight: 600;
+	font-size: var(--text-base);
+	letter-spacing: normal;
+	text-transform: none;
+	color: var(--paper-ink);
+}
+
+.ledger-table td {
+	padding-block: var(--space-xs);
+	border-bottom: 1px dashed color-mix(in srgb, var(--paper-ink) 18%, transparent);
+	vertical-align: top;
+}
+
+.ledger-table tr:last-child td {
+	border-bottom: none;
+}
+
+.tag {
+	display: inline-flex;
+	align-items: center;
+	white-space: nowrap;
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--tan-400);
+	border: 1px solid color-mix(in srgb, var(--tan-500) 40%, transparent);
+	border-radius: 999px;
+	padding: 0.2rem 0.65rem;
+}
+
+.tag--sample {
+	color: var(--gold-300);
+	border-color: color-mix(in srgb, var(--gold-500) 55%, transparent);
+}
