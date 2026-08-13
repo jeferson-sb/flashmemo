@@ -13,6 +13,11 @@ class SessionsController < ApplicationController
     end
   end
 
+  def show
+    user = Current.session.user
+    render json: { id: user.id, name: user.name, username: user.username, email: user.email }
+  end
+
   def destroy
     terminate_session
     render json: { message: 'Logged out' }, status: :ok

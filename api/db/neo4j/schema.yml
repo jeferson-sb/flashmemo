@@ -15,11 +15,5 @@
 - CREATE CONSTRAINT `NODE_ActiveGraph::Migrations::SchemaMigration#migration_id_unique`
   FOR (n:`ActiveGraph::Migrations::SchemaMigration`) REQUIRE (n.`migration_id`) IS
   UNIQUE
-- CREATE CONSTRAINT `NODE_CategoryNode#uuid_unique` FOR (n:`CategoryNode`) REQUIRE
-  (n.`uuid`) IS UNIQUE
-- CREATE CONSTRAINT `NODE_ExamNode#uuid_unique` FOR (n:`ExamNode`) REQUIRE (n.`uuid`)
-  IS UNIQUE
 :indexes: []
-:versions:
-- '20251022202301'
-- '20251022202421'
+:versions: []
