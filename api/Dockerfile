@@ -4,7 +4,7 @@ WORKDIR /usr/app
 
 COPY Gemfile Gemfile.lock  ./
 
-RUN bundle install
+RUN bundle install --jobs 4 --retry 3
 
 EXPOSE 3000
 
