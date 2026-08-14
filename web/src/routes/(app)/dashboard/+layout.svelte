@@ -4,6 +4,7 @@
 	import DashboardNav from '$lib/components/dashboard/DashboardNav.svelte';
 	import { authApi } from '$lib/api';
 	import { auth } from '$lib/stores/auth.svelte';
+	import { ensureSession } from '$lib/stores/session';
 
 	let { children } = $props();
 	let ready = $state(false);
@@ -14,20 +15,10 @@
 			goto('/login');
 			return;
 		}
-		if (auth.user) {
-			ready = true;
-			return;
-		}
-		authApi
-			.me()
-			.then((user) => {
-				auth.setUser(user);
-				ready = true;
-			})
-			.catch(() => {
-				auth.clear();
-				goto('/login');
-			});
+		ensureSession().then((user) => {
+			if (user) ready = true;
+			else goto('/login');
+		});
 	});
 
 	async function handleLogout() {
@@ -49,7 +40,7 @@
 	<div class="app-shell">
 		<aside class="dash-sidebar" class:is-open={menuOpen}>
 			<div class="dash-sidebar__top">
-				<a class="dash-brand" href="/">
+				<a class="dash-brand" href="/dashboard">
 					<Mark size={24} />
 					<span>Flashmemo</span>
 				</a>

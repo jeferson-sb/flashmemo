@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Mark from '$lib/icons/Mark.svelte';
+	import { auth } from '$lib/stores/auth.svelte';
+	import { ensureSession } from '$lib/stores/session';
 
 	let menuOpen = $state(false);
 
@@ -8,6 +10,10 @@
 		{ href: '#almanac', label: "This year's almanac" },
 		{ href: '#seasons', label: 'Your seasons' }
 	];
+
+	$effect(() => {
+		ensureSession();
+	});
 </script>
 
 <header class="header">
@@ -24,8 +30,15 @@
 		</nav>
 
 		<div class="header__actions">
-			<a class="link-cta" href="/login">Sign in</a>
-			<a class="button button--small" href="/signup">Start your garden</a>
+			{#if auth.isAuthenticated}
+				{#if auth.user}
+					<span class="greeting">Hello, <strong>{auth.user.name}</strong>!</span>
+				{/if}
+				<a class="button button--small" href="/dashboard">Back to your garden</a>
+			{:else}
+				<a class="link-cta" href="/login">Sign in</a>
+				<a class="button button--small" href="/signup">Start your garden</a>
+			{/if}
 		</div>
 
 		<button
@@ -46,7 +59,14 @@
 			{#each links as link (link.href)}
 				<a href={link.href} onclick={() => (menuOpen = false)}>{link.label}</a>
 			{/each}
-			<a class="button" href="/signup" onclick={() => (menuOpen = false)}>Start your garden</a>
+			{#if auth.isAuthenticated}
+				{#if auth.user}
+					<span class="greeting">Hello, <strong>{auth.user.name}</strong>!</span>
+				{/if}
+				<a class="button" href="/dashboard" onclick={() => (menuOpen = false)}>Back to your garden</a>
+			{:else}
+				<a class="button" href="/signup" onclick={() => (menuOpen = false)}>Start your garden</a>
+			{/if}
 		</nav>
 	{/if}
 </header>
@@ -119,6 +139,17 @@
 
 	.link-cta:hover {
 		color: var(--gold-300);
+	}
+
+	.greeting {
+		font-size: var(--text-sm);
+		color: var(--tan-300);
+		white-space: nowrap;
+	}
+
+	.greeting strong {
+		color: var(--cream-100);
+		font-weight: 600;
 	}
 
 	.menu-toggle {
