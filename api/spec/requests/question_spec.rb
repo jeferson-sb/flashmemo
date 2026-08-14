@@ -131,6 +131,58 @@ RSpec.describe 'Questions', type: :request do
         expect(response).to be_successful
       end
     end
+
+    describe 'when the question belongs to an exam' do
+      let(:exam) { create(:exam) }
+      let(:params) do
+        {
+          title: Faker::Lorem.question,
+          exam_id: exam.id,
+          options: [
+            { text: Faker::Lorem.sentence, correct: true },
+            { text: Faker::Lorem.sentence, correct: false }
+          ]
+        }
+      end
+
+      before { post('/api/questions.json', params:, headers: auth_headers) }
+
+      it 'creates the question' do
+        expect(response).to have_http_status(:created)
+      end
+
+      # Regression: the question used to be saved with only questions.exam_id
+      # set, so it never appeared in the exam the client had just added it to.
+      it 'shows up on the exam it was added to' do
+        expect(exam.reload.questions.pluck(:title)).to eq([params[:title]])
+      end
+
+      it 'is rendered by the exam endpoint' do
+        get "/api/exams/#{exam.id}.json"
+
+        expect(JSON.parse(response.body)['total']).to eq(1)
+      end
+    end
+
+    describe 'when the exam does not exist' do
+      let(:params) do
+        {
+          title: Faker::Lorem.question,
+          exam_id: 0,
+          options: [
+            { text: Faker::Lorem.sentence, correct: true },
+            { text: Faker::Lorem.sentence, correct: false }
+          ]
+        }
+      end
+
+      it 'is rejected without leaving an orphaned question behind' do
+        expect { post('/api/questions.json', params:, headers: auth_headers) }
+          .not_to change(Question, :count)
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 
   describe 'POST /questions/bulk' do

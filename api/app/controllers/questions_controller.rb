@@ -41,10 +41,13 @@ class QuestionsController < ApplicationController
   end
 
   def create
+    exam = requested_exam
     @question = Question.new(create_params.slice(:title, :exam_id, :has_duo))
     @question.options.build(create_params[:options])
 
     if @question.save
+      exam.questions << @question if exam
+
       render json: { message: I18n.t('success.created', entity: Question.model_name.human) }, status: :created
     else
       message = @question.errors.full_messages_for(:options)
@@ -65,6 +68,17 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  # Every reader of an exam's questions — the jbuilder views, Exams::Evaluate,
+  # Questions::Duos — goes through the habtm association, so writing only the
+  # legacy questions.exam_id column leaves the new question invisible. Resolved
+  # before the question is saved so an unknown exam_id 404s instead of
+  # orphaning it.
+  def requested_exam
+    return if create_params[:exam_id].blank?
+
+    Exam.find(create_params[:exam_id])
+  end
 
   def question_update_params
     params.permit(:title, :image)
