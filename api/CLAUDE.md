@@ -51,7 +51,8 @@ Preview at http://localhost:3000/rails/mailers (mailer previews live in `spec/ma
 - **Postgres** (`pg`)
 - **Neo4j** (`activegraph`, `neo4j-ruby-driver`) is a second, independent datastore used only for the mind-map graph
 - **jbuilder** renders JSON views
-- **ActiveStorage** for question images; **ActionMailer** for reset-password and review-reminder emails.
+- **ActiveStorage** for question images and uploaded question spreadsheets; **ActionMailer** for reset-password and review-reminder emails.
+- **roo** reads uploaded `.xlsx` question sheets (`Spreadsheets::QuestionSheet`); imports run in `ImportQuestionsJob` and report progress through the `question_imports` table.
 - **Solid Queue** for background jobs, scheduled via **whenever**-style recurring tasks defined in `config/recurring.yml`.
 - **RSpec** + **FactoryBot** + **Faker** + **Shoulda Matchers** for testing.
 - **rubocop-rails-omakase** is the base style (see Code style below); **Brakeman** for security scanning.

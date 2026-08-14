@@ -9,6 +9,7 @@ import type {
 	GardenListItem,
 	Progress,
 	PeriodFilter,
+	QuestionImport,
 	SessionUser
 } from './types';
 
@@ -32,6 +33,16 @@ export const examsApi = {
 		api.post<{ message: string }>('/exams', { ...fields, question_ids: [] }),
 	evaluate: (examId: number, answers: { id: number; option_id: number }[]) =>
 		api.post<EvaluateResult>(`/exams/${examId}/evaluate`, { questions: answers })
+};
+
+export const importsApi = {
+	create: (examId: number, file: File) => {
+		const body = new FormData();
+		body.append('file', file);
+
+		return api.post<QuestionImport>(`/exams/${examId}/imports`, body);
+	},
+	get: (id: number) => api.get<QuestionImport>(`/imports/${id}`)
 };
 
 export const questionsApi = {

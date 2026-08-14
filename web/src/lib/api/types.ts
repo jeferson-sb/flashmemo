@@ -47,6 +47,29 @@ export interface ExamDetail {
 	questions: ExamQuestion[];
 }
 
+export type ImportStatus = 'pending' | 'processing' | 'completed' | 'failed';
+
+export interface ImportRowError {
+	row: number;
+	title: string;
+	reason: string;
+}
+
+/** GET /api/imports/:id — the polled state of a spreadsheet import. */
+export interface QuestionImport {
+	id: number;
+	exam_id: number;
+	status: ImportStatus;
+	filename: string | null;
+	total_rows: number;
+	imported_count: number;
+	skipped_count: number;
+	failed_count: number;
+	failure_reason: string | null;
+	created_at: string;
+	row_errors: ImportRowError[];
+}
+
 export interface GardenListItem {
 	id: number;
 	name: string;

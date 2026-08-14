@@ -31,6 +31,22 @@ en:
     planted: "%{entity} %{name} successfully planted."
     fed: "%{entity} %{name} successfully fed."
     won_seeds: "Great! You just won %{seeds} seeds. Use wisely!"
+  imports:
+    errors:
+      missing_file: No file was uploaded.
+      wrong_extension: Only .xlsx spreadsheets can be imported.
+      too_large: "The spreadsheet is too large. Keep it under %{max}MB."
+      unreadable: That file could not be read as a spreadsheet.
+      missing_headers: "The header row is missing these columns: %{headers}."
+      too_many_rows: "Too many rows. Import at most %{max} questions at a time."
+      empty_sheet: The spreadsheet has a header row but no questions.
+      missing_title: The title cell is empty.
+      blank_option: An option column is empty between filled ones.
+      too_few_options: A question needs at least 2 options.
+      too_many_options: A question can have at most 5 options.
+      missing_correct: The correct cell is empty.
+      invalid_correct: "\"%{value}\" is not a single option letter between A and E."
+      correct_out_of_range: "Correct answer %{letter} has no matching option — this row only has %{count}."
   match_the_duos: Match the duos
   well_done: Well done!
   try_again: Oops, try again!

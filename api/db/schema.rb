@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_20_195014) do
+ActiveRecord::Schema[8.0].define(version: 2026_08_13_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -144,6 +144,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_20_195014) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
+  create_table "question_imports", force: :cascade do |t|
+    t.bigint "exam_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "status", default: 0, null: false
+    t.string "filename"
+    t.integer "total_rows", default: 0, null: false
+    t.integer "imported_count", default: 0, null: false
+    t.integer "skipped_count", default: 0, null: false
+    t.integer "failed_count", default: 0, null: false
+    t.jsonb "row_errors", default: [], null: false
+    t.text "failure_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exam_id"], name: "index_question_imports_on_exam_id"
+    t.index ["user_id"], name: "index_question_imports_on_user_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -218,4 +235,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_20_195014) do
   add_foreign_key "exams_questions", "exams"
   add_foreign_key "exams_questions", "questions"
   add_foreign_key "gardens", "users"
+  add_foreign_key "question_imports", "exams"
+  add_foreign_key "question_imports", "users"
 end

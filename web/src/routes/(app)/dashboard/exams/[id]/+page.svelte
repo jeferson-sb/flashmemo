@@ -1,9 +1,30 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { page } from '$app/state';
-	import { examsApi, questionsApi, ApiError, type ExamDetail } from '$lib/api';
+	import {
+		examsApi,
+		importsApi,
+		questionsApi,
+		ApiError,
+		type ExamDetail,
+		type QuestionImport
+	} from '$lib/api';
 
 	const examId = Number(page.params.id);
+
+	// The API parses the spreadsheet in a background job, so the panel polls
+	// the import record until it settles.
+	const POLL_INTERVAL = 1500;
+	const POLL_TIMEOUT = 120_000;
+
+	let importFile = $state<File | null>(null);
+	let importState: 'idle' | 'running' | 'done' | 'error' | 'timeout' = $state('idle');
+	let importError = $state('');
+	let importResult = $state<QuestionImport | null>(null);
+	let fileInput = $state<HTMLInputElement | null>(null);
+	let pollTimer: ReturnType<typeof setTimeout> | undefined;
+
+	onDestroy(() => clearTimeout(pollTimer));
 
 	let exam = $state<ExamDetail | null>(null);
 	let loadState: 'loading' | 'ready' | 'error' = $state('loading');
@@ -60,6 +81,59 @@
 			createState = 'error';
 			createError = err instanceof ApiError ? err.message : 'Could not create that question.';
 		}
+	}
+
+	function pickFile(event: Event) {
+		const input = event.currentTarget as HTMLInputElement;
+		importFile = input.files?.[0] ?? null;
+	}
+
+	async function handleImport(event: SubmitEvent) {
+		event.preventDefault();
+		if (!importFile) return;
+		importState = 'running';
+		importError = '';
+		importResult = null;
+		try {
+			const started = await importsApi.create(examId, importFile);
+			pollImport(started.id, Date.now());
+		} catch (err) {
+			importState = 'error';
+			importError = err instanceof ApiError ? err.message : 'Could not start that import.';
+		}
+	}
+
+	function pollImport(id: number, startedAt: number) {
+		pollTimer = setTimeout(async () => {
+			try {
+				const current = await importsApi.get(id);
+				if (current.status === 'completed' || current.status === 'failed') {
+					importResult = current;
+					importState = 'done';
+					resetImportForm();
+					await load();
+				} else if (Date.now() - startedAt > POLL_TIMEOUT) {
+					importState = 'timeout';
+				} else {
+					pollImport(id, startedAt);
+				}
+			} catch (err) {
+				importState = 'error';
+				importError = err instanceof ApiError ? err.message : 'Lost track of that import.';
+			}
+		}, POLL_INTERVAL);
+	}
+
+	function resetImportForm() {
+		importFile = null;
+		if (fileInput) fileInput.value = '';
+	}
+
+	function summarize(result: QuestionImport) {
+		const parts = [`${result.imported_count} imported`];
+		if (result.skipped_count > 0) parts.push(`${result.skipped_count} already in this exam`);
+		if (result.failed_count > 0) parts.push(`${result.failed_count} couldn't be read`);
+		return `${parts.join(', ')}.`;
 	}
 </script>
 
@@ -135,6 +209,65 @@
 		{/if}
 	</div>
 
+	<div class="panel">
+		<div class="panel-head">
+			<span class="panel-title">Import a spreadsheet</span>
+			<a class="template-link" href="/import-template.xlsx" download>Download template</a>
+		</div>
+
+		<p class="import-hint">
+			One question per row: <code>title</code>, then <code>option_a</code> through <code>option_e</code>, and
+			<code>correct</code> holding the letter of the right option. Leave unused option columns empty. .xlsx only, up
+			to 500 questions at a time — questions already in this exam are skipped rather than duplicated.
+		</p>
+
+		<form class="import-form" onsubmit={handleImport}>
+			<input
+				bind:this={fileInput}
+				type="file"
+				accept=".xlsx"
+				aria-label="Spreadsheet to import"
+				onchange={pickFile}
+			/>
+			<button class="button" type="submit" disabled={!importFile || importState === 'running'}>
+				{importState === 'running' ? 'Importing…' : 'Import questions'}
+			</button>
+		</form>
+
+		{#if importState === 'running'}
+			<p class="import-status" aria-live="polite">Reading your spreadsheet…</p>
+		{:else if importState === 'error'}
+			<p class="form-alert form-alert--error" role="alert">{importError}</p>
+		{:else if importState === 'timeout'}
+			<p class="form-alert form-alert--info">
+				This import is taking longer than expected. It's still running — reload the page in a moment to see the
+				result.
+			</p>
+		{:else if importResult}
+			{#if importResult.status === 'failed'}
+				<p class="form-alert form-alert--error" role="alert">
+					That spreadsheet couldn't be imported. {importResult.failure_reason}
+				</p>
+			{:else}
+				<p class="import-status" aria-live="polite">{summarize(importResult)}</p>
+				{#if importResult.row_errors.length > 0}
+					<details class="import-errors">
+						<summary>Show the {importResult.row_errors.length} rows that didn't make it</summary>
+						<ul>
+							{#each importResult.row_errors as rowError (rowError.row)}
+								<li>
+									<span class="import-errors__row">Row {rowError.row}</span>
+									<span class="import-errors__title">{rowError.title}</span>
+									<span class="import-errors__reason">{rowError.reason}</span>
+								</li>
+							{/each}
+						</ul>
+					</details>
+				{/if}
+			{/if}
+		{/if}
+	</div>
+
 	{#if exam.questions.length === 0}
 		<div class="empty-state">
 			<strong>No questions yet</strong>
@@ -195,6 +328,96 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-sm);
+	}
+
+	.template-link {
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--crimson-500);
+		text-decoration: none;
+	}
+
+	.template-link:hover {
+		text-decoration: underline;
+	}
+
+	.import-hint {
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--paper-ink-muted);
+	}
+
+	.import-hint code {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		background: color-mix(in srgb, var(--paper-ink) 8%, transparent);
+		padding: 0.05rem 0.3rem;
+		border-radius: 4px;
+	}
+
+	.import-form {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		flex-wrap: wrap;
+		margin-top: var(--space-sm);
+	}
+
+	.import-form input[type='file'] {
+		font-size: 0.8125rem;
+		color: var(--paper-ink-muted);
+		min-width: 0;
+		flex: 1 1 14rem;
+	}
+
+	.import-status {
+		margin-top: var(--space-sm);
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--paper-ink);
+	}
+
+	.import-errors {
+		margin-top: 0.5rem;
+		font-size: 0.8125rem;
+	}
+
+	.import-errors summary {
+		cursor: pointer;
+		color: var(--paper-ink-muted);
+	}
+
+	.import-errors ul {
+		list-style: none;
+		padding: 0;
+		margin-top: 0.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	.import-errors li {
+		display: grid;
+		grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1.2fr);
+		gap: 0.5rem;
+		padding-bottom: 0.4rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--paper-ink) 10%, transparent);
+	}
+
+	.import-errors__row {
+		font-family: var(--font-mono);
+		color: var(--paper-ink-muted);
+	}
+
+	.import-errors__reason {
+		color: var(--crimson-500);
+	}
+
+	@media (max-width: 640px) {
+		.import-errors li {
+			grid-template-columns: 1fr;
+			gap: 0.15rem;
+		}
 	}
 
 	.options-fieldset {

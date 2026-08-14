@@ -23,7 +23,9 @@ Rails.application.routes.draw do
       post '/evaluate', to: 'exams#evaluate'
       get 'duos', to: 'exams#duos'
       post 'duos/evaluate', to: 'exams#evaluate_duos'
+      resources :imports, only: %i[create], controller: 'question_imports'
     end
+    resources :imports, only: %i[show], controller: 'question_imports'
     resources :users, only: %i[create] do
       get '/progress', to: 'users#progress'
     end

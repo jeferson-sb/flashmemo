@@ -39,6 +39,22 @@ pt:
     planted: "%{entity} %{name} plantado com sucesso."
     fed: "%{entity} %{name} nutrido com sucesso."
     won_seeds: "Boa! Você ganhou %{seeds} sementes. Faça bom uso!"
+  imports:
+    errors:
+      missing_file: Nenhum arquivo foi enviado.
+      wrong_extension: Somente planilhas .xlsx podem ser importadas.
+      too_large: "A planilha é muito grande. Mantenha abaixo de %{max}MB."
+      unreadable: Não foi possível ler esse arquivo como planilha.
+      missing_headers: "O cabeçalho está sem estas colunas: %{headers}."
+      too_many_rows: "Linhas demais. Importe no máximo %{max} questões por vez."
+      empty_sheet: A planilha tem cabeçalho, mas nenhuma questão.
+      missing_title: A célula title está vazia.
+      blank_option: Há uma coluna de opção vazia entre opções preenchidas.
+      too_few_options: Uma questão precisa de pelo menos 2 opções.
+      too_many_options: Uma questão pode ter no máximo 5 opções.
+      missing_correct: A célula correct está vazia.
+      invalid_correct: "\"%{value}\" não é uma única letra de opção entre A e E."
+      correct_out_of_range: "A resposta correta %{letter} não tem opção correspondente — esta linha tem apenas %{count}."
   match_the_duos: Combine os pares
   well_done: Excelente!
   try_again: Oops, tente novamente!
