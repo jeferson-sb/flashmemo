@@ -9,6 +9,7 @@
 		type ExamDetail,
 		type QuestionImport
 	} from '$lib/api';
+	import { auth } from '$lib/stores/auth.svelte';
 
 	const examId = Number(page.params.id);
 
@@ -28,6 +29,10 @@
 
 	let exam = $state<ExamDetail | null>(null);
 	let loadState: 'loading' | 'ready' | 'error' = $state('loading');
+
+	// Exams are readable by anyone but writable only by their author, so the
+	// write panels are hidden rather than offered and then rejected.
+	const isOwner = $derived(exam !== null && auth.user?.id === exam.user_id);
 
 	let questionTitle = $state('');
 	let options = $state<{ text: string }[]>([{ text: '' }, { text: '' }]);
@@ -164,114 +169,120 @@
 		{/if}
 	</header>
 
-	<div class="panel">
-		<div class="panel-head">
-			<span class="panel-title">Add a question</span>
+	{#if isOwner}
+		<div class="panel">
+			<div class="panel-head">
+				<span class="panel-title">Add a question</span>
+			</div>
+			<form class="question-form" onsubmit={handleCreate}>
+				<div class="field">
+					<label for="q-title">Question</label>
+					<input id="q-title" type="text" placeholder="e.g. What powers a cell?" required bind:value={questionTitle} />
+				</div>
+
+				<fieldset class="options-fieldset">
+					<legend>Options — mark the correct one</legend>
+					{#each options as option, i (i)}
+						<div class="option-row">
+							<input
+								type="radio"
+								name="correct"
+								checked={correctIndex === i}
+								onchange={() => (correctIndex = i)}
+								aria-label={`Option ${i + 1} is correct`}
+							/>
+							<input type="text" placeholder={`Option ${i + 1}`} required bind:value={option.text} />
+							{#if options.length > 2}
+								<button type="button" class="remove-option" onclick={() => removeOption(i)} aria-label="Remove option">
+									×
+								</button>
+							{/if}
+						</div>
+					{/each}
+					{#if options.length < 5}
+						<button type="button" class="button button--ghost button--small" onclick={addOption}>
+							+ Add option
+						</button>
+					{/if}
+				</fieldset>
+
+				<button class="button" type="submit" disabled={createState === 'submitting'}>
+					{createState === 'submitting' ? 'Adding…' : 'Add question'}
+				</button>
+			</form>
+			{#if createState === 'error'}
+				<p class="field-error">{createError}</p>
+			{/if}
 		</div>
-		<form class="question-form" onsubmit={handleCreate}>
-			<div class="field">
-				<label for="q-title">Question</label>
-				<input id="q-title" type="text" placeholder="e.g. What powers a cell?" required bind:value={questionTitle} />
+
+		<div class="panel">
+			<div class="panel-head">
+				<span class="panel-title">Import a spreadsheet</span>
+				<a class="template-link" href="/import-template.xlsx" download>Download template</a>
 			</div>
 
-			<fieldset class="options-fieldset">
-				<legend>Options — mark the correct one</legend>
-				{#each options as option, i (i)}
-					<div class="option-row">
-						<input
-							type="radio"
-							name="correct"
-							checked={correctIndex === i}
-							onchange={() => (correctIndex = i)}
-							aria-label={`Option ${i + 1} is correct`}
-						/>
-						<input type="text" placeholder={`Option ${i + 1}`} required bind:value={option.text} />
-						{#if options.length > 2}
-							<button type="button" class="remove-option" onclick={() => removeOption(i)} aria-label="Remove option">
-								×
-							</button>
-						{/if}
-					</div>
-				{/each}
-				{#if options.length < 5}
-					<button type="button" class="button button--ghost button--small" onclick={addOption}>
-						+ Add option
-					</button>
-				{/if}
-			</fieldset>
-
-			<button class="button" type="submit" disabled={createState === 'submitting'}>
-				{createState === 'submitting' ? 'Adding…' : 'Add question'}
-			</button>
-		</form>
-		{#if createState === 'error'}
-			<p class="field-error">{createError}</p>
-		{/if}
-	</div>
-
-	<div class="panel">
-		<div class="panel-head">
-			<span class="panel-title">Import a spreadsheet</span>
-			<a class="template-link" href="/import-template.xlsx" download>Download template</a>
-		</div>
-
-		<p class="import-hint">
-			One question per row: <code>title</code>, then <code>option_a</code> through <code>option_e</code>, and
-			<code>correct</code> holding the letter of the right option. Leave unused option columns empty. .xlsx only, up
-			to 500 questions at a time — questions already in this exam are skipped rather than duplicated.
-		</p>
-
-		<form class="import-form" onsubmit={handleImport}>
-			<input
-				bind:this={fileInput}
-				type="file"
-				accept=".xlsx"
-				aria-label="Spreadsheet to import"
-				onchange={pickFile}
-			/>
-			<button class="button" type="submit" disabled={!importFile || importState === 'running'}>
-				{importState === 'running' ? 'Importing…' : 'Import questions'}
-			</button>
-		</form>
-
-		{#if importState === 'running'}
-			<p class="import-status" aria-live="polite">Reading your spreadsheet…</p>
-		{:else if importState === 'error'}
-			<p class="form-alert form-alert--error" role="alert">{importError}</p>
-		{:else if importState === 'timeout'}
-			<p class="form-alert form-alert--info">
-				This import is taking longer than expected. It's still running — reload the page in a moment to see the
-				result.
+			<p class="import-hint">
+				One question per row: <code>title</code>, then <code>option_a</code> through <code>option_e</code>, and
+				<code>correct</code> holding the letter of the right option. Leave unused option columns empty. .xlsx only, up
+				to 500 questions at a time — questions already in this exam are skipped rather than duplicated.
 			</p>
-		{:else if importResult}
-			{#if importResult.status === 'failed'}
-				<p class="form-alert form-alert--error" role="alert">
-					That spreadsheet couldn't be imported. {importResult.failure_reason}
+
+			<form class="import-form" onsubmit={handleImport}>
+				<input
+					bind:this={fileInput}
+					type="file"
+					accept=".xlsx"
+					aria-label="Spreadsheet to import"
+					onchange={pickFile}
+				/>
+				<button class="button" type="submit" disabled={!importFile || importState === 'running'}>
+					{importState === 'running' ? 'Importing…' : 'Import questions'}
+				</button>
+			</form>
+
+			{#if importState === 'running'}
+				<p class="import-status" aria-live="polite">Reading your spreadsheet…</p>
+			{:else if importState === 'error'}
+				<p class="form-alert form-alert--error" role="alert">{importError}</p>
+			{:else if importState === 'timeout'}
+				<p class="form-alert form-alert--info">
+					This import is taking longer than expected. It's still running — reload the page in a moment to see the
+					result.
 				</p>
-			{:else}
-				<p class="import-status" aria-live="polite">{summarize(importResult)}</p>
-				{#if importResult.row_errors.length > 0}
-					<details class="import-errors">
-						<summary>Show the {importResult.row_errors.length} rows that didn't make it</summary>
-						<ul>
-							{#each importResult.row_errors as rowError (rowError.row)}
-								<li>
-									<span class="import-errors__row">Row {rowError.row}</span>
-									<span class="import-errors__title">{rowError.title}</span>
-									<span class="import-errors__reason">{rowError.reason}</span>
-								</li>
-							{/each}
-						</ul>
-					</details>
+			{:else if importResult}
+				{#if importResult.status === 'failed'}
+					<p class="form-alert form-alert--error" role="alert">
+						That spreadsheet couldn't be imported. {importResult.failure_reason}
+					</p>
+				{:else}
+					<p class="import-status" aria-live="polite">{summarize(importResult)}</p>
+					{#if importResult.row_errors.length > 0}
+						<details class="import-errors">
+							<summary>Show the {importResult.row_errors.length} rows that didn't make it</summary>
+							<ul>
+								{#each importResult.row_errors as rowError (rowError.row)}
+									<li>
+										<span class="import-errors__row">Row {rowError.row}</span>
+										<span class="import-errors__title">{rowError.title}</span>
+										<span class="import-errors__reason">{rowError.reason}</span>
+									</li>
+								{/each}
+							</ul>
+						</details>
+					{/if}
 				{/if}
 			{/if}
-		{/if}
-	</div>
+		</div>
+	{/if}
 
 	{#if exam.questions.length === 0}
 		<div class="empty-state">
 			<strong>No questions yet</strong>
-			<p>Add your first question above before you can take this exam.</p>
+			{#if isOwner}
+				<p>Add your first question above before you can take this exam.</p>
+			{:else}
+				<p>Whoever built this exam hasn't added any questions to it yet.</p>
+			{/if}
 		</div>
 	{:else}
 		<div class="panel">

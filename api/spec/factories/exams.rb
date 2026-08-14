@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :exam do
+    user
     title { Faker::Book.title }
     difficulty { %i[beginner intermediate advanced].sample }
     version { 1 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_13_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_08_13_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -86,8 +86,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_13_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "category_id"
+    t.bigint "user_id", null: false
     t.index ["category_id"], name: "index_exams_on_category_id"
     t.index ["id"], name: "index_exams_on_id"
+    t.index ["user_id"], name: "index_exams_on_user_id"
   end
 
   create_table "exams_questions", id: false, force: :cascade do |t|
@@ -232,6 +234,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_13_120000) do
   add_foreign_key "edges", "nodes", column: "from_node_id"
   add_foreign_key "edges", "nodes", column: "to_node_id"
   add_foreign_key "exams", "categories"
+  add_foreign_key "exams", "users"
   add_foreign_key "exams_questions", "exams"
   add_foreign_key "exams_questions", "questions"
   add_foreign_key "gardens", "users"

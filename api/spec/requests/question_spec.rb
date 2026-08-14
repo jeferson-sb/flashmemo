@@ -7,7 +7,13 @@ RSpec.describe 'Questions', type: :request do
     JSON.parse(response.body)
   end
 
-  before { create(:question, :with_options, options_count: 3, id: 1) }
+  # Questions are edited through the exams they belong to, so question 1 hangs
+  # off an exam the requesting user owns.
+  let(:owner) { create(:user) }
+  let(:headers) { auth_headers_for(owner) }
+  let(:exam) { create(:exam, user: owner) }
+
+  before { exam.questions << create(:question, :with_options, options_count: 3, id: 1) }
 
   describe 'GET /index' do
     it 'returns all questions' do
@@ -45,7 +51,7 @@ RSpec.describe 'Questions', type: :request do
 
   describe 'DELETE /:id' do
     it 'delete specified question' do
-      delete '/api/questions/1.json', headers: auth_headers
+      delete('/api/questions/1.json', headers:)
 
       expect(response).to have_http_status(:no_content)
     end
@@ -65,7 +71,7 @@ RSpec.describe 'Questions', type: :request do
     end
 
     it 'updates title of the question' do
-      put('/api/questions/1.json', params:, headers: auth_headers)
+      put('/api/questions/1.json', params:, headers:)
 
       expect(response).to be_successful
       expect(json_body).to include('title')
@@ -73,13 +79,13 @@ RSpec.describe 'Questions', type: :request do
     end
 
     it 'adds image to the question' do
-      put('/api/questions/1.json', params: { image: file }, headers: auth_headers)
+      put('/api/questions/1.json', params: { image: file }, headers:)
 
       expect(response).to have_http_status(:ok)
     end
 
     it 'adds wrong file to the question' do
-      put('/api/questions/1.json', params: { image: wrongfile }, headers: auth_headers)
+      put('/api/questions/1.json', params: { image: wrongfile }, headers:)
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(json_body['error']).to include('Questions Invalid format. File extensions available: png, jpg, jpeg')
@@ -133,11 +139,11 @@ RSpec.describe 'Questions', type: :request do
     end
 
     describe 'when the question belongs to an exam' do
-      let(:exam) { create(:exam) }
+      let(:target_exam) { create(:exam, user: owner) }
       let(:params) do
         {
           title: Faker::Lorem.question,
-          exam_id: exam.id,
+          exam_id: target_exam.id,
           options: [
             { text: Faker::Lorem.sentence, correct: true },
             { text: Faker::Lorem.sentence, correct: false }
@@ -145,7 +151,7 @@ RSpec.describe 'Questions', type: :request do
         }
       end
 
-      before { post('/api/questions.json', params:, headers: auth_headers) }
+      before { post('/api/questions.json', params:, headers:) }
 
       it 'creates the question' do
         expect(response).to have_http_status(:created)
@@ -154,13 +160,34 @@ RSpec.describe 'Questions', type: :request do
       # Regression: the question used to be saved with only questions.exam_id
       # set, so it never appeared in the exam the client had just added it to.
       it 'shows up on the exam it was added to' do
-        expect(exam.reload.questions.pluck(:title)).to eq([params[:title]])
+        expect(target_exam.reload.questions.pluck(:title)).to eq([params[:title]])
       end
 
       it 'is rendered by the exam endpoint' do
-        get "/api/exams/#{exam.id}.json"
+        get "/api/exams/#{target_exam.id}.json"
 
         expect(JSON.parse(response.body)['total']).to eq(1)
+      end
+    end
+
+    describe 'when the exam belongs to someone else' do
+      let(:someone_elses_exam) { create(:exam) }
+      let(:params) do
+        {
+          title: Faker::Lorem.question,
+          exam_id: someone_elses_exam.id,
+          options: [
+            { text: Faker::Lorem.sentence, correct: true },
+            { text: Faker::Lorem.sentence, correct: false }
+          ]
+        }
+      end
+
+      it 'refuses to add a question to it' do
+        expect { post('/api/questions.json', params:, headers:) }.not_to change(Question, :count)
+
+        expect(response).to have_http_status(:not_found)
+        expect(someone_elses_exam.reload.questions).to be_empty
       end
     end
 
@@ -177,11 +204,28 @@ RSpec.describe 'Questions', type: :request do
       end
 
       it 'is rejected without leaving an orphaned question behind' do
-        expect { post('/api/questions.json', params:, headers: auth_headers) }
+        expect { post('/api/questions.json', params:, headers:) }
           .not_to change(Question, :count)
 
         expect(response).to have_http_status(:not_found)
       end
+    end
+  end
+
+  describe "another user's question" do
+    let(:headers) { auth_headers }
+
+    it 'cannot be updated' do
+      put('/api/questions/1.json', params: { title: 'Hijacked' }, headers:)
+
+      expect(response).to have_http_status(:not_found)
+      expect(Question.find(1).title).not_to eq('Hijacked')
+    end
+
+    it 'cannot be deleted' do
+      expect { delete('/api/questions/1.json', headers:) }.not_to change(Question, :count)
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 

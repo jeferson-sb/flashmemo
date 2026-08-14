@@ -17,6 +17,7 @@ export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 /** Raw AR rows from GET /api/exams (explicit render json:, bypasses jbuilder). */
 export interface ExamListItem {
 	id: number;
+	user_id: number;
 	title: string;
 	difficulty: Difficulty;
 	version: number;
@@ -40,6 +41,7 @@ export interface ExamQuestion {
 /** GET /api/exams/:id (jbuilder show view). */
 export interface ExamDetail {
 	id: number;
+	user_id: number;
 	title: string;
 	level: string;
 	total: number;

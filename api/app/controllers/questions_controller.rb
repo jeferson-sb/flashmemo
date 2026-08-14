@@ -21,14 +21,14 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:id])
+    @question = owned_questions.find(params[:id])
     @question.destroy
 
     render json: { message: I18n.t('success.deleted', entity: Question.model_name.human) }, status: :no_content
   end
 
   def update
-    @question = Question.find(params[:id])
+    @question = owned_questions.find(params[:id])
 
     @question.image.attach(params[:image]) if question_update_params[:image].present?
 
@@ -72,12 +72,18 @@ class QuestionsController < ApplicationController
   # Every reader of an exam's questions — the jbuilder views, Exams::Evaluate,
   # Questions::Duos — goes through the habtm association, so writing only the
   # legacy questions.exam_id column leaves the new question invisible. Resolved
-  # before the question is saved so an unknown exam_id 404s instead of
-  # orphaning it.
+  # before the question is saved so an exam that isn't yours 404s instead of
+  # orphaning a question.
   def requested_exam
     return if create_params[:exam_id].blank?
 
-    Exam.find(create_params[:exam_id])
+    Exam.owned_by(Current.user.id).find(create_params[:exam_id])
+  end
+
+  # A question is editable through the exams it belongs to. Questions attached
+  # to no exam are nobody's, and stay read-only.
+  def owned_questions
+    Question.joins(:exams).where(exams: { user_id: Current.user.id }).distinct
   end
 
   def question_update_params

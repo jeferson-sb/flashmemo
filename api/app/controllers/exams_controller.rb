@@ -31,7 +31,7 @@ class ExamsController < ApplicationController
   end
 
   def create
-    @exam = Exam.new(create_params.slice(:title, :difficulty, :version, :category_id))
+    @exam = Exam.new(create_params.slice(:title, :difficulty, :version, :category_id).merge(user: Current.user))
 
     if @exam.save
       questions = params[:question_ids]
@@ -48,7 +48,7 @@ class ExamsController < ApplicationController
   end
 
   def update
-    @exam = Exam.find(params[:id])
+    @exam = owned_exams.find(params[:id])
 
     if @exam.update(create_params.slice(:title, :difficulty, :version, :category_id))
       render json: @exam, status: :ok
@@ -59,7 +59,7 @@ class ExamsController < ApplicationController
   end
 
   def destroy
-    @exam = Exam.find(params[:id])
+    @exam = owned_exams.find(params[:id])
     @exam.destroy
 
     render json: { message: I18n.t('success.deleted', entity: Exam.model_name.human) }, status: :no_content
@@ -82,6 +82,13 @@ class ExamsController < ApplicationController
   end
 
   private
+
+  # Anyone may read or take an exam; only its author may change it. Narrowing
+  # the lookup (rather than checking after finding) means a stranger's exam
+  # 404s instead of confirming it exists.
+  def owned_exams
+    Exam.owned_by(Current.user.id)
+  end
 
   def create_params
     params.permit(:title, :difficulty, :version, :category_id, :question_ids)

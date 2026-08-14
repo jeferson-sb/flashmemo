@@ -58,7 +58,9 @@ class Seeder
     return if skip?(Exam)
 
     log 'Seeding Exam'
-    attrs = FactoryBot.attributes_for_list(:exam, 10, :with_questions)
+    attrs = FactoryBot.attributes_for_list(:exam, 10, :with_questions).map do |attributes|
+      attributes.merge(user_id: user_ids.sample)
+    end
     @exam_ids = batch_insert!(attrs, Exam)
   end
 

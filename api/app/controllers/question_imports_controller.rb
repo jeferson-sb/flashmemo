@@ -5,7 +5,7 @@ class QuestionImportsController < ApplicationController
   # header row — is answered synchronously, so an obviously wrong upload never
   # costs a job slot or a poll cycle. Row-level problems belong to the job.
   def create
-    @exam = Exam.find(params[:exam_id])
+    @exam = Exam.owned_by(Current.user.id).find(params[:exam_id])
     file = params[:file]
     error = preflight(file)
 

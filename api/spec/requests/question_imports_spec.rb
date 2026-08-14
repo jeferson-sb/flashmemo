@@ -6,8 +6,8 @@ RSpec.describe 'QuestionImports', type: :request do
   include ActiveJob::TestHelper
 
   let(:json_body) { JSON.parse(response.body) }
-  let(:exam) { create(:exam) }
   let(:user) { create(:user) }
+  let(:exam) { create(:exam, user:) }
   let(:headers) { auth_headers_for(user) }
 
   def upload(name, type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
@@ -80,6 +80,23 @@ RSpec.describe 'QuestionImports', type: :request do
       end
 
       it 'does not enqueue anything' do
+        expect(ImportQuestionsJob).not_to have_been_enqueued
+      end
+    end
+
+    context 'when the exam belongs to someone else' do
+      let(:someone_elses_exam) { create(:exam) }
+
+      before do
+        post("/api/exams/#{someone_elses_exam.id}/imports", params: { file: upload('questions.xlsx') }, headers:)
+      end
+
+      it 'refuses the upload' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'does not store an import or enqueue work' do
+        expect(QuestionImport.count).to eq(0)
         expect(ImportQuestionsJob).not_to have_been_enqueued
       end
     end

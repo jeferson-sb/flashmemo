@@ -184,4 +184,77 @@ RSpec.describe 'Exams', type: :request do
       end
     end
   end
+
+  # Exams are a shared library: anyone may read and take one, only its author
+  # may change it.
+  describe 'ownership' do
+    let(:owner) { create(:user) }
+    let(:headers) { auth_headers_for(owner) }
+    let(:own_exam) { create(:exam, user: owner) }
+    let(:foreign_exam) { create(:exam) }
+
+    describe 'POST /exams' do
+      let(:params) do
+        { title: Faker::Lorem.sentence, difficulty: 'beginner', version: 1, question_ids: [] }
+      end
+
+      it 'records the creator as the owner' do
+        post('/api/exams', params:, headers:, as: :json)
+
+        expect(response).to have_http_status(:created)
+        expect(Exam.find_by(title: params[:title]).user).to eq(owner)
+      end
+    end
+
+    describe 'PUT /exams/:id' do
+      it 'lets the owner rename their exam' do
+        put("/api/exams/#{own_exam.id}", params: { title: 'Renamed by owner' }, headers:, as: :json)
+
+        expect(response).to have_http_status(:ok)
+        expect(own_exam.reload.title).to eq('Renamed by owner')
+      end
+
+      it "refuses someone else's exam" do
+        put("/api/exams/#{foreign_exam.id}", params: { title: 'Hijacked' }, headers:, as: :json)
+
+        expect(response).to have_http_status(:not_found)
+        expect(foreign_exam.reload.title).not_to eq('Hijacked')
+      end
+    end
+
+    describe 'DELETE /exams/:id' do
+      it 'lets the owner delete their exam' do
+        delete("/api/exams/#{own_exam.id}", headers:)
+
+        expect(response).to have_http_status(:no_content)
+        expect(Exam.exists?(own_exam.id)).to be(false)
+      end
+
+      it "refuses someone else's exam" do
+        delete("/api/exams/#{foreign_exam.id}", headers:)
+
+        expect(response).to have_http_status(:not_found)
+        expect(Exam.exists?(foreign_exam.id)).to be(true)
+      end
+    end
+
+    describe 'reading' do
+      it 'lists exams owned by anyone' do
+        own_exam
+        foreign_exam
+
+        get '/api/exams.json'
+
+        expect(response).to be_successful
+        expect(json_body.map { |exam| exam['id'] }).to include(own_exam.id, foreign_exam.id)
+      end
+
+      it "shows another user's exam, and says who owns it" do
+        get "/api/exams/#{foreign_exam.id}.json"
+
+        expect(response).to be_successful
+        expect(json_body['user_id']).to eq(foreign_exam.user_id)
+      end
+    end
+  end
 end

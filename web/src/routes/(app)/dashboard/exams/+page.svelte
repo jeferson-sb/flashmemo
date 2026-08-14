@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { categoriesApi, examsApi, ApiError, type Category, type Difficulty, type ExamListItem } from '$lib/api';
+	import { auth } from '$lib/stores/auth.svelte';
 
 	let categories = $state<Category[]>([]);
 	let exams = $state<ExamListItem[]>([]);
@@ -145,7 +146,12 @@
 			<tbody>
 				{#each exams as exam (exam.id)}
 					<tr>
-						<th scope="row"><a href="/dashboard/exams/{exam.id}">{exam.title}</a></th>
+						<th scope="row">
+							<a href="/dashboard/exams/{exam.id}">{exam.title}</a>
+							{#if exam.user_id === auth.user?.id}
+								<span class="owner-tag">Yours</span>
+							{/if}
+						</th>
 						<td>{categoryTitle(exam.category_id)}</td>
 						<td><span class="badge badge--{exam.difficulty}">{exam.difficulty}</span></td>
 					</tr>
@@ -177,6 +183,20 @@
 		display: flex;
 		align-items: center;
 		gap: 0.6rem;
+	}
+
+	/* Exams from every user share one list, so yours are marked. */
+	.owner-tag {
+		margin-inline-start: 0.4rem;
+		font-size: 0.6875rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--paper-ink-muted);
+		border: 1px solid color-mix(in srgb, var(--paper-ink) 22%, transparent);
+		border-radius: 999px;
+		padding: 0.05rem 0.4rem;
+		white-space: nowrap;
 	}
 
 	.filter-label {
