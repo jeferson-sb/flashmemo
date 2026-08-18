@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     resources :trees, only: %i[index show]
     resources :mindmaps do
       post '/nodes', to: 'mindmaps#update_node'
+      get '/graph', to: 'mindmaps#graph'
     end
   end
 end

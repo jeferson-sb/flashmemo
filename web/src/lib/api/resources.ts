@@ -7,6 +7,8 @@ import type {
 	ExamListItem,
 	GardenDetail,
 	GardenListItem,
+	MindMapGraph,
+	MindMapListItem,
 	Progress,
 	PeriodFilter,
 	QuestionImport,
@@ -61,6 +63,11 @@ export const gardensApi = {
 	plant: (gardenId: number, name: string) => api.post<{ message: string }>(`/gardens/${gardenId}/plant`, { name }),
 	nurture: (gardenId: number, treeId: number, nutrients: number) =>
 		api.post<{ message: string }>(`/gardens/${gardenId}/nurture`, { tree_id: treeId, nutrients })
+};
+
+export const mindmapsApi = {
+	list: () => api.get<MindMapListItem[]>('/mindmaps'),
+	graph: (mindmapId: number) => api.get<MindMapGraph>(`/mindmaps/${mindmapId}/graph`)
 };
 
 export const usersApi = {

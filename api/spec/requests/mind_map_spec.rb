@@ -47,4 +47,36 @@ RSpec.describe 'MindMaps', type: :request do
       end
     end
   end
+
+  describe 'GET /:mindmap_id/graph' do
+    let(:mind_map) { create(:mind_map) }
+
+    after { CategoryNode.where(mindmap_id: mind_map.id).destroy_all }
+
+    it 'is public, like index and show' do
+      get "/api/mindmaps/#{mind_map.id}/graph.json"
+
+      expect(response).to be_successful
+    end
+
+    it 'returns an empty graph for a mind map with no nodes yet' do
+      get "/api/mindmaps/#{mind_map.id}/graph.json", headers: auth_headers
+
+      expect(json_body).to eq('nodes' => [], 'edges' => [])
+    end
+
+    it 'renders the nodes and edges stored in Neo4j' do
+      node = CategoryNode.create!(name: 'Ruby', category_id: 1, mindmap_id: mind_map.id)
+
+      get "/api/mindmaps/#{mind_map.id}/graph.json", headers: auth_headers
+
+      expect(json_body['nodes']).to eq([{ 'id' => node.id, 'label' => 'Ruby', 'type' => 'category' }])
+    end
+
+    it '404s for a mind map that does not exist' do
+      get '/api/mindmaps/0/graph.json', headers: auth_headers
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 end

@@ -8,7 +8,8 @@
 		{ href: '/dashboard/categories', label: 'Categories' },
 		{ href: '/dashboard/exams', label: 'Exams' },
 		{ href: '/dashboard/garden', label: 'Garden' },
-		{ href: '/dashboard/progress', label: 'Progress' }
+		{ href: '/dashboard/progress', label: 'Progress' },
+		{ href: '/dashboard/mindmap', label: 'Mind map' }
 	];
 
 	function isActive(href: string, exact?: boolean) {

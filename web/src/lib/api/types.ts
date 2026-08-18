@@ -72,6 +72,35 @@ export interface QuestionImport {
 	row_errors: ImportRowError[];
 }
 
+/** GET /api/mindmaps — Neo4j node ids are opaque UUID strings, not AR ids. */
+export interface MindMapListItem {
+	id: number;
+	name: string;
+	owner_id: number;
+}
+
+export type GraphNodeType = 'exam' | 'category';
+
+export interface GraphNode {
+	id: string;
+	label: string;
+	type: GraphNodeType;
+}
+
+export type GraphEdgeType = 'RELATES_TO' | 'IN';
+
+export interface GraphEdge {
+	source: string;
+	target: string;
+	type: GraphEdgeType;
+}
+
+/** GET /api/mindmaps/:mindmap_id/graph */
+export interface MindMapGraph {
+	nodes: GraphNode[];
+	edges: GraphEdge[];
+}
+
 export interface GardenListItem {
 	id: number;
 	name: string;

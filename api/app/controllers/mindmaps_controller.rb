@@ -1,10 +1,16 @@
 # frozen_string_literal: true
 
 class MindmapsController < ApplicationController
-  allow_unauthenticated_access only: %i[index show]
+  allow_unauthenticated_access only: %i[index show graph]
 
   def show
     @mm = MindMap.find(params[:id])
+  end
+
+  def graph
+    mm = MindMap.find(params[:mindmap_id])
+
+    render json: Mindmaps::Graph.perform(mm.id)
   end
 
   def index
