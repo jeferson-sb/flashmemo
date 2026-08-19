@@ -34,7 +34,7 @@
 <main class="auth-screen">
 	<div class="auth-card panel">
 		<a class="auth-brand" href="/">
-			<Mark size={24} />
+			<Mark size={24} tone="light" />
 			<span>Flashmemo</span>
 		</a>
 
