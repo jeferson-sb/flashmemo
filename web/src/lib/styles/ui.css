@@ -153,6 +153,6 @@
 }
 
 .tag--sample {
-	color: var(--gold-300);
+	color: color-mix(in srgb, var(--gold-600) 55%, var(--paper-ink));
 	border-color: color-mix(in srgb, var(--gold-500) 55%, transparent);
 }

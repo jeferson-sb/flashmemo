@@ -3,7 +3,6 @@
 	import Seed from '$lib/icons/Seed.svelte';
 	import Sprout from '$lib/icons/Sprout.svelte';
 	import Tree from '$lib/icons/Tree.svelte';
-	import Sprig from '$lib/icons/Sprig.svelte';
 
 	const rows = [
 		{
@@ -46,9 +45,6 @@
 				</div>
 				<p class="ledger__detail">{row.detail}</p>
 			</div>
-			{#if i < rows.length - 1}
-				<div class="ledger__divider"><Sprig width={64} /></div>
-			{/if}
 		{/each}
 	</div>
 </section>
@@ -116,13 +112,6 @@
 		color: var(--paper-ink-muted);
 		font-size: var(--text-sm);
 		max-width: 56ch;
-	}
-
-	.ledger__divider {
-		display: flex;
-		justify-content: center;
-		color: var(--paper-ink-muted);
-		padding-block: var(--space-3xs);
 	}
 
 	@media (max-width: 560px) {

@@ -30,7 +30,7 @@
 					actually see.
 				</p>
 				<div class="hero__actions">
-					<a class="button" href="#signup">Start your garden</a>
+					<a class="button" href="/signup">Start your garden</a>
 					<a class="hero__secondary" href="#how-it-grows">See how it grows ↓</a>
 				</div>
 			</div>
