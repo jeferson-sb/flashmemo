@@ -4,6 +4,8 @@ Test your knowledge and memorize by using flash cards! 🟦🟩🟨
 
 This project learning mode is based on the *Trees Rewards System* where users can earn seeds by **solving questions**, build their garden by planting **trees of the subject/matter** they've being studying and harvest them to earn bonus to **forest their knowledge** 🌲.
 
+![alt web ui landing page](.github/images/web-ui.png)
+
 ![alt demo of the rewards system](.github/images/rewards-system.png)
 
 ### Features
