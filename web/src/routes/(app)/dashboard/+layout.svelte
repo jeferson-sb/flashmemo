@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Mark from '$lib/icons/Mark.svelte';
-	import DashboardNav from '$lib/components/dashboard/DashboardNav.svelte';
-	import { authApi } from '$lib/api';
-	import { auth } from '$lib/stores/auth.svelte';
-	import { ensureSession } from '$lib/stores/session';
+	import Mark from '#lib/icons/Mark.svelte';
+	import DashboardNav from '#lib/components/dashboard/DashboardNav.svelte';
+	import { authApi } from '#lib/api/index.js';
+	import { auth } from '#lib/stores/auth.svelte.js';
+	import { ensureSession } from '#lib/stores/session.js';
 
 	let { children } = $props();
 	let ready = $state(false);

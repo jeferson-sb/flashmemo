@@ -1,5 +1,5 @@
-import { browser } from '$app/environment';
-import type { SessionUser } from '$lib/api/types';
+import { browser } from '$app/env';
+import type { SessionUser } from '#lib/api/types.js';
 
 const TOKEN_KEY = 'flashmemo:token';
 

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Mark from '$lib/icons/Mark.svelte';
-	import { authApi, ApiError } from '$lib/api';
-	import { auth } from '$lib/stores/auth.svelte';
+	import Mark from '#lib/icons/Mark.svelte';
+	import { authApi, ApiError } from '#lib/api/index.js';
+	import { auth } from '#lib/stores/auth.svelte.js';
 
 	let email = $state('');
 	let password = $state('');

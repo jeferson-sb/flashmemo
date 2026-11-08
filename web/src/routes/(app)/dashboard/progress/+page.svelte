@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { usersApi, examsApi, ApiError, type PeriodFilter, type ExamListItem } from '$lib/api';
-	import { auth } from '$lib/stores/auth.svelte';
+	import { usersApi, examsApi, ApiError, type PeriodFilter, type ExamListItem } from '#lib/api/index.js';
+	import { auth } from '#lib/stores/auth.svelte.js';
 
 	const periods: { value: PeriodFilter; label: string }[] = [
 		{ value: 'all', label: 'All time' },

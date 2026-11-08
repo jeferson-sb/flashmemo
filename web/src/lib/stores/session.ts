@@ -1,7 +1,7 @@
-import { browser } from '$app/environment';
-import { ApiError, authApi } from '$lib/api';
+import { browser } from '$app/env';
+import { ApiError, authApi } from '#lib/api/index.js';
 import { auth } from './auth.svelte';
-import type { SessionUser } from '$lib/api/types';
+import type { SessionUser } from '#lib/api/types.js';
 
 // Lives outside auth.svelte.ts on purpose: the API client imports the auth
 // store for the bearer token, so the store itself cannot import the client.
