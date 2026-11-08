@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Mark from '$lib/icons/Mark.svelte';
+	import Mark from '#lib/icons/Mark.svelte';
 </script>
 
 <footer class="footer">

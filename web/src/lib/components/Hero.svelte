@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Seed from '$lib/icons/Seed.svelte';
+	import Seed from '#lib/icons/Seed.svelte';
 	import GardenHorizon from './GardenHorizon.svelte';
 
 	const yield_ = [

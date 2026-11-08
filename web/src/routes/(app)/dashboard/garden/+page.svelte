@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Seed from '$lib/icons/Seed.svelte';
-	import Sprout from '$lib/icons/Sprout.svelte';
-	import { gardensApi, ApiError, type GardenDetail } from '$lib/api';
-	import { auth } from '$lib/stores/auth.svelte';
+	import Seed from '#lib/icons/Seed.svelte';
+	import Sprout from '#lib/icons/Sprout.svelte';
+	import { gardensApi, ApiError, type GardenDetail } from '#lib/api/index.js';
+	import { auth } from '#lib/stores/auth.svelte.js';
 
 	type Phase = 'loading' | 'none' | 'ready' | 'error';
 

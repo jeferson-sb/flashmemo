@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { mindmapsApi, type MindMapGraph, type MindMapListItem } from '$lib/api';
-	import MindMapGraphView from '$lib/components/dashboard/MindMapGraph.svelte';
+	import { mindmapsApi, type MindMapGraph, type MindMapListItem } from '#lib/api/index.js';
+	import MindMapGraphView from '#lib/components/dashboard/MindMapGraph.svelte';
 
 	let mindmaps = $state<MindMapListItem[]>([]);
 	let selectedId = $state('');

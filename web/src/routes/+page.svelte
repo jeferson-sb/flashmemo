@@ -1,11 +1,11 @@
 <script lang="ts">
-	import SiteHeader from '$lib/components/SiteHeader.svelte';
-	import Hero from '$lib/components/Hero.svelte';
-	import Mechanism from '$lib/components/Mechanism.svelte';
-	import Almanac from '$lib/components/Almanac.svelte';
-	import SeasonalProgress from '$lib/components/SeasonalProgress.svelte';
-	import FinalCta from '$lib/components/FinalCta.svelte';
-	import SiteFooter from '$lib/components/SiteFooter.svelte';
+	import SiteHeader from '#lib/components/SiteHeader.svelte';
+	import Hero from '#lib/components/Hero.svelte';
+	import Mechanism from '#lib/components/Mechanism.svelte';
+	import Almanac from '#lib/components/Almanac.svelte';
+	import SeasonalProgress from '#lib/components/SeasonalProgress.svelte';
+	import FinalCta from '#lib/components/FinalCta.svelte';
+	import SiteFooter from '#lib/components/SiteFooter.svelte';
 </script>
 
 <svelte:head>

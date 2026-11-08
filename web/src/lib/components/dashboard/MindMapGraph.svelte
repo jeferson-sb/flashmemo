@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import type { GraphEdge, GraphNode } from '$lib/api';
+	import type { GraphEdge, GraphNode } from '#lib/api/index.js';
 
 	let { nodes, edges }: { nodes: GraphNode[]; edges: GraphEdge[] } = $props();
 

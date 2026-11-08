@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import WaxSeal from '$lib/icons/WaxSeal.svelte';
+	import WaxSeal from '#lib/icons/WaxSeal.svelte';
 
 	let stamped = $state(false);
 

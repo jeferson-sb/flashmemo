@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Mark from '$lib/icons/Mark.svelte';
-	import { auth } from '$lib/stores/auth.svelte';
-	import { ensureSession } from '$lib/stores/session';
+	import Mark from '#lib/icons/Mark.svelte';
+	import { auth } from '#lib/stores/auth.svelte.js';
+	import { ensureSession } from '#lib/stores/session.js';
 
 	let menuOpen = $state(false);
 

@@ -8,8 +8,8 @@
 		ApiError,
 		type ExamDetail,
 		type QuestionImport
-	} from '$lib/api';
-	import { auth } from '$lib/stores/auth.svelte';
+	} from '#lib/api/index.js';
+	import { auth } from '#lib/stores/auth.svelte.js';
 
 	const examId = Number(page.params.id);
 

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Seed from '$lib/icons/Seed.svelte';
-	import { gardensApi, usersApi, ApiError } from '$lib/api';
-	import { auth } from '$lib/stores/auth.svelte';
+	import Seed from '#lib/icons/Seed.svelte';
+	import { gardensApi, usersApi, ApiError } from '#lib/api/index.js';
+	import { auth } from '#lib/stores/auth.svelte.js';
 
 	let seeds = $state<number | null>(null);
 	let treeCount = $state<number | null>(null);

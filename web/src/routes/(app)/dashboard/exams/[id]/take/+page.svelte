@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
-	import { examsApi, ApiError, type ExamDetail } from '$lib/api';
+	import { examsApi, ApiError, type ExamDetail } from '#lib/api/index.js';
 
 	const examId = Number(page.params.id);
 

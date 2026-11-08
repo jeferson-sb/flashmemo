@@ -1,8 +1,8 @@
 <script lang="ts">
-	import CardFlip from '$lib/icons/CardFlip.svelte';
-	import Seed from '$lib/icons/Seed.svelte';
-	import Sprout from '$lib/icons/Sprout.svelte';
-	import Tree from '$lib/icons/Tree.svelte';
+	import CardFlip from '#lib/icons/CardFlip.svelte';
+	import Seed from '#lib/icons/Seed.svelte';
+	import Sprout from '#lib/icons/Sprout.svelte';
+	import Tree from '#lib/icons/Tree.svelte';
 
 	const rows = [
 		{

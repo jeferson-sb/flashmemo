@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { categoriesApi, examsApi, ApiError, type Category, type Difficulty, type ExamListItem } from '$lib/api';
-	import { auth } from '$lib/stores/auth.svelte';
+	import { categoriesApi, examsApi, ApiError, type Category, type Difficulty, type ExamListItem } from '#lib/api/index.js';
+	import { auth } from '#lib/stores/auth.svelte.js';
 
 	let categories = $state<Category[]>([]);
 	let exams = $state<ExamListItem[]>([]);

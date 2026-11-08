@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { categoriesApi, ApiError, type Category } from '$lib/api';
-	import { formatDate } from '$lib/utils/format';
+	import { categoriesApi, ApiError, type Category } from '#lib/api/index.js';
+	import { formatDate } from '#lib/utils/format.js';
 
 	let categories = $state<Category[]>([]);
 	let loadState: 'loading' | 'ready' | 'error' = $state('loading');

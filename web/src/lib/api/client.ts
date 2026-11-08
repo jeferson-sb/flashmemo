@@ -1,5 +1,5 @@
-import { PUBLIC_API_BASE_URL } from '$env/static/public';
-import { auth } from '$lib/stores/auth.svelte';
+import { PUBLIC_API_BASE_URL } from '$app/env/public';
+import { auth } from '#lib/stores/auth.svelte.js';
 import type { ApiErrorBody } from './types';
 
 export class ApiError extends Error {
